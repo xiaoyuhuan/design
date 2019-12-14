@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuey抛物线模式天猫购物车</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			user-select: none;	
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;
+			font-family: "microsoft yahei";
+		}
+		.clearfix:after {
+			content: "";
+			display: block;
+			clear: both;
+		}	
+		#header {
+			width: 100%;
+			height: 160px;
+			background: url(img/banner.jpg) center top;
+		}	
+		#main {
+			position: relative;
+			width: 970px;
+			margin: 40px auto;
+		}
+		#main ul li {
+			float: left;
+			position: relative;
+			width: 230px;
+			height: 310px;
+			padding: 4px;
+			border: 1px solid #ccc;
+		}
+		#main ul li+li {
+			margin-left: 16px;
+		}
+		#main ul li img {
+			width: 100%;
+		}
+		#main ul li p.tit {
+			font-size: 12px;
+			line-height: 45px;
+		}
+		#main ul li p.price {
+			color: #f60;
+			font-size: 14px;
+			line-height: 30px;
+		}
+		#main ul li p.btn {
+			position: absolute;
+			right: 5px;
+			bottom: 11px;
+			width: 80px;
+			height: 28px;
+			background: rgba(255,0,0,1);
+			color: #fff;
+			font-size: 12px;
+			line-height: 28px;
+			text-align: center;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		#main ul li p.btn:hover {
+			background: rgba(255,0,0,.7);
+		}
+		#main .ball {
+			opacity: 1;
+			position: absolute;
+			top: 260px;
+			width: 45px;
+			height: 45px;
+			background: #999;
+			border-radius: 50%;
+			background-repeat: no-repeat;
+			background-size: 45px 45px;
+			transition: opacity .3s;
+		}
+		#sidebar {
+			position: absolute;
+			top: 0;
+			right: -220px;
+			bottom: 0;
+			width: 260px;
+			height: 100%;
+			background: #ddd;
+			transition: .3s;
+		}
+		#sidebar.on {
+			right: 0;
+		}
+		#sidebar .add {
+			float: left;
+			position: relative;
+			width: 40px;
+			height: 100%;
+			background: #000;
+		}
+		#sidebar .add span {
+			position: absolute;
+			top: 50%;
+			left: 0;
+			width: 100%;
+			height: 100px;
+			background: #f00;
+			color: #fff;
+			font-size: 13px;
+			line-height: 40px; 
+			text-align: center;
+			letter-spacing: 3px;
+			writing-mode: vertical-lr;
+			cursor: pointer;
+			transform: translateY(-50%);	
+		}
+		#sidebar ul {
+			float: left;
+			width: 220px;
+			height: 100%;
+		}
+		#sidebar ul li {
+			position: relative;
+			padding: 10px;
+			border-bottom: 1px solid #fff;
+		}
+		#sidebar ul li img {
+			width: 60px;
+		}
+		#sidebar ul li p {
+			position: absolute;
+			font-size: 12px;
+		}
+		#sidebar ul li .tit {
+			top: 15px;
+			left: 80px;
+			width: 55%;
+		}
+		#sidebar ul li .price {
+			top: 50px;
+			left: 80px;
+		}
+		#sidebar ul li .num {
+			top: 50px;
+			right: 20px;
+			width: 18px;
+			height: 18px;
+			color: red;
+		}
+	</style>
+</head>
+<body>
+	<div id="header"></div>
+	<div id="main">
+		<ul class="clearfix">
+			<!-- <li>
+				<img src="img/1.jpg">
+				<p class="tit">2015夏季新品海澜之家女装正品1</p>
+				<p class="price">￥193.0</p>
+				<p class="btn">加入购物车</p>
+			</li>
+			<li>
+				<img src="img/2.jpg">
+				<p class="tit">2015夏季新品海澜之家女装正品2</p>
+				<p class="price">￥175.0</p>
+				<p class="btn">加入购物车</p>	
+			</li>
+			<li>
+				<img src="img/3.jpg">
+				<p class="tit">2015夏季新品海澜之家女装正品3</p>
+				<p class="price">￥389.0</p>
+				<p class="btn">加入购物车</p>		
+			</li>
+			<li>
+				<img src="img/4.jpg">
+				<p class="tit">2015夏季新品海澜之家女装正品4</p>
+				<p class="price">￥499.0</p>
+				<p class="btn">加入购物车</p>
+			</li> -->
+		</ul>
+		<div class="ball">
+			
+		</div>
+	</div>
+	<div id="sidebar">
+		<div class="add"><span>加入购物车</span></div>
+		<ul>
+			<!-- <li>
+				<img src="img/1.jpg">
+				<p class="tit">2015夏季新品海澜之家女装正品1</p>
+				<p class="price">￥499.0</p>
+				<p class="num">2</p>
+			</li>
+			<li>
+				<img src="img/2.jpg">
+				<p class="tit">2015夏季新品海澜之家女装正品2</p>
+				<p class="price">￥499.0</p>
+				<p class="num">3</p>				
+			</li> -->
+		</ul>
+	</div>
+	
+	<script type="text/javascript" src="js/data.js"></script>
+	<script type="text/javascript">
+		window.onload = function() {
+			var oMain = document.getElementById("main"),
+				oMul = oMain.querySelector("ul"),
+				oBall = oMain.querySelector(".ball"),
+				oSide = document.getElementById("sidebar"),
+				oAdd = oSide.querySelector(".add"),
+				oSul = oSide.querySelector("ul");
+				
+			// 加载数据
+			for(var i = 0; i < 4; i++) {
+				var li = document.createElement("li");
+				li.innerHTML = "<img src='"+ data[i]["src"] +"'/><p class='tit'>"+ data[i]["tit"] +"</p><p class='price'>"+ data[i]["price"] +"</p>";
+				var p = document.createElement("p");
+				p.className = "btn";	
+				p.innerHTML = "加入购物车";				
+				li.appendChild(p);
+				oMul.appendChild(li);
+			}
+
+			// 点击"加入购物车"
+			oBall.style.opacity = "0";
+			var aBtn = oMul.querySelectorAll(".btn");
+			for(i = 0; i < 4; i++) {
+				aBtn[i].i = i;
+				aBtn[i].num = 0;
+				aBtn[i].onclick = function() {
+					var index = this.i;
+					scroll(index); 
+
+					var li = document.createElement("li");
+					this.num ++;
+					if(this.num >= 2) {
+						var aLi = oSul.getElementsByTagName("li");
+						for(var j = 0; j < aLi.length; j++) {
+							if( aLi[j].querySelector(".tit").innerHTML === data[index]["tit"]) { 
+								var oNum = aLi[j].querySelector(".num");
+								oNum.innerHTML = this.num;
+								return;
+							}
+						}
+					}else {
+						li.innerHTML = "<img src='"+ data[index]["src"] +"'/><p class='tit'>"+ data[index]["tit"] +"</p><p class='price'>"+ data[index]["price"] +"</p><p class='num'>"+ this.num +"</p>";
+						oSul.appendChild(li);						
+					}
+				};
+			}
+
+			// 抛物线运动
+			function scroll(index) {
+				var leftArr = [160,410,655,900];
+				oBall.style.opacity = "1";
+				oBall.style.left = leftArr[index] + "px";
+				oBall.style.backgroundImage = "url("+ data[index]["src"] +")";
+
+				var oBoff = offsetLeft(oMain) + leftArr[index]; 
+				var	oAoff = offsetLeft(oAdd);			
+				var r = (oAoff-oBoff)/2; 						
+				var deg = 155;
+
+				move();
+				function move() {
+					deg -= 1;
+					if(deg <= 14) {
+						oBall.style.opacity = "0";
+						deg = 14;
+					}else {
+						setTimeout(move,5);
+					}
+					var rad = (deg/180) * Math.PI; 	
+					var x = Math.cos(rad) * r; 		
+					var	y = Math.sin(rad) * r; 		
+					var left = leftArr[index] + r + x; 
+					var top = r - y - 220 + 95*index;
+					if(oSide.className) {
+						top += 80;
+					}
+					oBall.style.left = left + "px";
+					oBall.style.top = top + "px"; 
+				}
+			}
+
+			// 进入购物车
+			oAdd.flag = false;
+			oAdd.onclick = function() {
+				this.parentNode.className = !this.flag? "on" : "";
+				this.flag = !this.flag;
+			};	
+
+			// 元素到body的距离			
+			function offsetLeft(obj) {
+				var x = 0;
+				while(obj !== document.body) {
+					x += obj.offsetLeft;
+					obj = obj.offsetParent;
+				}
+				return x;
+			}					
+		};
+	</script>
+</body>
+</html>

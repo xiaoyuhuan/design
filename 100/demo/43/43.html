@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>省市县三级联动</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center/cover;
+			font-family: "microsoft yahei";
+		}
+		#box {
+			width: 495px;
+			margin: 100px auto;
+		}
+		#box select {
+			width: 120px;
+			height: 35px;
+			border: none;
+			text-indent: 5px;
+		}
+		#box button {
+			width: 120px;
+			height: 35px;
+			background-color: #c33;
+			border: none;
+			color: #fff;
+			cursor: pointer;
+		}
+		#box p {
+			display: none;
+			margin-top: 10px;
+			font-size: 14px;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<select class="province">
+			<option value="none">省</option>
+		</select>
+		<select class="city">
+			<option value="none">市</option>
+		</select>
+		<select class="county">
+			<option value="none">县</option>
+		</select>	
+		<button class="btn">生成地址</button>	
+		<p class="text">您选择的位置是：<span></span></p>
+	</div>
+
+	<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="js/areaData.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var $province = $(".province"),
+				$city = $(".city"),
+				$county = $(".county"),
+				$btn = $(".btn"),
+				$text = $(".text"),
+				$span = $text.find("span");
+
+			// 省的创建
+			createProvince();
+
+			// 市的创建
+			$province.change(function(){
+				var index = $(this).val();
+				clearCity();
+				createCity(index);
+			});
+
+			// 县的创建
+			$city.change(function(){
+				var index = $(this).val();
+				clearCounty();
+				createCounty(index);
+			});
+
+			// 生成地址
+			$btn.click(function(){
+				var i1 = $province.val();
+				var i2 = $city.val();
+				var i3 = $county.val();
+
+				if(i1!="none" & i2!="none" & i3!="none"){
+					$text.show();
+					$span.html(areaData.sheng[i1]+" "+areaData.shi["a_"+i1][i2]+" "+areaData.xian["a_"+i1+"_"+i2][i3]);
+				}
+			});
+
+			function createProvince(){
+				var data = areaData.sheng;
+				$.each(data,function(i,d){
+					$province.append("<option value='"+i+"'>"+d+"</option>");
+				});
+			}	
+
+			function createCity(index){
+				var data = areaData.shi["a_"+index];
+				$.each(data,function(i,d){
+					$city.append("<option value='"+i+"'>"+d+"</option>")
+				});
+			}
+
+			function createCounty(index){
+				var pIndex = $province.val();
+				var data = areaData.xian["a_"+pIndex+"_"+index];
+				$.each(data,function(i,d){
+					$county.append("<option value='"+i+"'>"+d+"</option>");
+				});
+			}
+
+			function clearCity(){
+				$city.html("<option value='none'>市</option>");
+				clearCounty();
+			}
+
+			function clearCounty(){
+				$county.html("<option value='none'>县</option>");
+			}
+		});
+	</script>
+</body>
+</html>

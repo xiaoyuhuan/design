@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery+CSS3炫酷鼠标悬停图文特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center/cover;
+			font-family: "microsoft yahei";
+		}
+		#box {
+			width: 1220px;
+			margin: 100px auto;
+		}
+		#box ul li {
+			float: left;
+			position: relative;
+			width: 400px;
+			height: 250px;
+			margin: 0 100px 40px;
+			border: 5px solid #fff;
+			box-shadow: 0 0 7px #ccc;
+			list-style: none;
+		}
+		#box ul li div {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			transition: .5s;
+		}
+		#box ul li .intro {
+			background: #fff;
+			text-align: center;
+			box-sizing: border-box;
+			opacity: 0;
+		}
+		#box ul li .intro h2 {
+			font-size: 20px;
+		}
+		#box ul li .intro p {
+			margin-top: 10px;
+			color: #555;
+			font-size: 14px;
+			line-height: 25px;
+		}
+		#box ul li .intro a {
+			display: block;
+			width: 80px;
+			height: 30px;
+			margin: 10px auto 0;
+			background: #69c;
+			color: #fff;
+			font-size: 14px;
+			line-height: 30px;
+			border: 3px solid #69c;
+			transition: .3s;
+			cursor: pointer;
+		}
+		#box ul li .intro a:hover {
+			background: #fff;
+			color: #69c;
+			border-color: #69c;
+		}
+		#box ul li .pic img {
+			width: 100%;
+		}	
+		#box ul li:hover .intro {
+			opacity: 1;
+		}	
+
+		/* 特效1 */
+		#box ul li.item1 .intro {
+			left: -400px;
+			padding: 30px 120px 0 20px;
+		}
+		#box ul li.item1:hover .intro {
+			left: 0;
+		}
+		#box ul li.item1:hover .pic {
+			top: 70px;
+			left: 300px;
+			width: 200px;
+		}
+		#box ul li.item1:hover .pic img {
+			border: 3px solid #fff;
+		}
+
+		/* 特效2 */
+		#box ul li.item2 {
+			overflow: hidden;
+			perspective: 500px;
+		}
+		#box ul li.item2 .intro {
+			padding: 30px 40px;
+			transform: rotateX(80deg);
+    		transform-origin: center bottom;
+		}		
+		#box ul li.item2:hover .intro {
+			transform: rotateX(0);
+		}
+		#box ul li.item2:hover .pic {
+			top: -274px;
+		}
+
+		/* 特效3 */
+		#box ul li.item3 .intro {
+			padding: 30px 40px;
+			transform: scale(0);
+		}
+		#box ul li.item3:hover .intro {
+			transform: scale(1);
+		}
+
+		/* 特效4 */
+		#box ul li.item4 .intro {
+			padding: 30px 40px;
+			transform: scale(0) rotateY(0);
+		}
+		#box ul li.item4:hover .intro {
+			transform: scale(1) rotateY(360deg);
+		}
+		#box ul li.item4 .pic {
+			transform: rotateY(0);
+		}
+		#box ul li.item4:hover .pic {
+			transform: rotateY(360deg);
+		}			
+	</style>
+</head>
+<body>
+	<div id="box">
+		<ul>
+			<li class="item1">
+				<div class="intro">
+					<h2>北极狐动物</h2>
+					<p>北极狐属于犬科，额面狭，吻尖，耳圆，尾毛蓬松、尖端白色。是北极草原上真正的主人，它们不仅世世代代居住在这里，而且除了人类之外，几乎没什么天敌。</p>
+					<a href="#">查看详情</a>
+				</div>
+				<div class="pic"><img src="img/1.jpg"></div>
+			</li>
+			<li class="item2">
+				<div class="pic"><img src="img/2.jpg"></div>
+				<div class="intro">
+					<h2>北极狐动物</h2>
+					<p>北极狐属于犬科，额面狭，吻尖，耳圆，尾毛蓬松、尖端白色。是北极草原上真正的主人，它们不仅世世代代居住在这里，而且除了人类之外，几乎没什么天敌。</p>
+					<a href="#">查看详情</a>					
+				</div>
+			</li>
+			<li class="item3">
+				<div class="pic"><img src="img/3.jpg"></div>
+				<div class="intro">
+					<h2>北极狐动物</h2>
+					<p>北极狐属于犬科，额面狭，吻尖，耳圆，尾毛蓬松、尖端白色。是北极草原上真正的主人，它们不仅世世代代居住在这里，而且除了人类之外，几乎没什么天敌。</p>
+					<a href="#">查看详情</a>					
+				</div>				
+			</li>
+			<li class="item4">
+				<div class="pic"><img src="img/4.jpg"></div>
+				<div class="intro">
+					<h2>北极狐动物</h2>
+					<p>北极狐属于犬科，额面狭，吻尖，耳圆，尾毛蓬松、尖端白色。是北极草原上真正的主人，它们不仅世世代代居住在这里，而且除了人类之外，几乎没什么天敌。</p>
+					<a href="#">查看详情</a>					
+				</div>				
+			</li>
+		</ul>
+	</div>
+</body>
+</html>

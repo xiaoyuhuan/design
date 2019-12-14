@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery弹出回复特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		body {
+			font-family: "microsoft yahei";
+		}
+		.clearfix:after {
+			content: "";
+			display: block;
+			clear: both;
+		}
+		#cover {
+			display: none;
+			z-index: 2;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,.4);
+		}	
+		#cover .pic {
+			position: absolute;
+			opacity: 1;
+			top: 30%;
+			left: 30%;
+			width: 400px;
+			height: 400px;	
+			cursor: pointer;
+			animation: play .5s;
+			transition: .3s;		
+		}		
+		#box {
+			position: relative;
+			width: 1000px;
+			margin: auto;
+		}	
+		#box .main {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			margin: 50px auto;
+		}
+		#box .main h1 {
+			font-size: 16px;
+		}
+		#box .main p {
+			margin: 30px 0;
+			color: #444;
+			font-size: 14px;
+			line-height: 27px;
+			text-indent: 2em;
+		}
+		#box .main img {
+			width: 50%;
+			float: left;
+		}
+		#reply {
+			z-index: 3;
+			position: fixed;
+			top: 200px;
+			right: -290px;
+			width: 320px;
+			height: 150px;
+			background: #fff;
+			border: 1px solid #ccc;
+			transition: .5s;
+		}
+		#reply p {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 30px;
+			height: 150px;
+			background: #000;
+			color: #fff;
+			font-size: 14px;
+			cursor: pointer;
+		}
+		#reply p span {
+			display: block;
+			width: 20px;
+			margin: 25px auto;
+			text-align: center;
+		}
+		#reply ul {
+			position: absolute;
+			top: 0;
+			left: 30px;
+		}
+		#reply ul li {
+			float: left;
+			margin-top: 6px;
+			margin-left: 5px;
+			cursor: pointer;
+		}
+
+		@keyframes play {
+			0% {
+				opacity: 0;
+				top: 40%;
+				left: 40%;
+				transform: scale(1.4);
+			}
+			100% {
+				opacity: 1;
+				top: 30%;
+				left: 30%;
+				transform: scale(1);				
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="cover">
+		<div class="pic"></div>
+	</div>
+	<div id="box">
+		<div class="main">
+			<h1>二十四节气立夏</h1>
+			<p>每年四月初一前后(公历5月5-6日之间)太阳到达黄经45度时为农历的立夏节气，“斗指东南，维为立夏，万物至此皆长大，故名立夏也。”此时，太阳黄经为45度，在天文学上，立夏表示即将告别春天，是夏日天的开始。人们习惯上都把立夏当作是温度明显升高，炎暑将临，雷雨增多，农作物进入旺季生长的一个重要节气。</p>
+			<div class="clearfix">
+				<img src="img/1.jpg">
+				<img src="img/2.jpg">
+				<img src="img/3.jpg">
+				<img src="img/4.jpg">
+				<img src="img/5.jpg">
+				<img src="img/6.jpg">
+			</div>
+		</div>
+	</div>
+	<div id="reply">
+		<p><span>百度神回复</span></p>
+		<ul class="clearfix">
+			<li><img src="img/qw1.png"></li>
+			<li><img src="img/qw2.png"></li>
+			<li><img src="img/qw3.png"></li>
+			<li><img src="img/qw4.png"></li>
+			<li><img src="img/qw5.png"></li>
+			<li><img src="img/qw6.png"></li>
+			<li><img src="img/qw7.png"></li>
+			<li><img src="img/qw8.png"></li>
+			<li><img src="img/qw9.png"></li>
+		</ul>
+	</div>
+	
+	<script type="text/javascript">
+		window.onload = function() {
+			var oCover = document.getElementById("cover"),
+				oBox = document.getElementById("box"),
+				oReply = document.getElementById("reply"),
+				oPic = oCover.querySelector(".pic"),
+				oMain = oBox.querySelector(".main"),
+				aLi = oReply.getElementsByTagName("li"),
+				oP = oReply.querySelector("p"),
+				length = aLi.length,
+				timer = null;
+
+			// 点击"百度神回复"判断是否展开
+			oP.flag = false;
+			oP.onclick = function() {
+				this.parentNode.style.right = !this.flag ? "0px" : "-290px";
+				this.flag = !this.flag;
+			}
+
+			// 点击"神回复"小图
+			for(var i = 0; i < length; i++) {
+				aLi[i].i = i;
+				aLi[i].onclick = function() {
+					oCover.style.display = "block";
+					oPic.style.backgroundImage = "url(img/qw"+(this.i+1)+".gif)";
+					
+					clearTimeout(timer);
+					timer = setTimeout(move,400);
+				}
+			}
+
+			// 点击图片遮盖层消失
+			oPic.onclick = function() {
+				oCover.style.display = "none";
+			}
+
+			var start = 0;
+			var end = 7;
+			function move() {
+				start ++;
+				if(start > end) {
+					start = 0;
+				}else {
+					setTimeout(move,20);
+				}
+				
+				var left = 0;
+				switch(start) {
+					case 1:
+						left = -6;
+						break;
+					case 2:
+						left = 6;
+						break;
+					case 3:
+						left = -20;
+						break;
+					case 4:
+						left = 20;
+						break;
+					case 5:
+						left = -8;
+						break;
+					case 6:
+						left = 8;
+						break;					
+					case 7:
+						left = 0;				
+				}
+				oMain.style.left = left + "px";
+			}
+		};
+	</script>
+</body>
+</html>

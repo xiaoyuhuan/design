@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery带缩略图和左右按扭的图片轮播特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+			user-select: none;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center bottom/cover;
+		}
+		#box {
+			width: 870px;
+			margin: 100px auto;
+			border: 20px solid rgba(255,255,255,.5);
+			box-shadow: 0 0 7px #ccc;
+			border-radius: 20px;
+		}
+		#box .banner {
+			width: 870px;
+			height: 540px;
+			background: url(img/1.jpg) no-repeat center/cover;
+			transition: .3s;
+		}
+		#box .tab {
+			position: relative;
+			width: 100%;
+			height: 140px;
+			background: #fff; 
+		}
+		#box .tab .pic {
+			overflow: hidden;
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			margin: auto;
+			width: 800px;
+			height: 100px;
+		}
+		#box .tab .pic ul {
+			position: absolute;
+			top: 0;
+			left: -20px;
+			width: 400%;
+			transition: .5s;
+		}
+		#box .tab .pic ul li {
+			overflow: hidden;
+			float: left;
+			position: relative;
+			width: 120px;
+			height: 90px;
+			margin-left: 20px;
+			border: 4px solid #fff;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		#box .tab .pic ul li.on {
+			border-color: #f66;
+		}
+		#box .tab .pic ul li.on:before {
+			content: "";
+			position: absolute;
+			top: -18px;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 0;
+			height: 0;
+			border: 7px solid transparent;
+			border-bottom-color: #69b9cc;
+		}
+		#box .tab .pic ul li img {
+			width: 100%;
+		}
+		#box .tab .btn p {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			color: #666;
+			font-size: 30px;
+			font-weight: bold;
+			font-family: "simsun";
+			cursor: pointer;
+		}
+		#box .tab .btn p.prev {
+			left: 5px;
+		}
+		#box .tab .btn p.next {
+			right: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="banner"></div>
+		<div class="tab">
+			<div class="pic">
+				<ul>
+					<li class="on"><img src="img/1.jpg"></li>
+					<li><img src="img/2.jpg"></li>
+					<li><img src="img/3.jpg"></li>
+					<li><img src="img/4.jpg"></li>
+					<li><img src="img/5.jpg"></li>
+					<li><img src="img/6.jpg"></li>
+					<li><img src="img/7.jpg"></li>
+					<li><img src="img/8.jpg"></li>
+					<li><img src="img/9.jpg"></li>
+					<li><img src="img/10.jpg"></li>
+					<li><img src="img/11.jpg"></li>
+					<li><img src="img/12.jpg"></li>
+					<li><img src="img/13.jpg"></li>
+					<li><img src="img/14.jpg"></li>
+					<li><img src="img/15.jpg"></li>
+					<li><img src="img/16.jpg"></li>
+					<li><img src="img/17.jpg"></li>
+					<li><img src="img/18.jpg"></li>
+					<li><img src="img/19.jpg"></li>
+					<li><img src="img/20.jpg"></li>
+				</ul>
+			</div>
+			<div class="btn">
+				<p class="prev"> &lt; </p>
+				<p class="next"> &gt; </p>
+			</div>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		window.onload = function() {
+			var oBox = document.getElementById("box"),
+				oBan = oBox.querySelector(".banner"),
+				oUl = oBox.querySelector(".tab .pic ul"),
+				aLi = oUl.getElementsByTagName("li"),
+				oBtn = oBox.querySelector(".tab .btn"),
+				aP = oBtn.children,
+				length = aLi.length,
+				index = 0;
+
+			for(var i = 0; i < length; i++) {
+				aLi[i].i = i;
+				aLi[i].onclick = function() {
+					aLi[index].className = "";
+
+					oBan.style.background = "url(img/"+(this.i+1)+".jpg) no-repeat center/cover";
+					this.className = "on";
+
+					var left = -20 - 148*(this.i-2);
+					left = Math.max(-2160,left);
+					if(this.i >= 2) {
+						oUl.style.left = left + "px";
+					}
+
+					index = this.i;
+				};
+			}
+
+			// 左切换
+			aP[0].onclick = function() {
+				change(false); 
+			};
+			
+			// 右切换
+			aP[1].onclick = function() {
+				change(true); 
+			};
+
+			var n = 0;
+			function change(bool) {
+				bool ? n++ : n--;
+				if(n >= 4) n = 3;
+				if(n <= 0) n = 0;
+
+				left = -20 - 740*n;
+				left = Math.max(-2160,left);
+				left = Math.min(-20,left);
+				oUl.style.left = left + "px";			
+			}
+		};
+	</script>
+</body>
+</html>

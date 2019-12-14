@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片放大镜效果</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+		}
+		.clearfix:after {
+			content: "";
+			height: 0;
+			line-height: 0;
+			visibility: hidden;
+			display: block;
+			clear: both;
+		}
+		#box {
+			position: relative;
+			width: 400px;
+			margin: 100px auto;
+			border: 1px solid #444;
+		}
+		#box .pic {
+			position: relative;
+			width: 100%;
+			height: 400px;
+			background-repeat: no-repeat;
+			background-position: center top;
+			background-size: cover;
+			background-image: url(img/big1.jpg);
+			transition: .3s;
+		}
+		#box .pic .cover {
+			display: none;
+			position: absolute;
+			width: 150px;
+			height: 150px;
+			background: url(img/move.png);
+			cursor: move;
+		}
+		#box .open {
+			position: absolute;
+			top: 0;
+			left: 400px;
+			width: 400px;
+			height: 400px;
+		}
+		#box ul {
+			background: rgba(255,255,255,.5);
+		}
+		#box ul li {
+			float: left;
+			width: 50px;
+			height: 50px;
+			margin-top: 11px;
+			margin-bottom: 11px;
+			margin-left: 11px;
+			background-repeat: no-repeat;
+			background-position: center top;
+			background-size: cover;
+			border: 2px solid #fff;
+			cursor: pointer;
+		}
+		#box ul li.on {
+			border-color: red;
+		}		
+		#box ul li:nth-child(1) {
+			background-image: url(img/1.jpg);
+		}
+		#box ul li:nth-child(2) {
+			background-image: url(img/2.jpg);
+		}		
+		#box ul li:nth-child(3) {
+			background-image: url(img/3.jpg);
+		}		
+		#box ul li:nth-child(4) {
+			background-image: url(img/4.jpg);
+		}		
+		#box ul li:nth-child(5) {
+			background-image: url(img/5.jpg);
+		}	
+		#box ul li:nth-child(6) {
+			background-image: url(img/6.jpg);
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="pic">
+			<div class="cover"></div>
+		</div>
+		<div class="open"></div>
+		<ul class="clearfix">
+			<li class="on"></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var box = document.getElementById("box"),
+				pic = box.querySelector(".pic"),
+				cover = box.querySelector(".cover"),
+				open = box.querySelector(".open"),
+				list = box.getElementsByTagName("li"),
+				picW = pic.offsetWidth,
+				openW = open.offsetWidth,
+				coverW = 150,
+				index = 0;
+
+			function fn(eX,eY){
+				var cX = eX - box.offsetLeft - coverW/2,
+					cY = eY - box.offsetTop - coverW/2;
+
+				cX = Math.max(0,cX);
+				cX = Math.min(picW-coverW,cX);
+				cY = Math.max(0,cY);
+				cY = Math.min(picW-coverW,cY);
+				cover.style.left = cX + "px";
+				cover.style.top = cY + "px"; 
+				cover.style.display = "block";
+
+				var x = -cX*picW/coverW,
+					y = -cY*picW/coverW,
+					w = openW*picW/coverW,
+					h = openW*picW/coverW;
+				open.style.background = "url(img/big"+(index+1)+".jpg) no-repeat "+x+"px "+y+"px/"+w+"px "+h+"px";
+			}
+
+			pic.onmouseenter = function(e){
+				e = e || window.event;
+				fn(e.clientX,e.clientY);
+				
+				cover.onmousemove = function(e){
+					e = e || window.event;
+					fn(e.clientX,e.clientY);
+				};
+			};
+
+			pic.onmouseleave = function(){
+				cover.style.display = "none";
+				open.style.background = "none";
+			};
+
+			for(var i=0,length=list.length;i<length;i++){
+				list[i].i = i;
+				list[i].onmouseenter = function(){
+					pic.style.backgroundImage = "url(img/big"+(this.i+1)+".jpg)";
+					list[index].className = "";
+					this.className = "on";
+					index = this.i;
+				};
+			}
+		};
+	</script>
+</body>
+</html>

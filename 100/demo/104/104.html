@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>原生JS拖拽照片交换特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+			user-select: none;
+		}
+		#photo {
+			width: 672px;
+			margin: 100px auto;
+		}
+		#photo ul li {
+			float: left;
+			width: 200px;
+			height: 200px;
+			margin: 10px;
+			background-repeat: no-repeat;
+			background-position: center top;
+			background-size: cover;
+			border: 2px solid transparent;
+		}
+	</style>
+</head>
+<body>
+	<div id="photo">
+		<ul>
+			<li style="background-image: url(img/1.jpg);"></li>
+			<li style="background-image: url(img/2.jpg);"></li>
+			<li style="background-image: url(img/3.jpg);"></li>
+			<li style="background-image: url(img/4.jpg);"></li>
+			<li style="background-image: url(img/5.jpg);"></li>
+			<li style="background-image: url(img/6.jpg);"></li>
+			<li style="background-image: url(img/7.jpg);"></li>
+			<li style="background-image: url(img/8.jpg);"></li>
+			<li style="background-image: url(img/9.jpg);"></li>
+		</ul>
+	</div>
+
+	<script type="text/javascript" src="js/move.js"></script>
+	<script type="text/javascript">
+		/*
+			1. 把浮动布局改为定位布局，简化计算量
+			2. 元素的拖拽功能
+			3. 碰撞检测
+			4. 勾股定理计算距离最近的元素
+			5. 原生js运动框架
+		 */
+		
+		window.onload = function() {
+			var oUl = document.getElementsByTagName("ul")[0],
+				aLi = oUl.getElementsByTagName("li"),
+				length = aLi.length,
+				arr = [],
+				z = 2;
+
+			// 把li到定位父级的left和top存储起来
+			for(var i = 0; i < length; i++) {
+				arr.push([aLi[i].offsetLeft,aLi[i].offsetTop]);
+			}
+
+			// 把li改为定位布局
+			for(var i = 0; i < length; i++) {
+				aLi[i].style.position = "absolute";
+				aLi[i].style.left = arr[i][0] + "px";
+				aLi[i].style.top = arr[i][1] + "px";
+				aLi[i].style.margin = 0;
+			}
+
+			// 给每个li绑定拖拽的功能
+			for(var i = 0; i < length; i++) {
+				aLi[i].index = i;
+				drag(aLi[i]);
+			}
+
+			// 拖拽功能
+			function drag(obj) {
+				obj.onmousedown = function(e) {
+					var e = e || window.event;
+					var x = e.clientX;
+					var y = e.clientY;
+
+					// 获取li原来的位置
+					var l = obj.offsetLeft;
+					var t = obj.offsetTop;
+
+					obj.style.zIndex = z++;
+					document.onmousemove = function(e) {
+						var e = e || window.event;
+						var _left = e.clientX - x + l;
+						var _top = e.clientY - y + t;
+						obj.style.left = _left + "px";
+						obj.style.top = _top + "px";
+
+						// 先清空其他的边框
+						var li = near(obj);
+						for(var i = 0; i < length; i++) {
+							aLi[i].style.border = "";
+						}
+						
+						if(li) {
+							li.style.border = "2px solid red";
+						}
+					};
+					document.onmouseup = function() {
+						document.onmousemove = null;
+						document.onmouseup = null;
+
+						var nearLi = near(obj);
+						var tmp = 0;
+						if(nearLi) {
+							// 交换位置
+							move(nearLi,{
+								left: arr[obj.index][0],
+								top: arr[obj.index][1]
+							});
+							move(obj,{
+								left: arr[nearLi.index][0],
+								top: arr[nearLi.index][1]
+							});
+
+							// 交换索引
+							nearLi.style.border = "";
+							tmp = obj.index;
+							obj.index = nearLi.index;
+							nearLi.index = tmp;
+						}else {
+							move(obj,{
+								left: arr[obj.index][0],
+								top: arr[obj.index][1]
+							});
+						}
+					};
+					return false; // 阻止默认事件
+				};
+			}
+
+			// 获取碰撞成功的距离最近li
+			function near(obj) {
+				var n = 100000;
+				var oLi = "";
+				for(var i = 0; i < length; i++) {
+					if(impact(obj,aLi[i]) && obj!=aLi[i]) {
+						var c = distance(obj,aLi[i]); // 获取碰撞成功的li之间的距离
+						if(c<n) {
+							n = c;
+							oLi = aLi[i]; // 把距离最近的li保存起来
+						}
+					}				
+				}
+				return oLi;
+			}
+
+			// 碰撞检测功能
+			function impact(obj1,obj2) {
+				var L1 = obj1.offsetLeft;
+				var R1 = obj1.offsetLeft + obj1.offsetWidth;
+				var T1 = obj1.offsetTop;
+				var B1 = obj1.offsetTop + obj1.offsetHeight;
+
+				var L2 = obj2.offsetLeft;
+				var R2 = obj2.offsetLeft + obj2.offsetWidth;
+				var T2 = obj2.offsetTop;
+				var B2 = obj2.offsetTop + obj2.offsetHeight;	
+
+				if(R1<L2 || B1<T2 || L1>R2 || T1>B2) {
+					return false;
+				}else {
+					return true;
+				}
+			}			
+
+			// 勾股定理计算长度 a²+b²=c²
+			function distance(obj1,obj2) {
+				var a = obj1.offsetLeft - obj2.offsetLeft;
+				var b = obj1.offsetTop - obj2.offsetTop;
+				return Math.sqrt(a*a+b*b); // 开方
+			}
+		};
+	</script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery楼梯式滚动导航特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		body {
+			font-family: "microsoft yahei";
+		}
+		#box {
+			position: relative;
+			width: 980px;
+			margin: auto;
+		}
+		#box .main div {
+			color: #fff;
+			font-size: 28px;
+			font-weight: bold;
+			text-align: center;			
+		}
+		#box .header,
+		#box .footer {
+			height: 400px;
+			line-height: 400px;
+		}
+		#box .movies,
+		#box .fan,
+		#box .music,
+		#box .ghost,
+		#box .science,
+		#box .comic,
+		#box .game,
+		#box .advertise,
+		#box .dance,
+		#box .fashion,
+		#box .tv,
+		#box .live {
+			height: 300px;
+			line-height: 300px;
+		}
+		#box .header {
+			background: #83c44e;
+		}
+		#box .movies {
+			background: #ffd979;
+		}
+		#box .fan {
+			background: #ceff81;
+		}
+		#box .music {
+			background: #a3ffc9;
+		}
+		#box .ghost {
+			background: #86c7ff;
+		}
+		#box .science {
+			background: #a27cff;
+		}
+		#box .comic {
+			background: #ff75f6;
+		}	
+		#box .game {
+			background: #ff261c;
+		}	
+		#box .advertise {
+			background: #ff8744;
+		}
+		#box .dance {
+			background: #3dff25;
+		}
+		#box .fashion {
+			background: #6679ff;
+		}
+		#box .tv {
+			background: #ff7b99;
+		}
+		#box .live {
+			background: #ffd979;
+		}
+		#box .footer {
+			background: #00a1d6;
+		}
+		#box .side {
+			position: fixed;
+			top: 50%;
+			right: 100px;
+			width: 50px;
+			height: 480px;
+			margin-top: -240px;
+			background: #d6f1e4;
+			border: 1px solid #ddd;
+			border-radius: 3px;
+			text-align: center;
+		}
+		#box .side ul li {
+			height: 30px;
+			font-size: 12px;
+			line-height: 30px;
+			cursor: pointer;
+		}
+		#box .side ul li.on {
+			background: #00a1d6;
+			color: #fff;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="main">
+			<div class="header">头部</div>
+			<div class="movies area">影视区</div>
+			<div class="fan area">番剧区</div>
+			<div class="music area">音乐区</div>
+			<div class="ghost area">鬼畜区</div>
+			<div class="science area">科技区</div>
+			<div class="comic area">动漫区</div>
+			<div class="game area">游戏区</div>
+			<div class="advertise area">广告区</div>
+			<div class="dance area">舞蹈区</div>
+			<div class="fashion area">时尚区</div>
+			<div class="tv area">TV区</div>
+			<div class="live area">直播区</div>
+			<div class="footer">底部</div>
+		</div>
+		<div class="side">
+			<ul>
+				<li>影视</li>
+				<li>番剧</li>
+				<li>音乐</li>
+				<li>鬼畜</li>
+				<li>科技</li>
+				<li>动漫</li>
+				<li>游戏</li>
+				<li>广告</li>
+				<li>舞蹈</li>
+				<li>时尚</li>
+				<li>TV</li>
+				<li>直播</li>
+			</ul>
+
+		</div>
+	</div>
+
+	<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var $box = $("#box"),
+				$area = $box.find(".main .area"),
+				$li = $box.find(".side ul li"),
+				arr = [];
+			
+			function calc(){
+				var w = ($(window).width()-$box.width())/2+$box.width()+10;
+				$(".side").css("left",w);
+			}
+
+			calc();
+			$(window).resize(function(){
+				calc();
+			});
+
+			$area.each(function(){
+				arr.push($(this).offset().top);
+			});
+
+			$li.click(function(){
+				$(this).addClass("on").siblings().removeClass("on");
+				var top = arr[$(this).index()];
+				$("html,body").stop().animate({
+					"scrollTop" : top
+				});
+			});
+
+			$(window).scroll(function(){
+				for(var i=0,length=arr.length; i<length; i++){
+					if($(this).scrollTop() >= arr[i]) {
+						$li.eq(i).addClass("on").siblings().removeClass("on");	
+					}					
+				}
+			});
+		});
+	</script>
+</body>
+</html>

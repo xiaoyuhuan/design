@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery列表拖拽改变网站布局</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		body {
+			font-family: "microsoft yahei";
+		}
+		#box {
+			position: relative;
+			width: 1000px;
+			margin: auto;
+		}
+		#box p {
+			width: 100%;
+			height: 400px;
+			color: #fff;
+			font-size: 22px;
+			line-height: 400px;
+			text-align: center;
+		}
+		#side {
+			position: fixed;
+			top: 150px;
+			right: 120px;
+			width: 200px;
+		}
+		#side li {
+			width: 200px;
+			height: 50px;
+			margin-bottom: 10px;
+			color: #fff;
+			font-size: 14px;
+			font-weight: bold;
+			line-height: 50px;
+			text-align: center;
+			box-shadow: 0 0 5px #000;
+			transition: top .3s ease-out;
+			cursor: move;
+		}			
+	</style>
+</head>
+<body>
+	<div id="box">
+		<p style="background: rgb(146, 217, 97);">banner图片</p>
+		<p style="background: rgb(225, 88, 82);">招聘流程</p>
+		<p style="background: rgb(174, 87, 218);">找到适合你的职位</p>
+		<p style="background: rgb(229, 213, 99);">工作环境</p>
+		<p style="background: rgb(154, 178, 229);">薪酬福利</p>
+	</div>
+	<ul id="side">
+		<li style="background: rgb(146, 217, 97);">banner图片</li>
+		<li style="background: rgb(225, 88, 82);">招聘流程</li>
+		<li style="background: rgb(174, 87, 218);">找到适合你的职位</li>
+		<li style="background: rgb(229, 213, 99);">工作环境</li>
+		<li style="background: rgb(154, 178, 229);">薪酬福利</li>
+	</ul>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var box = document.getElementById("box"),
+				aP = box.getElementsByTagName("p"),
+				side = document.getElementById("side"),
+				aLi = side.getElementsByTagName("li"),
+				length = aLi.length,
+				arrP = [],
+				arr = [],
+				z = 2;
+
+			for(var i=0; i<length; i++) {
+				arrP.push(aP[i].offsetTop);
+				arr.push(aLi[i].offsetTop);
+			}	
+
+			for(i = 0; i < length; i++) {
+				aP[i].style.position = "absolute";
+				aP[i].style.top = arrP[i] + "px";
+
+				aLi[i].style.position = "absolute";
+				aLi[i].style.top = arr[i] + "px";
+				aLi[i].style.margin = 0;
+			}
+
+			for(i=0; i<length; i++){
+				aP[i].index = i;
+				aLi[i].index = i;
+				drag(aLi[i]);
+			}
+
+			var arrMin = arr[0],
+				arrMax = arr[length-1];
+			function drag(obj){
+				obj.onmousedown = function(e) {
+					var e = e || window.event;
+					var downY = e.clientY,
+						top = obj.offsetTop;
+
+					obj.style.zIndex = z++;				
+					document.onmousemove = function(e) {
+						var e = e || window.event;
+						var Top = e.clientY-downY+top;
+						Top = Math.max(arrMin,Top);
+						Top = Math.min(arrMax,Top);
+						obj.style.top = Top+"px";
+					};
+
+					document.onmouseup = function(e) {
+						document.onmousemove = null;
+						document.onmouseup = null;			
+
+						var nearLi = near(obj);			
+						if(nearLi){
+							// console.log("obj ",obj.index);
+							// console.log("near ",nearLi.index);	
+
+							if(obj.index < nearLi.index){
+								for(var i=obj.index+1; i<nearLi.index; i++) {
+									aP[i].style.top = arrP[i-1] + "px";
+									aLi[i].style.top = arr[i-1] + "px";
+								}
+								aP[obj.index].style.top = arrP[nearLi.index-1] + "px";	
+								obj.style.top = arr[nearLi.index-1] + "px";	
+
+								box.insertBefore(aP[obj.index],aP[nearLi.index]);
+								side.insertBefore(obj,aLi[nearLi.index]);	
+								for(i=obj.index; i<nearLi.index-1; i++){
+									aP[i].index -= 1;
+									aLi[i].index -= 1;
+								}
+								aP.index = nearLi.index-1;
+								obj.index = nearLi.index-1;
+							}else{
+								for(i=nearLi.index+1; i<obj.index; i++){
+									aP[i].style.top = arrP[i+1] + "px";
+									aLi[i].style.top = arr[i+1] + "px";
+								}
+								aP[obj.index].style.top = arrP[nearLi.index+1] + "px";
+								obj.style.top = arr[nearLi.index+1] + "px";
+
+								insertAfter(aP[obj.index],aP[nearLi.index]);
+								insertAfter(obj,aLi[nearLi.index]);
+								for(i=nearLi.index+2; i<=obj.index; i++){
+									aP[i].index -= 1;
+									aLi[i].index += 1;
+								}
+								aP.index = nearLi.index+1;
+								obj.index = nearLi.index+1; 
+							}					
+						}
+					};
+					return false;
+				};
+			}
+
+			function near(obj) {
+				var n = 100000;
+				var oLi = "";
+				for(var i=0; i<length; i++) {
+					if(obj != aLi[i]){
+						var c = Math.abs(aLi[i].offsetTop-obj.offsetTop);
+						if(c < n){ 
+							n = c;
+							oLi = aLi[i];
+						}
+					}
+				}
+				return oLi;			
+			}
+
+			// 在目标节点之后插入新节点，这两个节点是兄弟关系
+			function insertAfter(newElement,targetElement){
+			    var parent = targetElement.parentNode;
+			    if(parent.lastChild == targetElement){
+			        parent.appendChild(newElement);
+			    }else{
+			        parent.insertBefore(newElement,targetElement.nextSibling);
+			    }
+			}
+		};
+	</script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery左侧滑动悬浮菜单特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		i {
+			font-style: normal;
+		}
+		li {
+			list-style-type: none;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;			
+			font-family: "microsoft yahei";
+		}
+		#nav {
+			width: 240px;
+			height: 470px;
+			margin: 100px;
+			background: #fff;
+			border: 1px solid #ddd;
+			box-shadow: -2px 2px 2px #ddd;
+		}
+		#nav li {
+			position: relative;
+			height: 75px;
+		}
+		#nav dl {
+			width: 220px;
+			height: 75px;
+			margin: auto;
+			text-indent: 5px;
+			border-bottom: 1px dotted #ccc;
+			box-sizing: border-box;
+		}
+		#nav dl dt {
+			padding-top: 15px;
+			font-size: 14px;
+			font-weight: bold;
+		}
+		#nav dl dd {
+			float: left;
+			margin: 0 7px;
+			padding-top: 10px;
+			color: #666;
+			font-size: 12px;
+		}
+		#nav dl dd:nth-of-type(1) {
+			color: #ff99cc;
+		}
+		#nav .sub {
+			display: none;
+			position: absolute;
+			top: -1px;
+			left: 240px;
+			width: 300px;
+			height: 400px;
+			background: #fff;
+			border: 1px solid #ddd;
+		}
+		#nav .sub .top {
+			position: absolute;
+			top: -1px;
+			left: -240px;
+			width: 240px;
+			height: 1px;
+			background: #ddd;			
+		}
+		#nav .sub .left {
+			position: absolute;
+			top: 0;
+			left: -1px;
+			width: 1px;
+			height: 75px;
+			background: #fff;
+		}
+		#nav .sub .bottom {
+			position: absolute;
+			top: 74px;
+			left: -240px;
+			width: 240px;
+			height: 1px;
+			background: #ddd;
+		}
+		#nav .sub .wrap {
+			margin: 20px;
+		}
+		#nav .sub .wrap .tit {
+			font-size: 13px;
+			font-weight: bold;
+			line-height: 30px;
+		}
+		#nav .sub .wrap .cont {
+			margin-bottom: 15px;
+			color: #666;
+			font-size: 12px;
+			line-height: 25px;
+		}
+		#nav .sub .wrap .cont i {
+			margin-right: 10px;
+		}
+		#nav .sub .wrap .cont i.on {
+			color: #f60;
+		}
+		#nav li:hover .sub {
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<ul id="nav">
+		<li>
+			<dl>
+				<dt>衣服</dt>
+				<dd>初夏新款</dd>
+				<dd>初夏美裙</dd>
+				<dd>衬衫</dd>
+			</dl>
+			<div class="sub">
+				<div class="top"></div>
+				<div class="left"></div>
+				<div class="bottom"></div>
+				<div class="wrap">
+					<div class="tit">新品发布</div>
+					<div class="cont">
+						<i class="on">新裙首发</i> <i>风衣</i> <i>雪纺衫</i> 
+						<i>娃娃衫</i> <i>显瘦裤子</i> <i>衬衫</i> 
+						<i>防晒衫</i> <i>小脚裤</i> <i>春款连衣裙</i> 
+						<i>裙子套装</i> <i>韩范卫衣</i> 
+					</div>
+					<div class="tit">本季热卖</div>
+					<div class="cont">
+						<i>打底衫</i> <i>韩范美裙</i> <i>哈伦裤</i>
+						<i>连衣裙</i> <i>短袖T恤</i> <i>韩版短裤</i>
+						<i>半身裙</i> <i class="on">牛仔裤</i> <i>套装</i>
+						<i>甜美睡衣</i> <i>内衣套装</i> <i>雪纺衫</i>
+					</div>
+					<div class="tit">热门推荐</div>
+					<div class="cont">
+						<i>热搜美衣</i> <i>美裙榜</i> <i>显瘦裤装</i>
+						<i>度假泳衣</i> <i class="on">情侣装</i> <i>韩国同款</i>
+						<i>闺蜜装</i> <i>打底基础款</i> <i>甜美系</i>
+						<i>买手推荐</i> <i>学院风</i>
+					</div>
+				</div>
+			</div>
+		</li>
+		<li>
+			<dl>
+				<dt>鞋子</dt>
+				<dd>夏上新</dd>
+				<dd>凉鞋</dd>
+				<dd>单鞋</dd>
+				<dd>运动</dd>
+			</dl>
+			 <div class="sub">
+			 	<div class="top"></div>
+				<div class="left"></div>
+				<div class="bottom"></div>
+				<div class="wrap">
+					<div class="tit">新品发布</div>
+					<div class="cont">
+						<i class="on">新裙首发</i> <i>风衣</i> <i>雪纺衫</i> 
+						<i>娃娃衫</i> <i>显瘦裤子</i> <i>衬衫</i> 
+						<i>防晒衫</i> <i>小脚裤</i> <i>春款连衣裙</i> 
+						<i>裙子套装</i> <i>韩范卫衣</i> 
+					</div>
+					<div class="tit">本季热卖</div>
+					<div class="cont">
+						<i>打底衫</i> <i>韩范美裙</i> <i>哈伦裤</i>
+						<i>连衣裙</i> <i>短袖T恤</i> <i>韩版短裤</i>
+						<i>半身裙</i> <i class="on">牛仔裤</i> <i>套装</i>
+						<i>甜美睡衣</i> <i>内衣套装</i> <i>雪纺衫</i>
+					</div>
+					<div class="tit">热门推荐</div>
+					<div class="cont">
+						<i>热搜美衣</i> <i>美裙榜</i> <i>显瘦裤装</i>
+						<i>度假泳衣</i> <i class="on">情侣装</i> <i>韩国同款</i>
+						<i>闺蜜装</i> <i>打底基础款</i> <i>甜美系</i>
+						<i>买手推荐</i> <i>学院风</i>
+					</div>
+				</div>				
+			</div>
+		</li>
+		<li>
+			<dl>
+				<dt>包包</dt>
+				<dd>夏上新</dd>
+				<dd>双肩</dd>
+				<dd>斜挎</dd>
+				<dd>钱包</dd>
+			</dl>
+			<div class="sub">
+				<div class="top"></div>
+				<div class="left"></div>
+				<div class="bottom"></div>
+				<div class="wrap">
+					<div class="tit">新品发布</div>
+					<div class="cont">
+						<i class="on">新裙首发</i> <i>风衣</i> <i>雪纺衫</i> 
+						<i>娃娃衫</i> <i>显瘦裤子</i> <i>衬衫</i> 
+						<i>防晒衫</i> <i>小脚裤</i> <i>春款连衣裙</i> 
+						<i>裙子套装</i> <i>韩范卫衣</i> 
+					</div>
+					<div class="tit">本季热卖</div>
+					<div class="cont">
+						<i>打底衫</i> <i>韩范美裙</i> <i>哈伦裤</i>
+						<i>连衣裙</i> <i>短袖T恤</i> <i>韩版短裤</i>
+						<i>半身裙</i> <i class="on">牛仔裤</i> <i>套装</i>
+						<i>甜美睡衣</i> <i>内衣套装</i> <i>雪纺衫</i>
+					</div>
+					<div class="tit">热门推荐</div>
+					<div class="cont">
+						<i>热搜美衣</i> <i>美裙榜</i> <i>显瘦裤装</i>
+						<i>度假泳衣</i> <i class="on">情侣装</i> <i>韩国同款</i>
+						<i>闺蜜装</i> <i>打底基础款</i> <i>甜美系</i>
+						<i>买手推荐</i> <i>学院风</i>
+					</div>
+				</div>				
+			</div>			
+		</li>
+		<li>
+			<dl>
+				<dt>家居</dt>
+				<dd>四件套</dd>
+				<dd>美发</dd>
+				<dd>杂货</dd>
+				<dd>电器</dd>
+			</dl>
+			<div class="sub">
+				<div class="top"></div>
+				<div class="left"></div>
+				<div class="bottom"></div>
+				<div class="wrap">
+					<div class="tit">新品发布</div>
+					<div class="cont">
+						<i class="on">新裙首发</i> <i>风衣</i> <i>雪纺衫</i> 
+						<i>娃娃衫</i> <i>显瘦裤子</i> <i>衬衫</i> 
+						<i>防晒衫</i> <i>小脚裤</i> <i>春款连衣裙</i> 
+						<i>裙子套装</i> <i>韩范卫衣</i> 
+					</div>
+					<div class="tit">本季热卖</div>
+					<div class="cont">
+						<i>打底衫</i> <i>韩范美裙</i> <i>哈伦裤</i>
+						<i>连衣裙</i> <i>短袖T恤</i> <i>韩版短裤</i>
+						<i>半身裙</i> <i class="on">牛仔裤</i> <i>套装</i>
+						<i>甜美睡衣</i> <i>内衣套装</i> <i>雪纺衫</i>
+					</div>
+					<div class="tit">热门推荐</div>
+					<div class="cont">
+						<i>热搜美衣</i> <i>美裙榜</i> <i>显瘦裤装</i>
+						<i>度假泳衣</i> <i class="on">情侣装</i> <i>韩国同款</i>
+						<i>闺蜜装</i> <i>打底基础款</i> <i>甜美系</i>
+						<i>买手推荐</i> <i>学院风</i>
+					</div>
+				</div>				
+			</div>			
+		</li>
+		<li>
+			<dl>
+				<dt>配饰</dt>
+				<dd>手表</dd>
+				<dd>墨镜</dd>
+				<dd>韩版帽</dd>
+				<dd>3c配件</dd>
+			</dl>
+			<div class="sub">
+				<div class="top"></div>
+				<div class="left"></div>
+				<div class="bottom"></div>
+				<div class="wrap">
+					<div class="tit">新品发布</div>
+					<div class="cont">
+						<i class="on">新裙首发</i> <i>风衣</i> <i>雪纺衫</i> 
+						<i>娃娃衫</i> <i>显瘦裤子</i> <i>衬衫</i> 
+						<i>防晒衫</i> <i>小脚裤</i> <i>春款连衣裙</i> 
+						<i>裙子套装</i> <i>韩范卫衣</i> 
+					</div>
+					<div class="tit">本季热卖</div>
+					<div class="cont">
+						<i>打底衫</i> <i>韩范美裙</i> <i>哈伦裤</i>
+						<i>连衣裙</i> <i>短袖T恤</i> <i>韩版短裤</i>
+						<i>半身裙</i> <i class="on">牛仔裤</i> <i>套装</i>
+						<i>甜美睡衣</i> <i>内衣套装</i> <i>雪纺衫</i>
+					</div>
+					<div class="tit">热门推荐</div>
+					<div class="cont">
+						<i>热搜美衣</i> <i>美裙榜</i> <i>显瘦裤装</i>
+						<i>度假泳衣</i> <i class="on">情侣装</i> <i>韩国同款</i>
+						<i>闺蜜装</i> <i>打底基础款</i> <i>甜美系</i>
+						<i>买手推荐</i> <i>学院风</i>
+					</div>
+				</div>				
+			</div>			
+		</li>
+		<li>
+			<dl>
+				<dt>美妆</dt>
+				<dd>超值大牌</dd>
+				<dd>面膜</dd>
+				<dd>BB霜</dd>
+				<dd>套装</dd>
+			</dl>
+			<div class="sub">
+				<div class="top"></div>
+				<div class="left"></div>
+				<div class="bottom"></div>
+				<div class="wrap">
+					<div class="tit">新品发布</div>
+					<div class="cont">
+						<i class="on">新裙首发</i> <i>风衣</i> <i>雪纺衫</i> 
+						<i>娃娃衫</i> <i>显瘦裤子</i> <i>衬衫</i> 
+						<i>防晒衫</i> <i>小脚裤</i> <i>春款连衣裙</i> 
+						<i>裙子套装</i> <i>韩范卫衣</i> 
+					</div>
+					<div class="tit">本季热卖</div>
+					<div class="cont">
+						<i>打底衫</i> <i>韩范美裙</i> <i>哈伦裤</i>
+						<i>连衣裙</i> <i>短袖T恤</i> <i>韩版短裤</i>
+						<i>半身裙</i> <i class="on">牛仔裤</i> <i>套装</i>
+						<i>甜美睡衣</i> <i>内衣套装</i> <i>雪纺衫</i>
+					</div>
+					<div class="tit">热门推荐</div>
+					<div class="cont">
+						<i>热搜美衣</i> <i>美裙榜</i> <i>显瘦裤装</i>
+						<i>度假泳衣</i> <i class="on">情侣装</i> <i>韩国同款</i>
+						<i>闺蜜装</i> <i>打底基础款</i> <i>甜美系</i>
+						<i>买手推荐</i> <i>学院风</i>
+					</div>
+				</div>				
+			</div>			
+		</li>
+	</ul>
+</body>
+</html>

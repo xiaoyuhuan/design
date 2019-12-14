@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5新型拖拽上传功能</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover fixed;
+			font-family: "microsoft yahei";
+		}
+		.clearfix:after {
+			content: "";
+			display: block;
+			clear: both;
+		}
+		#box {
+			position: absolute;
+			top: 100px;
+			left: 50%;
+			width: 622px;
+			transform: translateX(-50%);
+		}
+		#box .top {
+			position: relative;
+			width: 100%;
+			height: 150px;
+			padding-top: 10px;
+			background: #fff;
+			border-radius: 5px;
+		}
+		#box .top ul {
+			width: 600px;
+			height: 100px;
+			margin-left: 10px;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+		}
+		#box .top ul li {
+			float: left;
+		}
+		#box .top ul li.left {
+			position: relative;
+			width: 99px;
+			height: 100%;
+			border-right: 1px solid #ddd;
+			color: #666;
+			font-size: 13px;
+			line-height: 135px;
+			text-align: center;
+			cursor: pointer;
+		}
+		#box .top ul li.left img {
+			position: absolute;
+			top: 30px;
+			left: 50%;
+			transform: translateX(-50%);	
+		}
+		#box .top ul li.right {
+			width: 500px;
+			height: 100%;
+		}
+		#box .top ul li.right textarea {
+			width: 100%;
+			height: 100%;
+			text-indent: 5px;
+			line-height: 20px;
+			font-family: "microsoft yahei";
+			border: none;
+			resize: none;
+		}
+		#box .top p {
+			position: absolute;
+			right: 10px;
+			bottom: 10px;
+			width: 80px;
+			height: 30px;
+			background: #f93;
+			color: #fff;
+			font-size: 13px;
+			line-height: 30px;
+			text-align: center;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		#box .drag {
+			z-index: 2;
+			overflow: hidden;
+			position: absolute;
+			top: 160px;
+			left: 0px;
+			width: 100%;
+			height: 0px;
+			background: rgba(0,0,0,.4);
+			transition: 0.4s;
+		}
+		#box .drag.on {
+			height: 200px;
+			box-shadow: 0 0 8px rgba(255,255,255,.3);
+		}
+		#box .drag p {
+			color: #ddd;
+			font-size: 18px;
+			line-height: 200px;
+			text-align: center;			
+		}
+		#box .drag ul {
+			width: 100%;
+			height: 100%;
+		}
+		#box .drag ul li {
+			overflow: hidden;
+			position: relative;
+			float: left;
+			width: 160px;
+			height: 160px;
+			margin-top: 20px;
+			margin-left: 34px;
+			background: #fff;
+			border: 1px solid #ccc;
+		}
+		#box .drag ul li img {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			margin: auto;
+		}
+		#box .comment {
+			z-index: 1;
+			width: 100%;
+			margin-top: 20px;
+			background: rgba(255,255,255,.2);
+			border-radius: 5px;
+		}
+		#box .comment ul {
+			width: calc(100% - 30px);
+			margin: 15px;
+		}
+		#box .comment ul.on {
+			padding-bottom: 15px;
+		}
+		#box .comment ul li {
+			padding: 10px 0;
+			border-bottom: 1px dotted rgba(255,255,255,.2);
+		}
+		#box .comment ul li span {
+			display: block;
+			height: 30px;
+			color: #eee;
+			font-size: 13px;
+			line-height: 30px;			
+		}
+		#box .comment ul li p {
+			overflow: hidden;
+			display: inline-block;
+			position: relative;
+			width: 80px;
+			height: 80px;
+			margin-right: 10px;
+			border: 1px solid #eee;
+		}
+		#box .comment ul li p img {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			margin: auto;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="top">
+			<ul class="clearfix">
+				<li class="left"><img src="img/tu.png" width="30" height="23">上传图片</li>
+				<li class="right"><textarea></textarea></li>
+			</ul>
+			<p class="btn">发表</p>
+		</div>
+		<div class="drag">
+			<p>请将图片拖拽到此区域</p>
+			<ul class="clearfix">
+				<!-- <li><img src="img/1.jpg"></li>
+				<li><img src="img/2.jpg"></li>
+				<li><img src="img/3.jpg"></li> -->
+			</ul>
+		</div>
+		<div class="comment">
+			<ul>
+				<!-- <li><span>三小只</span> <p><img src="img/1.jpg" alt=""></p><p><img src="img/1.jpg" alt=""></p><p><img src="img/1.jpg" alt=""></p></li>
+				<li><span>小奶猫</span> <p><img src="img/2.jpg" alt=""></p><p><img src="img/2.jpg" alt=""></p></li>
+				<li><span>薛宝钗</span> <p><img src="img/3.jpg" alt=""></p></li> -->
+			</ul>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		window.onload = function() {
+			var oBox = document.getElementById("box"),
+				oLeft = oBox.querySelector(".top ul .left"),
+				oTexta = oBox.querySelector(".top ul .right textarea"),
+				oBtn = oBox.querySelector(".top p"),
+				oDrag = oBox.querySelector(".drag"),
+				oP = oDrag.querySelector("p"),
+				dUl = oDrag.querySelector("ul"),
+				cUl = oBox.querySelector(".comment ul");
+
+			// 展开拖拽区域
+			oLeft.onclick = function(e) {
+				var e = e || event;
+				e.stopPropagation(); 
+				oDrag.className = "drag on";
+			};
+
+			// 合上拖拽区域
+			document.onclick = function() {
+				oDrag.className = "drag";
+			};
+
+			// 被拖拽物体进入目标元素
+			oDrag.ondragenter = function() {
+				//oP.innerHTML = "请释放你的鼠标";
+			};
+
+			// 被拖拽物体在进入目标元素和离开目标元素之间，连续触发
+			oDrag.ondragover = function(e) {
+				var e = e || event;
+				e.preventDefault();  // 阻止默认事件
+				e.stopPropagation(); // 阻止冒泡
+			};
+
+			// 被拖拽物体离开目标元素
+			oDrag.ondragleave = function() {
+				//oP.innerHTML = "请将图片拖拽到此区域";
+			};
+
+			// 被拖拽物体在目标元素上释放
+			var num = 0;
+			oDrag.ondrop = function(e) {
+				var e = e || event;
+				e.preventDefault();
+				e.stopPropagation();				
+				oP.innerHTML = "";
+
+				if(e.dataTransfer.files) {
+					var oFiles = e.dataTransfer.files;
+					var length = oFiles.length;
+					num += length;
+					if(num > 3) {
+						alert("最多只能上传3张哦！");	
+						length = 3;	
+					}
+					if(dUl.children.length < 3) {
+						for(var i = 0; i < length; i++) {
+							(function(i) {
+								getData(oFiles[i]);
+							})(i);										
+						}
+					}
+				}
+			};
+
+			function getData(obj) {
+				var objFile = new FileReader;
+				objFile.readAsDataURL(obj);	
+
+				if(/image/.test(obj.type)) { 
+					objFile.onload = function() {
+						var li = document.createElement("li");
+						li.innerHTML = "<img src='"+this.result+"'>";
+						dUl.appendChild(li);
+					};
+				}
+			}	
+
+			// 点击"发表"
+			oBtn.onclick = function() {
+				var texta = oTexta.value;
+				var len = dUl.children.length;
+				if(texta==="" && len===0) {
+					alert("请输入内容或拖拽图片！");
+				}else {
+					var li = document.createElement("li");
+					li.innerHTML = "<span>"+ texta +"</span>";
+
+					var str = "";
+					for(var i = 0; i < dUl.children.length; i++) {
+						str += "<p><img src='"+dUl.children[i].children[0].src+"'></p>";
+					}
+					
+					li.innerHTML += str;
+					cUl.className = "on";
+					cUl.appendChild(li);
+
+					oTexta.value = "";
+					dUl.innerHTML = "";
+					oP.innerHTML = "请将图片拖拽到此区域";
+					num = 0;
+				}
+			};
+		};
+	</script>
+</body>
+</html>

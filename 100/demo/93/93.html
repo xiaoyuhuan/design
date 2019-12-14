@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery正方形抽奖游戏</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+			user-select: none;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		body {
+			background: url(img/bg.png);
+			font-family: "microsoft yahei";
+		}
+		#box {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			margin: auto;
+			width: 776px;
+			height: 554px;
+		}	
+		#box ul li {
+			position: absolute;		
+			width: 110px;
+			height: 110px;
+		}
+		#box ul li img {
+			width: 100%;
+			height: 100%;
+		}
+		#box p.choose {
+			position: absolute;
+			top: -2px;
+			left: -2px;
+			width: 110px;
+			height: 110px;
+			border: 2px solid #fff;
+		}
+		#btn {
+			position: absolute;
+			top: 61%;
+			left: 50%;	
+			transform: translate(-50%,-50%);
+			width: 260px;
+			height: 40px;	
+		}
+		#btn p {
+			width: 120px;
+			height: 100%;
+			background: #481305;
+			color: #fff;
+			font-size: 15px;
+			line-height: 40px;
+			text-align: center;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		#btn p:nth-child(1) {
+			float: left;
+		}
+		#btn p:nth-child(2) {
+			float: right;
+		}
+		#prize {
+			opacity: 0;
+			position: absolute;
+			top: 45%;
+			left: 50%;	
+			transform: translate(-50%,-50%);
+			width: 170px;
+			height: 170px;	
+			background-color: #c39862;
+			background-image: url(img/1.jpg);
+			background-repeat: no-repeat;
+			background-position: center 40px;
+			background-size: 110px 110px;
+			border-radius: 5px;	
+			transition: .3s;
+		}
+		#prize span {
+			display: block;
+			position: absolute;
+			top: 0px;
+			right: 5px;
+			color: #fff;
+			font-size: 20px;
+			cursor: pointer;
+		}
+		#prize span.on {
+			display: none;
+		}
+		#prize p {
+			color: #eee;
+			font-size: 13px;
+			text-align: center;
+			line-height: 40px;			
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<ul>
+			<li><img src="img/0.jpg"></li>
+			<li><img src="img/1.jpg"></li>
+			<li><img src="img/2.jpg"></li>
+			<li><img src="img/3.jpg"></li>
+			<li><img src="img/4.jpg"></li>
+			<li><img src="img/5.jpg"></li>
+			<li><img src="img/6.jpg"></li>
+			<li><img src="img/7.jpg"></li>
+			<li><img src="img/8.jpg"></li>
+			<li><img src="img/9.jpg"></li>
+			<li><img src="img/10.jpg"></li>	
+			<li><img src="img/11.jpg"></li>
+			<li><img src="img/12.jpg"></li>
+			<li><img src="img/13.jpg"></li>
+			<li><img src="img/14.jpg"></li>
+			<li><img src="img/15.jpg"></li>
+			<li><img src="img/16.jpg"></li>
+			<li><img src="img/17.jpg"></li>
+			<li><img src="img/18.jpg"></li>
+			<li><img src="img/19.jpg"></li>						
+		</ul>
+		<p class="choose"></p>
+	</div>
+	<div id="btn">
+		<p>开始抽奖</p>
+		<p>重置</p>
+	</div>
+	<div id="prize">
+		<span class="close">×</span>
+		<p>恭喜您获得了</p>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function() {
+			var oBox = document.getElementById("box"),
+				oBtn = document.getElementById("btn"),
+				oPrize = document.getElementById("prize"),
+				aLi = oBox.getElementsByTagName("li"),
+				aP = oBtn.getElementsByTagName("p"),
+				oChoose = oBox.querySelector(".choose"),
+				oClose = oPrize.querySelector(".close");
+
+			// 计算li的top值和left值
+			for(var i = 0; i < 20; i++) {
+				if(i < 7) {
+					aLi[i].style.top = "0px";
+					aLi[i].style.left = 110*i + i + "px";
+				}else if(i < 10) {
+					aLi[i].style.top = 110*(i-6) + (i-6) + "px";
+					aLi[i].style.left = "666px";
+				}else if(i < 17) {
+					aLi[i].style.top = "444px";
+					aLi[i].style.left = 110*(16-i) + (16-i) + "px";
+				}else {
+					aLi[i].style.top = 110*(20-i) + (20-i) + "px";
+					aLi[i].style.left = "0px";
+				}
+			}
+		
+			// 点击"开始抽奖"
+			var s = 0;
+			var e = 0;
+			aP[0].onclick = function() {
+				oPrize.style.opacity = "0";
+
+				e = s + Math.floor(Math.random()*20+1); 
+				console.log(e); // 打印随机数
+				move();
+			};
+			function move() {
+				s ++;
+				if(s >= e) {
+					s = e;
+					prize();
+				}else {
+					setTimeout(move,200);
+				}
+
+				var d = s % 20;
+				if(d < 7) {
+					var top = -2;
+					var left = -2 + 111*d;
+				}else if(d < 10) {
+					top = -2 + 111*(d-6);
+					left = 664;
+				}else if(d < 17) {
+					top = 442;
+					left = -2 + 111*(16-d);
+				}else {
+					top = -2 + 111*(20-d);
+					left = -2;
+				}
+				oChoose.style.top = top + "px";
+				oChoose.style.left = left + "px";
+			}
+
+			// 显示奖品
+			function prize() {
+				oPrize.style.opacity = "1";
+				oPrize.style.backgroundImage = "url(img/"+(e%20)+".jpg)";
+			}	
+
+			// 点击"关闭"奖品
+			oClose.onclick = function() {
+				oPrize.style.opacity = "0";
+			};
+			
+			// 点击"重置"
+			aP[1].onclick = function() {
+				oPrize.style.opacity = "0";
+
+				oChoose.style.top = "-2px";
+				oChoose.style.left = "-2px";
+				s = 0;
+			};
+		};
+	</script>
+</body>
+</html>

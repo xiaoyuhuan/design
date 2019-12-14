@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5手机音乐播放器滚动歌词</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+			font-family: "microsoft yahei";
+		}
+		#box {
+			width: 320px;
+			height: 569px;
+			margin: 100px auto;
+			padding: 20px;
+			background: linear-gradient(45deg,rgba(0,0,0,.7),rgba(0,0,0,.8),rgba(0,0,0,.5));
+			text-align: center;
+			border-radius: 20px;
+			box-shadow: 0 0 7px #ccc;
+			box-sizing: border-box;		
+		}
+		#box .top {
+			overflow: hidden;
+			width: 170px;
+			height: 170px;
+			margin: auto;
+			background: linear-gradient(45deg,rgba(0,0,0,.7),rgba(0,0,0,.2),rgba(0,0,0,.9));
+			border-radius: 50%;
+		}
+		#box .top img {
+			margin-top: 30px;
+			border-radius: 50%;
+		}
+		#box .top.on {
+			animation: 6s move linear infinite;
+		}
+		#box .mid {
+			margin-top: 20px;
+			color: #fff;
+		}
+		#box .mid p {
+			font-size: 16px;
+		}
+		#box .mid span {
+			font-size: 12px;
+		}
+		#box .lyric {
+			overflow: hidden;
+			position: relative;
+			width: 100%;
+			height: 280px;
+			margin-top: 15px;
+			color: #eee;
+		}
+		#box .lyric .content {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			transition: .4s;
+		}
+		#box .lyric .content p {
+			font-size: 12px;
+			line-height: 25px;
+		}
+		#box .lyric .content p.on {
+			color: #f66;
+			font-size: 14px;
+		}
+		#box textarea {
+			display: none;
+		}
+		@keyframes move {
+			to {
+				transform: rotate(360deg);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="top">
+			<img src="img/img.jpg" width="110" height="110">
+			<audio src="mp3/谭嘉仪-小幸运.mp3"></audio>
+		</div>
+		<div class="mid">
+			<p>小幸运</p>
+			<span>谭嘉仪</span>
+		</div>		
+		<div class="lyric">
+			<div class="content"></div>
+		</div>
+		<textarea>
+			[00:00.64]小幸运 - 谭嘉仪
+			[00:02.15]词：徐世珍&吴辉福
+			[00:03.70]曲：JerryC
+			[00:04.14]编曲：JerryC
+			[00:13.77]我听见雨滴落在青青草地
+			[00:19.89]我听见远方下课钟声响起
+			[00:25.74]可是我没有听见你的声音
+			[00:30.74]认真 呼唤我姓名
+			[00:37.92]爱上你的时候还不懂感情
+			[00:44.12]离别了才觉得刻骨 铭心
+			[00:50.09]为什么没有发现遇见了你
+			[00:54.70]是生命最好的事情
+			[01:00.30]也许当时忙着微笑和哭泣
+			[01:06.36]忙着追逐天空中的流星
+			[01:12.12]人理所当然的忘记
+			[01:16.55]是谁风里雨里一直默默守护在原地
+			[01:24.44]原来你是我最想留住的幸运
+			[01:29.69]原来我们和爱情曾经靠得那么近
+			[01:35.67]那为我对抗世界的决定
+			[01:40.29]那陪我淋的雨
+			[01:43.28]一幕幕都是你 一尘不染的真心
+			[01:50.60]与你相遇 好幸运
+			[01:53.96]可我已失去为你泪流满面的权利
+			[01:59.98]但愿在我看不到的天际
+			[02:04.63]你张开了双翼
+			[02:07.68]遇见你的注定 她会有多幸运
+			[02:27.28]青春是段跌跌撞撞的旅行
+			[02:33.44]拥有着后知后觉的美丽
+			[02:39.55]来不及感谢是你给我勇气
+			[02:44.22]让我能做回我自己
+			[02:49.72]也许当时忙着微笑和哭泣
+			[02:55.55]忙着追逐天空中的流星
+			[03:01.61]人理所当然的忘记
+			[03:06.03]是谁风里雨里一直默默守护在原地
+			[03:13.79]原来你是我最想留住的幸运
+			[03:19.05]原来我们和爱情曾经靠得那么近
+			[03:25.17]那为我对抗世界的决定
+			[03:29.68]那陪我淋的雨
+			[03:32.56]一幕幕都是你 一尘不染的真心
+			[03:39.89]与你相遇 好幸运
+			[03:43.40]可我已失去为你泪流满面的权利
+			[03:49.32]但愿在我看不到的天际
+			[03:53.97]你张开了双翼
+			[03:56.98]遇见你的注定
+			[04:00.47]Oh 她会有多幸运			
+		</textarea>
+	</div>
+
+	<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+		window.onload = function(){
+			var top = document.querySelector(".top"),
+				audio = top.getElementsByTagName("audio")[0],
+				content = document.querySelector(".content"),
+				textarea = document.getElementsByTagName("textarea")[0],
+				lrc = textarea.value,
+				lrcArr = lrc.split("["),
+				lrcLen = lrcArr.length,
+				dis = 0,
+				str = "";
+
+			// 歌词初始化
+			for(var i=0; i<lrcLen; i++){
+				var arr = lrcArr[i].split("]"); 	// ["01:59.98", "但愿在我看不到的天际"]
+				var time = arr[0].split("."); 		// ["01:59", "98"]
+				var timer = time[0].split(":"); 	// ["01", "59"]
+				var ms = timer[0]*60 + timer[1]*1; 	// 119
+				
+				var text = arr[1]; 					// 但愿在我看不到的天际
+				if(text){
+					str += "<p data-time='"+ms+"'>"+text+"</p>";
+				}
+			}
+			content.innerHTML = str;
+
+			// 播放音乐
+			top.flag = true;
+			top.onclick = function(){
+				if(this.flag){
+					this.classList.add("on");
+					audio.play();
+				}else{
+					this.classList.remove("on");
+					audio.pause();
+				}
+				content.style.top = dis + "px";
+				this.flag = !this.flag;
+			};
+
+			// 监听音乐播放
+			var p = content.getElementsByTagName("p"),
+				pLen = p.length;	
+			audio.addEventListener("timeupdate",function(){ 
+				var currTime = parseInt(this.currentTime);
+				for(var i=0; i<pLen; i++){
+					if(p[i].getAttribute("data-time") === currTime+""){
+						if(i-1 >= 0){
+							p[i-1].className = "";
+						}
+						p[i].className = "on";
+
+						// 歌词滚动
+						if(i > 4){
+							dis = -(i-4)*25;
+							content.style.top = dis + "px";
+						}
+					}
+				}
+			});
+
+			// 监听音乐结束
+			audio.addEventListener("ended",function(){
+				top.classList.remove("on");
+				top.flag = true;
+				dis = 0;
+			});
+		};
+	</script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery结合CSS3实现的转盘抽奖特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		body {
+			overflow: hidden;
+			background: #d71f2e;
+			font-family: "microsoft yahei";
+		}
+		#box {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 854px;
+			height: 504px;
+			background: url(img/bg.png);
+			transform: translate(-50%,-50%);
+		}
+		#box .arrow {
+			position: absolute;
+			top: 104px;
+			left: 181px;
+			width: 294px;
+			height: 294px;
+			background: url(img/arrow.png);
+			transform: rotate(0deg);
+			transition: 1s linear;
+		}
+		#box .infor {
+			display: none;
+			position: absolute;
+			top: 191px;
+			left: 128px;
+			width: 400px;
+			height: 120px;
+			background: rgba(0,0,0,.6);
+			color: #fff;
+			text-align: center;
+			line-height: 120px;
+		}
+		#box .infor img {
+			position: absolute;
+			top: 5px;
+			right: 5px;
+			cursor: pointer;
+		}
+		#box .prize {
+			overflow: hidden;
+			position: absolute;
+			top: 140px;
+			right: 50px;
+			width: 120px;
+			height: 330px;
+			color: #fc3;
+			text-align: right;
+			line-height: 37px;
+		}
+		#box .prize ul {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 120px;
+			height: 330px;
+		}
+		#box .prize ul li {
+			background: url(img/user.png) no-repeat 0px 11px;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="arrow"></div>
+		<div class="infor">
+			<img src="img/close.png" class="close">
+			<p class="text"></p>
+		</div>
+		<div class="prize">
+			<ul class="ul">
+				<li>1583****825</li>
+				<li>1396****805</li>
+				<li>1332****261</li>
+				<li>1884****863</li>
+				<li>1384****955</li>
+				<li>1897****137</li>
+				<li>1342****973</li>
+				<li>1558****071</li>
+				<li>1554****168</li>
+				<li>1562****018</li>
+				<li>1805****856</li>
+				<li>1354****809</li>
+				<li>1383****364</li>
+				<li>1569****851</li>
+				<li>1515****206</li>
+				<li>1550****789</li>
+				<li>1370****627</li>
+				<li>1828****215</li>
+				<li>1589****572</li>
+			</ul>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var $arrow = $(".arrow"),
+				$infor = $(".infor"),
+				$close = $infor.find(".close"),
+				$text = $infor.find(".text"),
+				$ul = $(".ul"),
+				arr = ["很遗憾你没有抽中奖励","恭喜你获得了5元代金劵","恭喜你获得了1元代金劵","恭喜你获得了10元代金劵","很遗憾你没有抽中奖励","恭喜你获得了20元代金劵","恭喜你获得了50元代金劵","恭喜你获得了30元代金劵"],
+				index = 0,
+				num = 0,
+				n = 0;
+
+			$arrow.click(function(){
+				num += 1800;
+				$(this).css("transform","rotate("+num+"deg)");
+
+				setTimeout(function(){
+					n = Math.floor(Math.random(0,1)*16);
+					num += n*45;
+					$arrow.css("transform","rotate("+num+"deg)");					
+				},1000);
+
+				setTimeout(function(){
+					$infor.show();
+					index += n;
+					index %= 8;	
+					$text.html(arr[index]);
+				},2200);
+			});
+
+			$close.click(function(){
+				$infor.hide();
+			});
+
+			setInterval(function(){
+				var $li = $ul.find("li");
+				$ul.animate({
+					"top": -37
+				},function(){
+					$ul.append($li.eq(0));
+					$ul.css("top",0);
+				});
+			},1000);
+		});
+	</script>
+</body>
+</html>

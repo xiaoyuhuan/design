@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片大小切换排列</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style-type: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body { 
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+			font-family: "microsoft yahei";
+		}
+		.clearfix:after {
+			content: "";
+			height: 0;
+			line-height: 0;
+			visibility: hidden;
+			display: block;
+			clear: both;
+		}
+		#box {
+			width: 1000px;
+			margin: 50px auto;
+		}
+		#box .top {
+			width: 100%;
+			padding: 20px;
+			background: rgba(0,0,0,.2);
+			border-radius: 5px;
+			box-sizing: border-box;
+		}
+		#box .top ul li {
+			float: left;
+			width: 180px;
+			height: 30px;
+			margin: 0 70px;
+			background: #fff;
+			text-align: center;
+			font-size: 14px;
+			font-weight: bold;
+			line-height: 30px;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		#box .top ul li.on {
+			background: #47b312;
+			color: #fff;
+		}
+		#box .pic {
+			width: 100%;
+			margin-top: 20px;
+			padding: 10px;
+			background: rgba(0,0,0,.2);
+			border-radius: 5px;			
+			box-sizing: border-box;
+		}
+		#box .pic ul li {
+			float: left;
+			padding: 10px;
+			width: 25%;
+			box-sizing: border-box;
+			transition: .6s;
+		}
+		#box .pic ul li img {
+			width: 100%;
+			border-radius: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="top">
+			<ul class="clearfix">
+				<li class="on">小图</li>
+				<li>中图</li>
+				<li>大图</li>
+			</ul>
+		</div>
+		<div class="pic">
+			<ul class="clearfix">
+				<li><img src="img/1.jpg" alt=""></li>
+				<li><img src="img/2.jpg" alt=""></li>
+				<li><img src="img/3.jpg" alt=""></li>
+				<li><img src="img/4.jpg" alt=""></li>
+				<li><img src="img/5.jpg" alt=""></li>
+				<li><img src="img/6.jpg" alt=""></li>
+				<li><img src="img/7.jpg" alt=""></li>
+				<li><img src="img/8.jpg" alt=""></li>
+				<li><img src="img/9.jpg" alt=""></li>
+				<li><img src="img/10.jpg" alt=""></li>
+				<li><img src="img/11.jpg" alt=""></li>
+				<li><img src="img/12.jpg" alt=""></li>
+			</ul>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var top = document.querySelector(".top"),
+				pic = document.querySelector(".pic"),
+				picLi = pic.getElementsByTagName("li"),
+				topLi = top.getElementsByTagName("li"),
+				index = 0;
+
+			for(var i=0; i<topLi.length; i++){
+				topLi[i].i = i;
+				topLi[i].onclick = function(){
+					topLi[index].className = "";
+					index = this.i;
+					topLi[index].className = "on";
+
+					for(var i=0; i<picLi.length; i++){
+						switch(index) {
+							case 0:
+								picLi[i].style.width = "25%";
+								break;
+							case 1:
+								picLi[i].style.width = "50%";
+								break;
+							case 2:
+								picLi[i].style.width = "100%";
+								break;
+							default:
+								break;								
+						}
+					}				
+				};
+			}
+		};
+	</script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<title>HTML5移动端手机相册app开发</title>
+	<script type="text/javascript">
+		// 动态修改html标签的font-size
+		document.getElementsByTagName("html")[0].style.fontSize = window.innerWidth/3 + "px";
+		window.onresize = function(){
+			document.getElementsByTagName("html")[0].style.fontSize = window.innerWidth/3 + "px";
+		};
+		// em: 相对单位长度，相对于父元素的 font-size:16px 1em=16px
+		// rem: 相对于html的 font-size:125px 1rem=125px
+	</script>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+		li {
+			list-style: none;
+		}
+		body {
+			overflow-x: hidden;
+			background: #333;
+			font-size: 0.15rem;
+			font-family: "microsoft yahei";
+		}	
+		#header {
+			position: relative;
+			height: 0.45rem;
+			color: #fff;
+			line-height: 0.45rem;
+			text-align: center;
+			border-bottom: 0.01rem solid #555;
+			box-sizing: border-box;
+		}
+		#header p {
+			position: absolute;
+			top: 0.11rem;
+			width: 0.5rem;
+			height: 0.25rem;
+			line-height: 0.25rem;
+			box-shadow: 0 0 0.05rem #000;
+			border-radius: 0.03rem;
+			cursor: pointer;
+		}
+		#header p:nth-of-type(1) {
+			display: none;
+			left: 0.15rem;
+		}
+		#header p:nth-of-type(2) {
+			right: 0.15rem;
+		}
+		#section {
+			position: relative;
+			width: 100%;
+		}
+		#section ul li {
+			position: absolute;
+			width: calc(100% / 3);
+			height: 1rem;
+			background-repeat: no-repeat;
+			background-position: center top;
+			background-size: cover;
+			transition: left 0.5s,top 0.5s;
+		}
+		#footer {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			height: 0.45rem;
+			background: #333;
+			color: #fff;
+			line-height: 0.45rem;
+			text-align: center;
+			border-top: 0.01rem solid #555;
+			border-bottom: 0.01rem solid #555;
+			box-sizing: border-box;
+		}
+		#footer p {
+			float: left;
+			width: 50%;
+			height: 0.45rem;
+			border-left: 0.01rem solid #555;
+			box-sizing: border-box;
+			cursor: pointer;
+		}
+		#footer p:nth-child(2) {
+			border-right: 0.01rem solid #555;
+		}
+	</style>
+</head>
+<body>
+	<header id="header">
+		<span>手机相册</span>
+		<p>删除</p>
+		<p>选择</p>
+	</header>
+	<section id="section">
+		<ul></ul>
+	</section>
+	<footer id="footer">
+		<p>手机相册</p>
+		<p>所有相册</p>
+	</footer>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var header = document.getElementById("header"),
+				section = document.getElementById("section"),
+				btn = header.getElementsByTagName("p"),
+				ul = section.getElementsByTagName("ul")[0],
+				str = "",
+				num = 20;
+
+			// 将16张照片添加到相册
+			for(var i=0; i<num; i++) {
+				str += "<li style='background-image:url(img/"+(i+1)+".jpg)'></li>";
+			}
+			ul.innerHTML = str;
+
+			// 设置照片位置和相册高度
+			var li = ul.getElementsByTagName("li");
+			function change(){
+				for(var i=0; i<li.length; i++){
+					li[i].style.left = i%3 + "rem";
+					li[i].style.top = Math.floor(i/3) + "rem";
+					li[i].flag = false;
+				}
+				ul.style.height = Math.ceil(li.length/3)+0.45 + "rem";
+			}
+			change();
+
+			// 选择照片
+			btn[0].addEventListener("touchend",remove,false);
+			function remove(){
+				for(var i=li.length-1; i>=0; i--){
+					if(li[i].flag){
+						ul.removeChild(li[i]);
+					}
+				}
+				change();
+
+				if(li.length < 1){
+					btn[0].style.display = "none";
+					btn[1].innerHTML = "选择";
+					btn[1].flag = true;
+				}
+			}
+
+			// 删除照片
+			btn[1].addEventListener("touchend",select,false);
+			btn[1].flag = true;
+			function select(){
+				if(li.length > 0){
+					if(btn[1].flag){
+						btn[0].style.display = "block";
+						btn[1].innerHTML = "取消";
+
+						for(var i=0; i<li.length; i++){
+							li[i].addEventListener("touchend",selectLi,false);
+						}					
+					}else{
+						btn[0].style.display = "none";
+						btn[1].innerHTML = "选择";
+
+						for(var i=0; i<li.length; i++){
+							li[i].removeEventListener("touchend",selectLi,false);
+							li[i].style.opacity = 1;
+							li[i].flag = false;
+						}
+					}
+					btn[1].flag = !btn[1].flag;
+				}
+			}
+
+			function selectLi(){
+				this.style.opacity = 0.5;
+				this.flag = true;
+			}
+		};
+	</script>
+</body>
+</html>

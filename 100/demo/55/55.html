@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery隐藏式弹跳侧边栏</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;			
+			background: url(img/bg.jpg);
+			font-family: "microsoft yahei";
+		}	
+		#box {
+			position: absolute;
+			top: 50%;
+			right: -140px;
+			width: 170px;
+			transform: translateY(-50%);
+		}
+		#box li {
+			position: relative;
+			right: 0;
+			width: 100%;
+			height: 30px;
+			background: #fff;
+			font-size: 13px;
+			line-height: 30px;
+			text-indent: 40px;
+			transition-duration: .5s;
+			cursor: pointer;
+		}	
+		#box li+li {
+			border-top: 2px solid #ccc;
+		}
+		#box li span {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 30px;
+			height: 30px;
+			background: #690;
+			color: #fff;
+			text-align: center;
+			text-indent: 0;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<ul id="box">
+		<li><span>0</span>MAIN NAVIGATION</li>
+		<li><span>1</span>Dashboard</li>
+		<li><span>2</span>Charts & graphs</li>
+		<li><span>3</span>Widgets</li>
+		<li><span>4</span>Tables</li>
+		<li><span>5</span>Full width</li>
+		<li><span>6</span>Forms</li>
+		<li><span>7</span>Buttons & icons</li>
+		<li><span>8</span>Typography</li>
+		<li><span>9</span>Bootstrap Grid</li>
+		<li><span>10</span>Elements</li>
+		<li><span>11</span>Addons</li>
+		<li><span>12</span>Error</li>
+	</ul>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var box = document.getElementById("box"),
+				li = box.getElementsByTagName("li"),
+				length = li.length;
+
+			box.onmouseenter = function(){
+				for(var i=0; i<length; i++){
+					li[i].style.right = "140px";
+					li[i].style.transitionDelay = i*0.05 + "s";
+				}				
+			};
+
+			box.onmouseleave = function(){
+				for(var i=0; i<length; i++){
+					li[i].style.right = 0;
+					li[i].style.transitionDelay = i*0.05 + "s";
+				}				
+			};
+		};
+	</script>
+</body>
+</html>

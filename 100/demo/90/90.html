@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery+H5幻灯片切换特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+		}
+		#box {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			width: 960px;
+			height: 600px;
+			margin: auto;
+		}
+		#box .pic {
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
+		#box .pic li {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;			
+			z-index: 1;
+		}
+		#box .pic li:nth-child(1) {
+			z-index: 5;
+		}
+		#box .pic li p {
+			position: absolute;
+			background-repeat: no-repeat;
+			background-size: 960px 600px;
+		}
+		#box .pic li:nth-child(1) p {
+			background-image: url(img/1.jpg);
+		}
+		#box .pic li:nth-child(2) p {
+			background-image: url(img/2.jpg);
+		}		
+		#box .pic li:nth-child(3) p {
+			background-image: url(img/3.jpg);
+		}		
+		#box .pic li:nth-child(4) p {
+			background-image: url(img/4.jpg);
+		}
+		#box .pic li p:nth-child(1) {	
+			top: 0;
+			left: 0;
+			width: 600px;
+			height: 300px;
+			background-position: 0 0;
+		}
+		#box .pic li p:nth-child(2) {
+			top: 0;
+			right: 0;	
+			width: 360px;
+			height: 300px;		
+			background-position: -600px 0;
+		}
+		#box .pic li p:nth-child(3) {
+			bottom: 0;
+			left: 0;
+			width: 600px;
+			height: 300px;			
+			background-position: 0 -300px;
+		}
+		#box .pic li p:nth-child(4) {
+			bottom: 0;
+			right: 0;
+			width: 360px;
+			height: 300px;			
+			background-position: -600px -300px;
+		}
+		#box .pic li p.t-l {
+			animation: t-l 1s;
+		}
+		#box .pic li p.t-r {
+			animation: t-r 1s;
+		}
+		#box .pic li p.b-l {
+			animation: b-l 1s;
+		}
+		#box .pic li p.b-r {
+			animation: b-r 1s;
+		}
+		#box .btn li {
+			position: absolute;
+			top: 50%;
+			width: 50px;
+			height: 100px;
+			background: rgba(0,0,0,0.3);
+			color: #fff;
+			font-size: 40px;
+			line-height: 100px;
+			text-align: center;
+			border-radius: 10px;
+			transform: translateY(-50%);
+			transition: .3s;
+			-webkit-user-select: none;
+			cursor: pointer;
+			z-index: 10;
+		}
+		#box .btn .prev {
+			left: -80px;
+		}
+		#box .btn .next {
+			right: -80px;
+		}
+		#box .btn li:hover {
+			background: rgba(0,0,0,0.4);
+		}
+		@keyframes t-l {
+			0% {
+				top: -10%;
+				left: -10%;
+				width: 0;
+				transform: scale(2);
+			}
+			100% {
+				top: 0;
+				left: 0;
+				width: 600px;
+				transform: scale(1);
+			}
+		}
+		@keyframes t-r {
+			0% {
+				top: -10%;
+				right: -10%;
+				height: 0;
+			}
+			100% {
+				top: 0;
+				right: 0;
+				height: 300px;
+			}
+		}
+		@keyframes b-l {
+			0% {
+				bottom: -10%;
+				left: -10%;
+				height: 0;
+			}
+			100% {
+				bottom: 0;
+				left: 0;
+				height: 300px;
+			}
+		}	
+		@keyframes b-r {
+			0% {
+				bottom: -10%;
+				right: -10%;
+				width: 0;
+			}
+			100% {
+				bottom: 0;
+				right: 0;
+				width: 360px;	
+			}
+		}	
+	</style>
+</head>
+<body>
+	<div id="box">
+		<ul class="pic">
+			<li>
+				<p></p>
+				<p></p>
+				<p></p>
+				<p></p>
+			</li>
+			<li>
+				<p></p>
+				<p></p>
+				<p></p>
+				<p></p>
+			</li>
+			<li>
+				<p></p>
+				<p></p>
+				<p></p>
+				<p></p>
+			</li>
+			<li>
+				<p></p>
+				<p></p>
+				<p></p>
+				<p></p>
+			</li>
+		</ul>
+		<ul class="btn">
+			<li class="prev"> &lt; </li>
+			<li class="next"> &gt; </li>
+		</ul>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var btn = document.querySelector(".btn"),
+				pic = document.querySelector(".pic"),
+				picLi = pic.getElementsByTagName("li"),
+				btnLi = btn.getElementsByTagName("li"),
+				length = picLi.length,
+				index = 0;
+
+			for(var i=0; i<btnLi.length; i++){
+				btnLi[i].i = i;
+				btnLi[i].onclick = function(){
+					for(var i=0; i<length; i++){
+						picLi[i].style.zIndex = 1;
+					}
+					picLi[index].style.zIndex = 5;
+
+					if(this.i){
+						index++;
+						index %= length;
+					}else{
+						index--;
+						if(index < 0){
+							index = length-1;
+						}
+					}
+
+					// 当前动画
+					picLi[index].style.zIndex = 6;
+					picLi[index].children[0].className = "t-l";
+					picLi[index].children[1].className = "t-r";
+					picLi[index].children[2].className = "b-l";
+					picLi[index].children[3].className = "b-r";
+
+					setTimeout(function(){
+						picLi[index].children[0].className = "";
+						picLi[index].children[1].className = "";
+						picLi[index].children[2].className = "";
+						picLi[index].children[3].className = "";						
+					},1000);
+				};
+			}
+
+			/*function insertAfter(newElement,targetElement){
+			    var parent = targetElement.parentNode;
+			    if(parent.lastChild == targetElement){
+			        parent.appendChild(newElement);
+			    }else{
+			        parent.insertBefore(newElement,targetElement.nextSibling);
+			    }
+			}*/
+		};
+	</script>
+</body>
+</html>

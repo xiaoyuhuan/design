@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CSS3实现3D立方体盒子旋转特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center/cover;
+			font-family: "microsoft yahei";
+		}
+		#box {
+			height: 200px;
+			margin-top: 300px;
+			perspective: 800px;
+		}
+		#box .cube {
+			position: relative;
+			width: 200px;
+			height: 200px;
+			margin: auto;
+			transform-style: preserve-3d;
+			transform: translateZ(-100px);
+			transition: all 2s linear;
+			animation: move 5s infinite linear;
+		}
+		#box .cube .top {
+			transform-origin: top;
+		}
+		#box .cube .bottom {
+			transform-origin: bottom;			
+		}
+		#box .cube .left {
+    		transform-origin: center left;
+		}
+		#box .cube .right {
+    		transform-origin: center right;
+		}
+		#box .cube p {
+			position: absolute;
+			width: 200px;
+			height: 200px;
+			text-align: center;
+			font-size: 20px;
+			line-height: 200px;
+			box-shadow: inset 0 0 10px #fff;
+		}		
+		#box .cube p.top {
+			transform: translateZ(100px) rotateX(-90deg);
+			transition: all 1s linear;
+		}
+		#box .cube p.bottom {
+			transform: translateZ(100px) rotateX(90deg);
+		}
+		#box .cube p.left {
+			transform: translateZ(100px) rotateY(-90deg) translateX(-200px);
+		}
+		#box .cube p.right {
+			transform: translateZ(100px) rotateY(90deg) translateX(200px);
+		}
+		#box .cube p.front {
+			transform: translateZ(100px);
+		}
+		#box .cube p.back {
+			transform: translateZ(-100px) rotateY(180deg);
+		}
+		#box .cube i {
+			display: block;
+			position: absolute;
+			top: 50px;
+			left: 50px;
+			width: 100px;
+			height: 100px;
+			transition: all 1s linear;
+		}
+		#box .cube i.top {
+			background: url(img/1.jpg) no-repeat center top/cover;
+			transform: translateZ(50px) rotateX(-90deg);
+		}
+		#box .cube i.bottom {
+			background: url(img/2.jpg) no-repeat center top/cover;
+			transform: translateZ(50px) rotateX(90deg);
+		}		
+		#box .cube i.left {
+			background: url(img/3.jpg) no-repeat center top/cover;
+			transform: translateZ(50px) rotateY(-90deg) translateX(-100px);
+		}		
+		#box .cube i.right {
+			background: url(img/4.jpg) no-repeat center top/cover;
+			transform: translateZ(50px) rotateY(90deg) translateX(100px);
+		}		
+		#box .cube i.front {
+			background: url(img/5.jpg) no-repeat center top/cover;
+			transform: translateZ(50px);
+		}
+		#box .cube i.back {
+			background: url(img/6.jpg) no-repeat center top/cover;
+			transform: translateZ(-50px) rotateY(180deg);
+		}
+		#box .cube:hover p.top {
+			transform: translateZ(100px) rotateX(-210deg);
+    		transform-origin: top center;
+		}
+		#box .cube:hover i {
+			top: -200px;
+		}					
+		@keyframes move {
+			0% {
+				transform: rotateY(0deg);
+			}
+			100% {
+				transform: rotateY(360deg);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="cube">
+			<p class="top">上</p>
+			<p class="bottom">下</p>
+			<p class="left">左</p>
+			<p class="right">右</p>
+			<p class="front">前</p>
+			<p class="back">后</p>
+
+			<i class="top"></i>
+			<i class="bottom"></i>
+			<i class="left"></i>
+			<i class="right"></i>
+			<i class="front"></i>
+			<i class="back"></i>
+		</div>
+	</div>
+</body>
+</html>

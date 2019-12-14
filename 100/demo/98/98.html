@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery仿淘宝网选项卡搜索框切换特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style-type: none;
+		}
+		input {
+			border: none;
+			outline: none;
+			font-family: "microsoft yahei";
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;			
+			font-family: "microsoft yahei";
+		}
+		.clearfix:after {
+			content: "";
+			height: 0;
+			line-height: 0;
+			visibility: hidden;
+			display: block;
+			clear: both;
+		}
+		#box {
+			width: 500px;
+			margin: 100px auto;
+		}
+		#box .tit li {
+			float: left;
+			width: 70px;
+			height: 40px;
+			text-align: center;
+			font-size: 14px;
+			line-height: 40px;
+			cursor: pointer;
+		}
+		#box .tit li.on {
+			display: block;
+			color: #fff;
+		}
+		#box .tit li:nth-child(1).on,
+		#box .con li:nth-child(1) {
+			background: #5561ff;
+		}
+		#box .tit li:nth-child(2).on,
+		#box .con li:nth-child(2) {
+			background: #8b0000;
+		}
+		#box .tit li:nth-child(3).on,
+		#box .con li:nth-child(3) {
+			background: #f90;
+		}
+		#box .con li {
+			display: none;
+			height: 36px;
+		}
+		#box .con li.on {
+			display: block;
+		}		
+		#box .con li input {
+			float: left;
+			width: 80%;
+			height: 30px;
+			margin-top: 3px;
+			margin-left: 3px;
+			text-indent: 10px;
+		}
+		#box .con li p {
+			float: left;
+			width: calc(20% - 3px);
+			height: 36px;
+			color: #fff;
+			text-align: center;
+			font-size: 14px;
+			line-height: 36px;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<ul class="tit clearfix">
+			<li class="on">宝贝</li>
+			<li>天猫</li>
+			<li>店铺</li>
+		</ul>
+		<ul class="con">
+			<li class="on"><input type="text" name="" placeholder="输入宝贝"><p>搜索</p></li>
+			<li><input type="text" name=""><p>搜索</p></li>
+			<li><input type="text" name=""><p>搜索</p></li>
+		</ul>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var tit = document.querySelector(".tit"),
+				con = document.querySelector(".con"),
+				titLi = tit.getElementsByTagName("li"),
+				conLi = con.getElementsByTagName("li"),
+				length = titLi.length,
+				index = 0;
+
+			for(var i=0; i<length; i++){
+				titLi[i].i = i;
+				titLi[i].onmouseenter = function(){
+					titLi[index].className = "";
+					conLi[index].className = "";
+					index = this.i;
+					titLi[index].className = "on";
+					conLi[index].className = "on";
+				};
+			}
+		};
+	</script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery结合CSS3实现的苹果相册展示特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+		}
+		#box {
+			position: relative;
+			width: 340px;
+			height: 213px;
+			margin: 200px auto;
+			-webkit-transform-style: preserve-3d;
+    		-webkit-perspective: 800px;
+		}
+		#box ul li {
+			position: absolute;
+			top: 0;
+			width: 340px;
+			height: 213px;
+			-webkit-box-reflect: below 0 -webkit-linear-gradient(top,rgba(0,0,0,0.1),rgba(0,0,0,0.5));
+			box-reflect: below 0 -webkit-linear-gradient(top,rgba(0,0,0,0.1),rgba(0,0,0,0.5));
+			transition: .6s;
+			cursor: pointer;
+		}
+		#box ul li img {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<ul>
+			<li><img src="img/1.jpg" alt=""></li>
+			<li><img src="img/2.jpg" alt=""></li>
+			<li><img src="img/3.jpg" alt=""></li>
+			<li><img src="img/4.jpg" alt=""></li>
+			<li><img src="img/5.jpg" alt=""></li>
+			<li><img src="img/6.jpg" alt=""></li>
+			<li><img src="img/7.jpg" alt=""></li>
+			<li><img src="img/8.jpg" alt=""></li>
+			<li><img src="img/9.jpg" alt=""></li>
+			<li><img src="img/10.jpg" alt=""></li>
+			<li><img src="img/11.jpg" alt=""></li>
+		</ul>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var li = document.getElementsByTagName("li"),
+				length = li.length,
+				width = 340;
+
+			function move(mid){
+				for(var i=0; i<length; i++){
+					if(i < mid){
+						li[i].style.left = (50-width/2)*(mid-i) + "px";
+						li[i].style.transform = "rotateY(45deg)";
+						li[i].style.transformOrigin = "left center";
+						li[i].style.zIndex = i+1;
+					}else if(i > mid){
+						li[i].style.left = (width/2-50)*(i-mid) + "px";
+						li[i].style.transform = "rotateY(-45deg)";
+						li[i].style.transformOrigin = "right center";
+						li[i].style.zIndex = length-i;
+					}else{
+						li[i].style.left = 0;
+						li[i].style.transform = "rotateY(0deg)";
+						li[i].style.zIndex = length;
+					}
+				}				
+			}
+
+			// 设置初始样式
+			move(Math.floor(length/2));
+			
+			// 图片点击事件
+			for(var i=0; i<length; i++){
+				li[i].i = i;
+				li[i].onclick = function(){
+					move(this.i);
+				};
+			}
+		};
+	</script>
+</body>
+</html>

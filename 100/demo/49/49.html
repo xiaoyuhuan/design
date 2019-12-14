@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery.ui实现的多布局类型日历插件</title>
+	<link href="css/jquery-ui-1.10.1.css" rel="stylesheet">
+	<link href="css/siena.datepicker.css" rel="stylesheet">
+	<link href="css/santiago.datepicker.css" rel="stylesheet">
+	<link href="css/latoja.datepicker.css" rel="stylesheet">
+	<link href="css/lugo.datepicker.css" rel="stylesheet">
+	<link href="css/cangas.datepicker.css" rel="stylesheet">
+	<link href="css/vigo.datepicker.css" rel="stylesheet">
+	<link href="css/nigran.datepicker.css" rel="stylesheet">
+	<link href="css/melon.datepicker.css" rel="stylesheet">
+
+	<script src="js/jquery-1.9.1.js"></script>
+	<script src="js/jquery-ui-1.10.1.min.js"></script>
+	<script>
+		$(function() {	
+			$( ".datepicker" ).datepicker({
+				inline: true,
+				showOtherMonths: true
+			});
+		});
+	</script>
+
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		body {
+			background-color: #fafafa;
+			font: 100% "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+		}
+		h1 {
+			width:900px;
+			margin: .5em auto 0;
+			padding: 10px 0 0;
+			background: url('css/images/cal_logo.png') left center no-repeat;
+			height: 43px;
+			line-height: 30px;
+			padding-left: 50px;
+			color: #ed7474;
+			font-size: 1.6em;
+		}
+		h2 {
+			margin: 0 0 .5em;
+			padding: 0;
+			color: #555;
+			font-size: 1.3em;
+		}
+		article {
+			display: block;
+			width: 960px;
+			margin: 20px auto;
+		}
+		.datepickers-cont {
+			margin: 0;
+			padding: 0;
+		}
+		.datepickers-cont td.part {
+			vertical-align: top;
+			padding-bottom: 3em;
+		}
+		.datepickers-cont td.part + td.part {
+			padding-left: 4.4em;
+		}
+	</style>
+</head>
+<body>
+	<h1>jQuery datepicker skins</h1>
+	<article>
+		<table class="datepickers-cont">
+			<tr>
+				<td class="part">
+					<h2>melon</h2>
+					<div class="datepicker ll-skin-melon"></div>
+				</td>
+				<td class="part">
+					<h2>la toja</h2>
+					<div class="datepicker ll-skin-latoja"></div>
+				</td>
+				<td class="part">
+					<h2>santiago</h2>
+					<div class="datepicker ll-skin-santiago"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="part">
+					<h2>lugo</h2>
+					<div class="datepicker ll-skin-lugo"></div>
+				</td>
+				<td class="part">
+					<h2>cangas</h2>
+					<div class="datepicker ll-skin-cangas"></div>
+				</td>
+				<td class="part">
+					<h2>vigo</h2>
+					<div class="datepicker ll-skin-vigo"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="part">
+					<h2>nigran</h2>
+					<div class="datepicker ll-skin-nigran"></div>
+				</td>
+				<td class="part">
+					<h2>siena</h2>
+					<div class="datepicker ll-skin-siena"></div>
+				</td>
+			</tr>
+		</table>
+	</article>
+</body>
+</html>

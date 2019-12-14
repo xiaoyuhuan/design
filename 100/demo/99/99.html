@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CSS3制作3D划桨式轮播切换特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+		}
+		#box {
+			position: relative;
+			width: 960px;
+			height: 600px;
+			margin: 100px auto;
+		}
+		#box .pic li {
+			display: none;
+			position: absolute;
+			width: 960px;
+		}
+		#box .pic li img {
+			width: 100%;
+		}
+		#box .show {
+			display: none;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			perspective: 1000px;
+		}
+		#box .show li {
+			float: left;
+			position: relative;
+			width: 480px;
+			height: 60px;
+			transform-style: preserve-3d;
+		}
+		#box .show li p {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 480px;
+			height: 60px;
+			background-size: 960px 600px;
+		}
+		#box .show li i {
+			display: block;
+			position: absolute;
+			bottom: 0;
+		}
+		#box .show .left i {
+			right: 0;
+		}
+		#box .show .right i {
+			left: 0;
+		}
+
+		/* 前面图片 */
+		#box .show li .p1 {
+			transform: translateZ(5px);
+		}
+
+		/* 后面图片 */
+		#box .show li .p2 {
+			transform: translateZ(-5px) rotateX(-180deg);
+		}
+
+		/* 下面 */
+		#box .show li .i1 { 
+			width: 480px;
+			height: 10px;
+			background: #999;
+			transform-origin: bottom;
+    		transform: translateZ(5px) rotateX(90deg);
+		}
+
+		#box .show li .i2 {
+			width: 10px;
+			height: 60px;
+			background: #999;
+		}
+
+		/* 右面 */
+		#box .show .left .i2 { 
+			transform-origin: right;
+    		transform: translateZ(5px) rotateY(-90deg);
+		}
+
+		/* 左面 */
+		#box .show .right .i2 { 
+			transform-origin: left;
+		    transform: translateZ(5px) rotateY(90deg);
+		}
+
+		#box .btn li {
+			position: absolute;
+			top: 50%;
+			width: 45px;
+			height: 45px;
+			transform: translateY(-50%);
+			-webkit-user-select: none;
+			cursor: pointer;
+		}
+		#box .btn .prev {
+			left: 0;
+			background: url(img/left.png);
+		}
+		#box .btn .next {
+			right: 0;
+			background: url(img/right.png);
+		}
+		@keyframes move1 {
+			0% {
+				transform: rotateX(0deg) rotateZ(0deg) rotateY(0deg);
+				animation-timing-function: ease;
+			}
+			60% {
+				transform: rotateX(0deg) rotateZ(0deg) rotateY(-60deg);
+				animation-timing-function: ease-in;
+			}
+			80% {
+				transform: rotateX(90deg) rotateZ(-10deg) rotateY(-45deg);
+				animation-timing-function: ease-out;
+			}
+			100% {
+				transform: rotateX(180deg) rotateZ(0deg) rotateY(0deg);
+			}
+		}
+		@keyframes move2 {
+			0% {
+				transform: rotateX(0deg) rotateZ(0deg) rotateY(0deg);
+				animation-timing-function: ease;
+			}
+			60% {
+				transform: rotateX(0deg) rotateZ(0deg) rotateY(60deg);
+				animation-timing-function: ease-in;
+			}
+			80% {
+				transform: rotateX(90deg) rotateZ(-10deg) rotateY(45deg);
+				animation-timing-function: ease-out;
+			}
+			100% {
+				transform: rotateX(180deg) rotateZ(0deg) rotateY(0deg);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<ul class="pic">
+			<li><img src="img/1.jpg"></li>
+			<li><img src="img/2.jpg"></li>
+			<li><img src="img/3.jpg"></li>
+			<li><img src="img/4.jpg"></li>
+			<li><img src="img/5.jpg"></li>
+		</ul>
+		<ul class="show"></ul>
+		<ul class="btn">
+			<li class="prev"></li>
+			<li class="next"></li>
+		</ul>
+	</div>
+
+	<script type="text/javascript">
+		/*
+			960 X 600
+
+			960 = 480x2
+			600 = 60x10
+		 */
+		window.onload = function(){
+			var pic = document.querySelector(".pic"),
+				btn = document.querySelector(".btn"),
+				show = document.querySelector(".show"),
+				picLi = pic.getElementsByTagName("li"),
+				btnLi = btn.getElementsByTagName("li"),
+				length = picLi.length,
+				time = new Date(),
+				index = 0,
+				last = 0;
+
+			// 初始化
+			picLi[index].style.display = "block";
+			for(var i=0; i<10; i++){
+				var l1 = document.createElement("li");
+				var	l2 = document.createElement("li");
+				l1.className = "left";
+				l2.className = "right";
+
+				l1.innerHTML = "<p class='p1' style='background-position:0px -"+i*60+"px;'></p>"+
+								"<p class='p2' style='background-position:0px -"+i*60+"px;'></p>"+
+								"<i class='i1'></i>"+
+								"<i class='i2'></i>";
+
+				l2.innerHTML = "<p class='p1' style='background-position:-480px -"+i*60+"px;'></p>"+
+								"<p class='p2' style='background-position:-480px -"+i*60+"px;'></p>"+
+								"<i class='i1'></i>"+
+								"<i class='i2'></i>";				
+				
+				show.appendChild(l1);
+				show.appendChild(l2);
+			}
+
+			for(var i=0; i<btnLi.length; i++){
+				btnLi[i].i = i;
+				btnLi[i].onclick = function(){
+					if(new Date()-time > 2100){
+
+						pic.style.display = "none";
+						show.style.display = "block";
+						picLi[index].style.display = "none";
+						
+						last = index;
+						if(this.i){
+							index++;
+							index %= length;	
+						}else{
+							index--;
+							if(index < 0){
+								index = length-1;
+							}
+						}
+
+						var p1 = document.querySelectorAll(".p1"),
+							p2 = document.querySelectorAll(".p2");						
+						for(var i=0; i<20; i++){
+							p1[i].style.backgroundImage = "url(img/"+(last+1)+".jpg)";
+							p2[i].style.backgroundImage = "url(img/"+(index+1)+".jpg)";
+						}								
+
+						var left = document.querySelectorAll(".left"),
+							right = document.querySelectorAll(".right");
+						for(var i=0; i<10; i++){
+							left[i].style.animation = "move1 1.5s "+i*0.1+"s";
+							right[i].style.animation = "move2 1.5s "+i*0.1+"s";
+						}
+
+						setTimeout(function(){
+							for(var i=0; i<10; i++){
+								left[i].style.transform = "rotateX(180deg)";
+								right[i].style.transform = "rotateX(180deg)";
+							}
+						},1500);
+
+						setTimeout(function(){
+							for(var i=0; i<10; i++){
+								left[i].style.animation = "";
+								right[i].style.animation = "";
+
+								left[i].style.transform = "rotateX(0deg)";
+								right[i].style.transform = "rotateX(0deg)";						
+							}				
+
+							pic.style.display = "block";
+							show.style.display = "none";
+							picLi[index].style.display = "block";
+						},2500);
+
+						time = new Date();
+					}				
+				};
+			}
+		};
+	</script>
+</body>
+</html>

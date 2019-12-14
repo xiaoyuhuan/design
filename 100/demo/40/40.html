@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery全屏滚动特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		a {
+			text-decoration: none;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;
+			font-family: "microsoft yahei";
+		}
+		#header {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			z-index: 2;
+		}
+		#header li {
+			position: absolute;
+			top: 30px;		
+		}
+		#header .logo {
+			left: 60px;
+		}
+		#header .nav {
+			right: 60px;
+		}
+		#header .nav a {
+			color: #fff;
+			font-size: 14px;
+			text-shadow: 0 4px 5px #000;
+		}
+		#header .nav a+a {
+			margin-left: 40px;
+		}
+		#header .nav .border {
+			position: absolute;
+			top: -4px;
+			height: 30px;
+			border: 1px solid #fff;
+			border-radius: 20px;
+			cursor: pointer;
+		}
+		#banner {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 400%;
+		}
+		#banner li {
+			width: 100%;
+			height: 25%;
+		}
+		#banner li:nth-child(1) {
+			background: url(img/1.jpg) no-repeat center top/cover;
+		}
+		#banner li:nth-child(2) {
+			background: url(img/2.jpg) no-repeat center top/cover;
+		}		
+		#banner li:nth-child(3) {
+			background: url(img/3.jpg) no-repeat center top/cover;
+		}		
+		#banner li:nth-child(4) {
+			background: url(img/4.jpg) no-repeat center top/cover;
+		}	
+		#leftnav {
+			position: fixed;
+			top: 50%;
+			left: 60px;
+			width: 110px;
+			height: 264px;
+			transform: translateY(-50%);
+		}
+		#leftnav li {
+			position: relative;
+			height: 70px;
+			padding-left: 50px;
+			color: #fff;
+			font-size: 12px;
+			line-height: 20px;
+			cursor: pointer;
+		}
+		#leftnav li:before {
+			content: "";
+			position: absolute;
+			top: -48px;
+			left: 0;
+			width: 1px;
+			height: 48px;	
+			background: #ccc;	
+		}
+		#leftnav li:first-child:before {
+			top: -10px;
+			height: 10px;
+		}
+		#leftnav li:last-child:after {
+			content: "";
+			position: absolute;
+			top: 21px;
+			left: 0;
+			width: 1px;
+			height: 10px;	
+			background: #ccc;			
+		}
+		#leftnav li span {
+			position: absolute;
+			top: 0;
+			left: -10px;
+			width: 20px;
+			height: 20px;
+			border: 1px solid #ccc;
+			border-radius: 50%;
+		}
+		#leftnav li.on span {
+			background: #05c677;
+			border: 1px solid #05c677;
+		}
+	</style>
+</head>
+<body>
+	<ul id="header">
+		<li class="logo"><img src="img/logo.png"></li>
+		<li class="nav">
+			<a href="#">首页</a>
+			<a href="#">常见问题</a>
+			<a href="#">论坛</a>
+			<a href="#">360首页>></a>
+			<span class="border"></span>
+		</li>
+	</ul>
+	<ul id="banner">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+	<ul id="leftnav">
+		<li class="on"><span></span>安全换机</li>
+		<li><span></span>无网对传</li>
+		<li><span></span>隐私粉碎</li>
+		<li><span></span>一键转移</li>
+	</ul>
+	
+	<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.mousewheel.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var $nav = $(".nav"),
+				$a = $nav.find("a"),
+				$border = $nav.find(".border"),
+				$banner = $("#banner"),
+				$li = $("#leftnav").find("li"),
+				navL = $nav.offset().left,
+				length = $li.length,
+				lastTime = 0,
+				index = 0,
+				arrW = [],
+				arrL = [];
+
+			$a.each(function(){
+				arrW.push($(this).width()+30);
+				arrL.push($(this).offset().left-navL-15);
+			});
+
+			// 设置初始border的样式
+			$border.css({
+				"width": arrW[0],
+				"left": arrL[0]
+			});
+
+			$a.hover(function(){
+				var i = $(this).index();
+				$border.animate({
+					"width": arrW[i],
+					"left": arrL[i]
+				});
+			});
+
+			/*
+			$("#leftnav li span").click(function(){
+				var i = $("#leftnav li span").index(this); // span是$("#leftnav li span")集合中的第几个
+				console.log(i);
+			});
+			*/
+
+			$li.click(function(){
+				var i = $(this).index();
+				$(this).addClass("on").siblings().removeClass("on");
+				$banner.animate({
+					"top": -100*i+"%"
+				},500);
+			});
+
+			$(document).mousewheel(function(e,d){
+				if(new Date-lastTime > 800){
+					if(d<0){
+						index++;
+						if(index > length-1){
+							index = length-1;
+						}
+					}else{
+						index--;
+						if(index < 0){
+							index = 0;
+						}
+					}
+					$li.eq(index).addClass("on").siblings().removeClass("on");
+					$banner.animate({
+						"top": -100*index+"%"
+					},500);	
+					lastTime = new Date;				
+				}
+			});
+		});
+	</script>
+</body>
+</html>

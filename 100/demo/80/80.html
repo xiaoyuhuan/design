@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery鼠标点击放大左右切换特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style-type: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center/cover;
+		}
+		#box {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 1020px;
+			padding: 15px;
+			background: rgba(255,255,255,.5);
+			border-radius: 10px;
+			box-shadow: 0 0 7px #ccc;
+			transform: translate(-50%,-50%);
+		}
+		#box li {
+			float: left;
+			width: 100px;
+			height: 100px;
+			margin: 1px;
+			cursor: pointer;
+		}
+		#pic {
+			display: none;
+			position: absolute;
+			top: 50%;
+			left: 50%;	
+			width: 960px;
+			height: 600px;
+			border: 10px solid #222;
+			border-radius: 10px;
+			transform: translate(-50%,-50%);
+			transition: .3s;
+		}
+		#pic .close {
+			position: absolute;
+			top: 0;
+			right: 10px;
+			color: rgba(255,255,255,.7);
+			font-size: 40px;
+			font-weight: bold;
+			transition: .3s;
+			cursor: pointer;
+		}
+		#pic .close:hover {
+			color: rgba(255,255,255,1);
+		}
+		#pic .btn li {
+			position: absolute;
+			top: 50%;
+			width: 40px;
+			height: 80px;
+			background: rgba(0,0,0,.5);
+			color: #fff;
+			text-align: center;
+			font-size: 30px;
+			font-weight: bold;
+			line-height: 70px;
+			transform: translateY(-50%);
+			transition: .3s;
+			-webkit-user-select: none;
+			cursor: pointer;
+		}
+		#pic .btn li:hover {
+			background: rgba(0,0,0,.6);
+		}
+		#pic .btn .prev {
+			left: 0;
+			border-radius: 0 5px 5px 0;
+		}
+		#pic .btn .next {
+			right: 0;
+			border-radius: 5px 0 0 5px;
+		}
+	</style>
+</head>
+<body>
+	<ul id="box"></ul>
+	<div id="pic">
+		<div class="close"> × </div>
+		<ul class="btn">
+			<li class="prev"> &lt; </li>
+			<li class="next"> &gt; </li>
+		</ul>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var box = document.getElementById("box"),
+				pic = document.getElementById("pic"),
+				close = pic.querySelector(".close"),
+				prev = pic.querySelector(".prev"),
+				next = pic.querySelector(".next"),
+				num = 40,
+				index = 0;
+
+			for(var i=0; i<num; i++){
+				var li = document.createElement("li");
+				li.style.background = "url(img/"+(i+1)+".jpg) no-repeat center/cover";
+				box.appendChild(li);
+			}
+
+			var li = box.getElementsByTagName("li");
+			for(i=0; i<num; i++){
+				li[i].i = i;
+				li[i].onclick = function(){
+					pic.style.display = "block";
+					index = this.i;
+					pic.style.background = "url(img/"+(index+1)+".jpg) no-repeat center/cover";
+				};
+			}
+
+			prev.onclick = function(){
+				index--;
+				if(index < 0){
+					index = num-1;
+				}
+				pic.style.background = "url(img/"+(index+1)+".jpg) no-repeat center/cover";
+			};
+
+			next.onclick = function(){
+				index++;
+				index %= num;
+				pic.style.background = "url(img/"+(index+1)+".jpg) no-repeat center/cover";
+			};
+
+			close.onclick = function(){
+				pic.style.display = "none";
+			};
+		};
+	</script>
+</body>
+</html>

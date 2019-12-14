@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery导航吸顶盒特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		body {
+			background: url(img/bg.jpg);
+			font-family: "microsoft yahei";
+		}
+		.clearfix:after {
+			content: "";
+			height: 0;
+			line-height: 0;
+			visibility: hidden;
+			display: block;
+			clear: both;
+		}		
+		#header {
+			height: 200px;
+		}
+		#header .head {
+			height: 150px;
+			background: url(img/bg.jpg);
+		}
+		#header .menu {
+			height: 50px;
+			background: #fff;
+			box-sizing: border-box;
+		}
+		#header .on {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+		}
+		#header ul {
+			width: 1200px;
+			height: 50px;
+			margin: auto;
+		}
+		#header ul li {
+			float: left;
+			margin: 0 20px;
+			line-height: 50px;
+		}
+		#header ul li.red {
+			color: #f69;
+			font-weight: bold;
+		}
+		#container {
+			width: 1200px;
+			height: 2600px;
+			margin: auto;
+			background: #fff2e5;
+		}
+	</style>
+</head>
+<body>
+	<div id="header">
+		<div class="head"></div>
+		<div class="menu">
+			<ul class="clearfix">
+				<li>首页</li>
+				<li>最新</li>
+				<li>上衣</li>
+				<li>裙子</li>
+				<li>裤子</li>
+				<li>鞋子</li>
+				<li>包包</li>
+				<li>配饰</li>
+				<li>更多</li>
+				<li class="red">Hi范儿</li>
+				<li class="red">明星同款</li>
+				<li class="red">韩国馆</li>
+				<li class="red">团购</li>
+				<li class="red">福利社</li>
+			</ul>
+		</div>
+	</div>
+	<div id="container"></div>
+
+	<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var $menu = $("#header").find(".menu");
+
+			$(window).scroll(function(){
+				if($(this).scrollTop() >= 150){
+					$menu.addClass("on");
+				}else{
+					$menu.removeClass("on");				
+				}
+			});
+		});
+	</script>
+</body>
+</html>

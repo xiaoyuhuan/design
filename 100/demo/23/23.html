@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery可拖动弹窗特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		input,button {
+			border: none;
+			font-family: "microsoft yahei";
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;			
+			font-family: "microsoft yahei";
+		}
+		.clearfix:after {
+			content: "";
+			height: 0;
+			line-height: 0;
+			visibility: hidden;
+			display: block;
+			clear: both;
+		}		
+		#header {
+			height: 40px;
+			background: #ee1c24;
+			color: #fff;
+			font-size: 14px;
+			line-height: 40px;
+		}
+		#header .head {
+			width: 1000px;
+			margin: auto;
+		}
+		#header .head .btn {
+			text-align: right;
+			cursor: pointer;
+		}
+		#box .cover {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,.5);
+		}
+		#box {
+			display: none;
+		}
+		#box .login {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 600px;
+			height: 330px;
+			transform: translate(-50%,-50%);
+			background: #fff;
+		}
+		#box .login .top {
+			position: relative;
+			height: 50px;
+			background: #ee1c24;
+			color: #fff;
+			font-size: 14px;
+			line-height: 50px;
+			text-indent: 2em;
+			user-select: none;
+			cursor: move;
+		}
+		#box .login .top .close {
+			position: absolute;
+			top: 0;
+			right: 20px;
+			font-size: 25px;
+			cursor: pointer;
+		}
+		#box .login .main {
+			padding-top: 40px;
+		}
+		#box .login .main .left {
+			float: left;
+			width: 50%;
+			margin-top: 10px;
+		}
+		#box .login .main .left ul li {
+			margin-top: 15px;
+			font-size: 14px; 
+			text-align: center;
+		}
+		#box .login .main .left ul li input {
+			width: 195px;
+			height: 35px;
+			margin-left: 10px;
+			background: #eee;
+		}
+		#box .login .main .left ul li button {
+			width: 100px;
+			height: 35px;
+			background: #222;
+			color: #fff;
+			transition: .3s;
+			cursor: pointer;
+		}
+		#box .login .main .left ul li button:hover {
+			background: #ee1c24;
+		}
+		#box .login .main .right {
+			float: left;
+			width: 50%;
+			height: 200px;
+			border-left: 1px solid #ccc;
+			text-align: center;
+			box-sizing: border-box;
+		}
+		#box .login .main .right p {
+			margin: 50px 0 30px;
+		}
+		#box .login .main .right button {
+			width: 160px;
+			height: 40px;
+			margin: auto;
+			background: #ee1c24;
+			color: #fff;
+			font-size: 14px;
+			line-height: 40px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div id="header">
+		<div class="head">
+			<div class="btn">登录</div>
+		</div>
+	</div>
+	<div id="box">
+		<div class="cover"></div>
+		<div class="login">
+			<div class="top">
+				用户登录
+				<div class="close">×</div>
+			</div>
+			<div class="main">
+				<div class="left">
+					<ul>
+						<li>账号<input type="text"></li>
+						<li>密码<input type="text"></li>
+						<li><button>登录</button></li>
+					</ul>
+				</div>
+				<div class="right">
+					<p>还未开通，赶快免费注册一个吧！</p>
+					<button>注册</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var btn = document.querySelector(".btn"),
+				box = document.getElementById("box"),
+				login = box.querySelector(".login"),
+				top = login.querySelector(".top"),
+				close = login.querySelector(".close"),
+				w = document.documentElement.clientWidth,
+				h = document.documentElement.clientHeight;
+
+			btn.onclick = function(){
+				box.style.display = "block";
+			};
+
+			close.onclick = function(){
+				box.style.display = "none";
+			};
+
+			top.onmousedown = function(e){
+				e = e || window.event;
+				var downX = e.clientX,
+					downY = e.clientY,
+					downLeft = login.offsetLeft,
+					downTop = login.offsetTop;
+				
+				document.onmousemove = function(e){
+					e = e || window.event;
+					var X_ = e.clientX - downX,
+						Y_ = e.clientY - downY,
+						top = Y_ + downTop,
+						left = X_ + downLeft;
+
+					top = Math.max(top,165);
+					top = Math.min(top,h-165);
+					left = Math.max(left,300);
+					left = Math.min(left,w-300);
+
+					login.style.top = top + "px";
+					login.style.left = left + "px";
+				};
+				document.onmouseup = function(){
+					this.onmousemove = null;
+				};
+			};
+		};
+	</script>
+</body>
+</html>

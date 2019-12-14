@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery+CSS3全屏滚动模块淡入淡出特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;
+		}
+		#logo {
+			position: fixed;
+			top: 30px;
+			left: 60px;
+			z-index: 2;
+		}
+		#logo img {
+			width: 180px;
+		}	
+		#banner {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 700%;
+		}
+		#banner li {
+			position: relative;
+			width: 100%;
+			height: calc(100% / 7);
+		}
+		#banner li:nth-child(1) {
+			background: url(img/bg1.jpg) no-repeat center top/cover;
+		}
+		#banner li:nth-child(2) {
+			background: url(img/bg2.jpg) no-repeat center top/cover;
+		}		
+		#banner li:nth-child(3) {
+			background: url(img/bg3.jpg) no-repeat center top/cover;
+		}		
+		#banner li:nth-child(4) {
+			background: url(img/bg4.jpg) no-repeat center top/cover;
+		}
+		#banner li:nth-child(5) {
+			background: url(img/bg5.jpg) no-repeat center top/cover;
+		}	
+		#banner li:nth-child(6) {
+			background: url(img/bg6.jpg) no-repeat center top/cover;
+		}	
+		#banner li:nth-child(7) {
+			background: url(img/bg7.jpg) no-repeat center top/cover;
+		}
+		#banner li img {
+			position: absolute;
+		}
+		#banner .center {
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);	
+		}
+		#banner .left {
+			top: 50%;
+			left: 10%;
+			transform: translateY(-50%);
+		}
+		#banner .right {
+			top: 50%;
+			left: 70%;
+			transform: translateY(-50%);
+		}
+		#banner li:nth-child(1) img,
+		#banner li:nth-child(2) img {
+			width: 800px;
+		}
+		#banner li:nth-child(3) img {
+			width: 900px;
+		}	
+		#banner li:nth-child(4) img	{
+			width: 330px;
+		}
+		#banner li:nth-child(5) img,
+		#banner li:nth-child(6) img,
+		#banner li:nth-child(7) img	{
+			width: 700px;
+		}
+		#banner li:nth-child(1).on1 img,
+		#banner li:nth-child(2).on1 img,
+		#banner li:nth-child(5).on1 img {
+			animation: TL-C 2s;
+		}
+		#banner li:nth-child(1).on2 img,
+		#banner li:nth-child(2).on2 img,
+		#banner li:nth-child(5).on2 img {
+			animation: BR-C 2s;
+		}
+		#banner li:nth-child(3).on1 img,
+		#banner li:nth-child(6).on1 img,
+		#banner li:nth-child(7).on1 img {
+			animation: TL-L 2s;
+		}
+		#banner li:nth-child(3).on2 img,
+		#banner li:nth-child(6).on2 img,
+		#banner li:nth-child(7).on2 img {
+			animation: BR-L 2s;
+		}		
+		#banner li:nth-child(4).on1 img {
+			animation: TL-R 2s;
+		}
+		#banner li:nth-child(4).on2 img {
+			animation: BR-R 2s;
+		}		
+		#leftnav {
+			position: fixed;
+			top: 50%;
+			left: 60px;
+			transform: translateY(-50%);		
+		}	
+		#leftnav li {
+			width: 15px;
+			height: 15px;
+			margin: 8px 0;
+			border: 2px solid #fff;
+			border-radius: 50%;
+			cursor: pointer;
+		}	
+		#leftnav li.on {
+			background: #fff;
+		}	
+		@keyframes TL-C {
+			0% {
+				top: 0;
+				left: 0;
+				opacity: 0;
+			}
+			100% {
+				top: 50%;
+				left: 50%;	
+				opacity: 1;
+			}
+		}	
+		@keyframes BR-C {
+			0% {
+				top: 100%;
+				left: 100%;
+				opacity: 0;
+			}
+			100% {
+				top: 50%;
+				left: 50%;	
+				opacity: 1;
+			}			
+		}	
+		@keyframes TL-L {
+			0% {
+				top: 0;
+				left: 40%;
+				opacity: 0;
+			}
+			100% {
+				top: 50%;
+				left: 10%;
+				opacity: 1;				
+			}
+		}	
+		@keyframes BR-L {
+			0% {
+				top: 100%;
+				left: 60%;
+				opacity: 0;
+			}
+			100% {
+				top: 50%;
+				left: 10%;
+				opacity: 1;				
+			}			
+		}
+		@keyframes TL-R {
+			0% {
+				top: 0;
+				left: -20%;
+				opacity: 0;
+			}
+			100% {
+				top: 50%;
+				left: 70%;
+				opacity: 1;				
+			}
+		}
+		@keyframes BR-R {
+			0% {
+				top: 100%;
+				left: 120%;
+				opacity: 0;
+			}
+			100% {
+				top: 50%;
+				left: 70%;
+				opacity: 1;				
+			}			
+		}				
+	</style>
+</head>
+<body>
+	<div id="logo">
+		<img src="img/logo.png">
+	</div>
+	<ul id="banner">
+		<li><img src="img/1.png" class="center"></li>
+		<li><img src="img/2.png" class="center"></li>
+		<li><img src="img/3.png" class="left"></li>
+		<li><img src="img/4.png" class="right"></li>
+		<li><img src="img/5.png" class="center"></li>
+		<li><img src="img/6.png" class="left"></li>
+		<li><img src="img/7.png" class="left"></li>
+	</ul>
+	<ul id="leftnav">
+		<li class="on"></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+
+	<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.mousewheel.min.js"></script>	
+	<script type="text/javascript">
+		$(function(){
+			var $banner = $("#banner"),
+				$list = $banner.find("li"),
+				$tab = $("#leftnav").find("li"),
+				length = $tab.length,
+				lastTime = 0,
+				index = 0,
+				arrW = [],
+				arrL = [];
+
+			$tab.click(function(){
+				index = $(this).index();
+				$(this).addClass("on").siblings().removeClass("on");
+				$banner.animate({
+					"top": -100*index+"%"
+				},500);
+			});
+
+			$(document).mousewheel(function(e,d){
+				if(new Date-lastTime > 800){
+					if(d<0){
+						index++;
+						if(index >= length) {
+							index = length-1;
+						}
+						$list.eq(index).addClass("on1").siblings().removeClass("on1");
+					}else{
+						index--;
+						if(index < 0){
+							index = 0;
+						}else {
+							$list.eq(index).addClass("on2").siblings().removeClass("on2");
+						}
+					}
+					$tab.eq(index).addClass("on").siblings().removeClass("on");
+					
+					$banner.animate({
+						"top": -100*index+"%"
+					},500);	
+					lastTime = new Date;				
+				}
+			});
+		});		
+	</script>
+</body>
+</html>

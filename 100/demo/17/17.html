@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery图片随机切换特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;	
+			background: url(img/bg.jpg) no-repeat center top/cover;
+		}
+		.clearfix:after {
+			content: "";
+			height: 0;
+			line-height: 0;
+			visibility: hidden;
+			display: block;
+			clear: both;
+		}		
+		#box {
+			width: 1120px;
+			margin: 100px auto;
+			background: rgba(255,255,255,.5);
+			border: 20px solid rgba(255,255,255,.5);
+			border-radius: 20px;
+			box-shadow: 0 0 7px #ccc;
+		}
+		#box ul li {
+			float: left;
+		}
+		#box ul li div {
+			overflow: hidden;
+			position: relative;
+			margin-top: 10px;
+			margin-left: 10px;
+		}
+		#box .pic1,#box .pic3,#box .pic6 {
+			margin-top: 0;
+		}
+		#box .pic1,#box .pic2 {
+			margin-left: 0;
+		}
+		#box .pic1 {
+			width: 350px;
+			height: 250px;
+		}
+		#box .pic2 {
+			width: 350px;
+			height: 340px;
+		}
+		#box .pic3 {
+			width: 350px;
+			height: 180px;
+		}
+		#box .pic4 {
+			width: 350px;
+			height: 220px;
+		}
+		#box .pic5 {
+			width: 350px;
+			height: 180px;
+		}
+		#box .pic6 {
+			width: 400px;
+			height: 340px;
+		}
+		#box .pic7 {
+			width: 400px;
+			height: 250px;
+		}
+		#box ul li div p {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-repeat: no-repeat;
+			background-position: center top;
+			background-size: cover;
+		}		
+	</style>
+</head>
+<body>
+	<div id="box">
+		<ul class="clearfix">
+			<li>
+				<div class="pic1">
+					<p style="background-image: url(img/1.jpg);"></p>
+					<p style="background-image: url(img/2.jpg);"></p>
+				</div>
+				<div class="pic2">
+					<p style="background-image: url(img/3.jpg);"></p>
+					<p style="background-image: url(img/4.jpg);"></p>					
+				</div>
+			</li>
+			<li>
+				<div class="pic3">
+					<p style="background-image: url(img/5.jpg);"></p>
+					<p style="background-image: url(img/6.jpg);"></p>
+				</div>
+				<div class="pic4">
+					<p style="background-image: url(img/7.jpg);"></p>
+					<p style="background-image: url(img/8.jpg);"></p>					
+				</div>
+				<div class="pic5">
+					<p style="background-image: url(img/9.jpg);"></p>
+					<p style="background-image: url(img/10.jpg);"></p>					
+				</div>
+			</li>
+			<li>
+				<div class="pic6">
+					<p style="background-image: url(img/11.jpg);"></p>
+					<p style="background-image: url(img/12.jpg);"></p>
+				</div>
+				<div class="pic7">
+					<p style="background-image: url(img/13.jpg);"></p>
+					<p style="background-image: url(img/14.jpg);"></p>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+	<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var $box = $("#box"),
+				$pic = $box.find("div"),
+				time = new Date();
+
+			$pic.mouseleave(function(){
+				var parent = $(this);
+				var width = $(this).width();
+				
+				if(new Date()-time > 800) {
+					$(this).children().eq(1).stop().animate({
+						"left": -width+"px",
+						"opacity": 0
+					},800,function(){
+						parent.prepend($(this));
+						$(this).css({
+							"left": 0,
+							"opacity": 1
+						})
+					});
+					time = new Date();
+				}
+			});
+		});
+	</script>
+</body>
+</html>

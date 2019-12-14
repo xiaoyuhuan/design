@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>九宫格图片延伸特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+			font-family: "microsoft yahei";
+		}
+		.clearfix:after {
+		    content: "";
+		    height: 0;
+		    line-height: 0;
+		    visibility: hidden;
+		    display: block;
+		    clear: both;
+		}
+		#box {		
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 906px;
+			padding: 5px;
+			background: #fff;
+			box-shadow: 0 0 7px #ccc;
+			transform: translate(-50%,-50%);
+		}
+		#box ul li {
+			float: left;
+			position: relative;
+			width: 300px;
+			height: 160px;
+			margin: 1px;
+		}
+		#box .cover p,
+		#box .cover .t,
+		#box .cover .r,
+		#box .cover .b,
+		#box .cover .l {
+			opacity: 0;
+			position: absolute;
+			top: 0;
+			left: 0;
+			transition: .6s;
+			z-index: 2;
+		}
+		#box .cover p {
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,0.5);
+			color: #fff;
+			text-align: center;
+			font-size: 20px;
+			font-weight: bold;
+			line-height: 160px;
+		}
+		#box ul li:hover .cover p,
+		#box ul li:hover .cover .t,
+		#box ul li:hover .cover .r,
+		#box ul li:hover .cover .b,
+		#box ul li:hover .cover .l {
+			opacity: 1;
+		}	
+		#box ul li:hover .cover .t {
+			top: -162px;
+			left: 0;
+		}
+		#box ul li:hover .cover .r {
+			top: 0;
+			left: 302px;
+		}
+		#box ul li:hover .cover .b {
+			top: 162px;
+			left: 0;
+		}
+		#box ul li:hover .cover .l {
+			top: 0;
+			left: -302px;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<ul class="clearfix">
+			<li>
+				<img src="img/img1.png">
+				<div class="cover">
+					<p>SEO课程</p>
+					<img src="img/1r.jpg" class="r">
+					<img src="img/1b.jpg" class="b">
+				</div>
+			</li>
+			<li>
+				<img src="img/img2.png">
+				<div class="cover">
+					<p>淘宝美工课程</p>
+					<img src="img/2r.jpg" class="r">
+					<img src="img/2b.jpg" class="b">
+					<img src="img/2l.jpg" class="l">
+				</div>
+			</li>
+			<li>
+				<img src="img/img3.png">
+				<div class="cover">
+					<p>淘宝摄像课程</p>
+					<img src="img/3b.jpg" class="b">
+					<img src="img/3l.jpg" class="l">
+				</div>
+			</li>
+			<li>
+				<img src="img/img4.png">
+				<div class="cover">
+					<p>JAVA、C++、IOS</p>
+					<img src="img/4t.jpg" class="t">
+					<img src="img/4r.jpg" class="r">
+					<img src="img/4b.jpg" class="b">
+				</div>
+			</li>
+			<li>
+				<img src="img/img5.png">
+				<div class="cover">
+					<p>前端课程体系</p>
+					<img src="img/5t.jpg" class="t">
+					<img src="img/5r.jpg" class="r">
+					<img src="img/5b.jpg" class="b">
+					<img src="img/5l.jpg" class="l">
+				</div>
+			</li>
+			<li>
+				<img src="img/img6.png">
+				<div class="cover">
+					<p>平面设计课程</p>
+					<img src="img/6t.png" class="t">
+					<img src="img/6b.jpg" class="b">
+					<img src="img/6l.jpg" class="l">
+				</div>
+			</li>
+			<li>
+				<img src="img/img7.png">
+				<div class="cover">
+					<p>网络营销课程</p>
+					<img src="img/7t.jpg" class="t">
+					<img src="img/7r.jpg" class="r">
+				</div>
+			</li>
+			<li>
+				<img src="img/img8.png">
+				<div class="cover">
+					<p>室内设计课程</p>
+					<img src="img/8t.jpg" class="t">
+					<img src="img/8r.jpg" class="r">
+					<img src="img/8l.jpg" class="l">
+				</div>
+			</li>
+			<li>
+				<img src="img/img9.png">
+				<div class="cover">
+					<p>八大外语课程</p>
+					<img src="img/9t.jpg" class="t">
+					<img src="img/9l.jpg" class="l">
+				</div>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>

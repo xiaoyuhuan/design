@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery百度时光轴导航特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		body {
+			background-color: #fafafa;
+			font-family: "microsoft yahei";
+		}
+		#head {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 60px;
+			background: #fff;
+			z-index: 2;
+
+			/* 水平偏移量 垂直偏移量 模糊距离 模糊尺寸 阴影颜色 */
+			box-shadow: 0 2px 2px -2px rgba(0,0,0,0.2);
+		}
+		#head .nav {
+			width: 1000px;
+			margin: auto;
+		}
+		#head .nav img {
+			margin-top: 10px;
+		}
+		#main {
+			width: 1000px;
+			margin: auto;
+			padding-top: 60px;
+		}
+		#main .top h1 {
+			margin-top: 50px;
+		}
+		#main .top p {
+			margin-top: 20px;
+			line-height: 25px;
+		}
+		#main .top img {
+			margin-top: 10px;
+		}
+		#main .step {
+			margin-top: 30px;
+		}
+		#main .step h3 {
+			padding-bottom: 10px;
+			border-bottom: 1px solid #ccc;
+		}
+		#main .step .cont {
+			margin-top: 20px;
+		}
+		#main .step .cont li {
+			position: relative;
+			padding-left: 30px;
+			padding-bottom: 20px;
+			border-left: 1px dashed #bbb;
+		}
+		#main .step .cont li:last-child {
+			padding-bottom: 0;
+		}
+		#main .step .cont span {
+			position: absolute;
+			top: 0;
+			left: -16px;
+			width: 32px;
+			height: 32px;
+			background: #5bc648;
+			color: #fff;
+			text-align: center;
+			line-height: 32px;
+			border-radius: 50%;
+			cursor: pointer;			
+		}
+		#main .step .cont p {
+			padding-bottom: 10px;
+			font-size: 15px;
+			line-height: 32px;
+		}
+		#main .step .side {
+			overflow: hidden;
+			position: fixed;
+			top: 60px;
+			width: 32px;
+			height: 0;
+			margin-left: -15px;
+			background: #fafafa;
+		}
+		#main .step .side li {
+			width: 32px;
+			height: 32px;
+			background: #d0d0d0;
+			color: #fff;
+			text-align: center;
+			line-height: 32px;
+			border-radius: 50%;
+			cursor: pointer;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
+		}
+		#main .step .side li:hover,
+		#main .step .side li.on {
+			background: #5bc648;
+		}
+		#main .bottom {
+			margin-top: 30px;
+			margin-bottom: 100px;
+			padding: 30px;
+			background: #eee;
+		}
+		#main .bottom h4 {
+			margin-bottom: 10px;
+		}
+		#main .bottom p {
+			color: #666;
+			font-size: 15px;
+			line-height: 28px;
+		}
+	</style>
+</head>
+<body>
+	<div id="head">
+		<div class="nav">
+			<img src="img/logo.png">
+		</div>
+	</div>
+	<div id="main">
+		<div class="top">
+			<h1>芒果千层蛋糕</h1>
+			<p>方子两年前的夏天上传的，没想到那么受厨友们欢迎，平时太懒，很多留言我都没回复，谢谢热心的厨友们在评论里的各种解答，重新拍了一些步骤图，完善说明。</p>
+			<img src="img/img.jpg">
+		</div>
+		<div class="step">
+			<h3>方法/步骤</h3>
+			<ol class="cont">
+				<li>
+					<p>准备好材料，鸡蛋选个头大的，芒果选隔着皮都能闻到浓郁香气的品种，比如大台农芒、泰国青皮芒等。</p>
+					<img src="img/1.jpg">
+					<span>1</span>
+				</li>
+				<li>
+					<p>鸡蛋加糖搅拌，加入面粉拌匀，加入融化的黄油，再加入牛奶，混合均匀过筛，即可入锅煎皮。</p>
+					<img src="img/2.jpg">
+					<span>2</span>
+				</li>
+				<li>
+					<p>选择底部圆形较小的平底不粘锅，用汤勺舀约30ml面糊，晃动锅子摊匀，开小火煎10余秒，面皮可脱锅即可。只需煎单面。</p>
+					<img src="img/3.jpg">
+					<span>3</span>
+				</li>
+				<li>
+					<p>煎好一片面皮，把锅放在冷布上冷却，再倒入面糊摊匀，然后再开小火煎，关火出锅，冷却锅子，倒面糊继续煎，如此反复直到用完面糊。</p>
+					<img src="img/4.jpg">
+					<span>4</span>
+				</li>
+				<li>
+					<p>用一个六寸的圆形慕斯模压在面皮上，轻轻一旋即刻完美切割，完成每一片面皮的修整，可以让成品更美观。</p>
+					<img src="img/5.jpg">
+					<span>5</span>
+				</li>				
+				<li>
+					<p>芒果切成薄片。</p>
+					<img src="img/6.jpg">
+					<span>6</span>
+				</li>
+				<li>
+					<p>半片吉利丁剪成细片，用少量奶油泡软，放入温水锅中用筷子搅拌，隔水融化，吉利丁30多度便可溶解，温度过高会失活，所以要注意隔水的温度。</p>
+					<img src="img/7.jpg">
+					<span>7</span>
+				</li>	
+				<li>
+					<p>吉利丁液冷却后倒入奶油中拌匀，奶油加糖粉打至不流动。</p>
+					<img src="img/8.jpg">
+					<span>8</span>
+				</li>
+				<li>
+					<p>一层面皮一层水果一层奶油组装好，放入冰箱冷藏片刻，就可以切块享用啦！</p>
+					<img src="img/9.jpg">
+					<span>9</span>
+				</li>				
+				<li>
+					<p>成品图。</p>
+					<img src="img/10.jpg">
+					<span>10</span>
+				</li>
+				<li>
+					<p>切块。</p>
+					<img src="img/11.jpg">
+					<span>11</span>
+				</li>											
+			</ol>
+			<ul class="side">
+				<li>1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+				<li>5</li>
+				<li>6</li>
+				<li>7</li>
+				<li>8</li>
+				<li>9</li>
+				<li>10</li>
+				<li>11</li>
+			</ul>
+		</div>
+		<div class="bottom">
+			<h4>小贴士</h4>
+			<p>1、加吉利丁液是为了夏天防止奶油过分融化，自家食用不加也可以，也可以在奶油里加入一点奶油奶酪一起打发，可以延缓融化。</p>
+			<p>2、面糊约可以煎12～15片，越薄越好。</p>
+			<p>3、芒果可以换成榴莲或水蜜桃等软质水果。</p>
+			<p>4、边角料不要浪费，切下来的面皮可以切碎垫在小饭盒底，上面盖芒果的边角料，再加一些奶油覆面，就是饭盒版的芒果千层啦。</p>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var $span = $(".cont").find("span"),
+				$side = $(".side"),
+				$li = $side.find("li"),
+				arr = [];
+
+			$span.each(function(){
+				arr.push($(this).offset().top);
+			});
+
+			$li.click(function(){
+				var i = $(this).index();
+				var top = arr[i];
+
+				$("html,body").stop().animate({
+					"scrollTop" : top-60-32*i
+				});				
+			});
+
+			$(window).scroll(function(){
+				if($(this).scrollTop() < arr[0]-60){
+					$side.css({
+						"display": "none",
+						"height": 0					
+					});
+				}else{	
+					for(var i=0,length=arr.length; i<length; i++){
+						if($(this).scrollTop() >= arr[i]-60-32*i){
+							$side.css({
+								"display": "block",
+								"height": 32*(i+1)
+							});
+						}
+					}				
+				}
+			});			
+		});
+	</script>
+</body>
+</html>

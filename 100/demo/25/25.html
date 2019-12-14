@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery实现图片懒加载（延时加载）插件</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		.clearfix:after {
+			content: "";
+			height: 0;
+			line-height: 0;
+			visibility: hidden;
+			display: block;
+			clear: both;
+		}	
+		#box {
+			width: 1020px;
+			margin: 50px auto;
+			border-radius: 5px;
+		}
+		#box li {
+			float: left;
+			width: 500px;
+			margin-top: 20px;
+		}
+		#box li:nth-child(1),
+		#box li:nth-child(2) {
+			margin-top: 0;
+		}
+		#box li:nth-child(2n) {
+			margin-left: 20px;
+		}
+		#box li img {
+			width: 100%;
+			border-radius: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<ul class="clearfix">
+			<li><img data-original="img/1.jpg"></li>
+			<li><img data-original="img/2.jpg"></li>
+			<li><img data-original="img/3.jpg"></li>
+			<li><img data-original="img/4.jpg"></li>
+			<li><img data-original="img/5.jpg"></li>
+			<li><img data-original="img/6.jpg"></li>
+			<li><img data-original="img/7.jpg"></li>
+			<li><img data-original="img/8.jpg"></li>
+			<li><img data-original="img/9.jpg"></li>
+			<li><img data-original="img/10.jpg"></li>
+			<li><img data-original="img/11.jpg"></li>
+			<li><img data-original="img/12.jpg"></li>
+			<li><img data-original="img/13.jpg"></li>
+			<li><img data-original="img/14.jpg"></li>
+			<li><img data-original="img/15.jpg"></li>
+			<li><img data-original="img/16.jpg"></li>
+			<li><img data-original="img/17.jpg"></li>
+			<li><img data-original="img/18.jpg"></li>
+			<li><img data-original="img/19.jpg"></li>
+			<li><img data-original="img/20.jpg"></li>
+			<li><img data-original="img/21.jpg"></li>
+			<li><img data-original="img/22.jpg"></li>
+			<li><img data-original="img/23.jpg"></li>
+			<li><img data-original="img/24.jpg"></li>
+			<li><img data-original="img/25.jpg"></li>
+			<li><img data-original="img/26.jpg"></li>
+			<li><img data-original="img/27.jpg"></li>
+			<li><img data-original="img/28.jpg"></li>
+			<li><img data-original="img/29.jpg"></li>
+			<li><img data-original="img/30.jpg"></li>
+			<li><img data-original="img/31.jpg"></li>	
+		</ul>
+	</div>
+
+	<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.lazyload.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$("#box img").lazyload({
+				effect: "fadeIn",
+				threshold: 200
+			});
+		});
+	</script>
+</body>
+</html>

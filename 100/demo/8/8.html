@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JS结合CSS3实现的3D旋转爱心特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+		}
+		#box {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			height: 320px;
+			transform: translate(-50%,-50%);
+			perspective: 800px;	
+		}
+		#box .shape {
+			position: relative;
+			width: 200px;
+			height: 320px;
+			margin: auto;
+			transform-style: preserve-3d;
+			animation: move 15s linear infinite;
+		}
+		#box .shape p {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 200px;
+			height: 320px;
+			border-width: 1px 1px 0 0;
+			border-style: solid;
+			border-color: rgba(255,255,255,.5);
+			border-radius: 50% 50% 0/40% 50% 0;
+		}
+		#box .shape i {
+			display: block;
+			position: absolute;
+			top: 110px;
+			left: 50px;
+			width: 100px;
+			height: 100px;	
+		}
+		#box .shape i.top {
+			background: url(img/1.jpg);
+			transform: translateZ(50px) rotateX(-90deg);
+			transform-origin: top;
+		}
+		#box .shape i.bottom {
+			background: url(img/2.jpg);
+			transform: translateZ(50px) rotateX(90deg);
+			transform-origin: bottom;
+		}		
+		#box .shape i.left {
+			background: url(img/3.jpg);
+			transform: translateZ(50px) rotateY(-90deg) translateX(-100px);
+			transform-origin: center left;
+		}		
+		#box .shape i.right {
+			background: url(img/4.jpg);
+			transform: translateZ(50px) rotateY(90deg) translateX(100px);
+			transform-origin: center right;
+		}		
+		#box .shape i.front {
+			background: url(img/5.jpg);
+			transform: translateZ(50px);
+		}
+		#box .shape i.back {
+			background: url(img/6.jpg);
+			transform: translateZ(-50px) rotateY(180deg);
+		}		
+		@keyframes move {
+			to {
+				transform: rotateY(360deg) rotateX(360deg);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="shape">
+			<i class="top"></i>
+			<i class="bottom"></i>
+			<i class="left"></i>
+			<i class="right"></i>
+			<i class="front"></i>
+			<i class="back"></i>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var box = document.getElementById("box"),
+				shape = box.querySelector(".shape");
+
+			for(var i=0; i<60; i++){
+				var p = document.createElement("p");
+				p.style.transform = "rotateY("+i*6+"deg) rotateZ(45deg) translateX(60px)";
+				shape.appendChild(p);
+			}
+		};
+	</script>
+</body>
+</html>

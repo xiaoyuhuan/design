@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery+CSS3丝带滑动侧边栏</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+		li {
+			list-style: none;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center/cover;
+		}
+		#box {
+			position: relative;
+			width: 170px;
+			height: 435px;
+			margin: 100px auto;
+			background: #fff;
+			box-shadow: 0 0 7px #ccc;
+			border-radius: 5px;
+		}
+		#box .pic {
+			position: absolute;
+			top: 0;
+			left: 0;	
+			transition: .3s;		
+		}
+		#box .pic li {
+			position: absolute;
+		}
+		#box .pic li.l1 {
+			top: 10px;
+			left: -20px;
+			width: 210px;
+			height: 30px;
+			background: -webkit-linear-gradient(top,#ff3f3f,#a50000);
+			z-index: 0;
+		}
+		#box .pic li.l2,
+		#box .pic li.l3 {
+			top: 10px;
+			width: 0;
+			height: 0;
+			border: 12px solid transparent;
+		}
+		#box .pic li.l2 {
+			left: -32px;
+			border-left-color: #ff1515;
+			transform: rotate(-45deg);
+		}
+		#box .pic li.l3 {
+			left: 178px;
+			border-right-color: #ff1515;
+			transform: rotate(45deg);
+		}
+		#box .pic li.l4,
+		#box .pic li.l5 {
+			top: 23px;
+			width: 0;
+			height: 0;
+			border: 12px solid transparent;
+		}
+		#box .pic li.l4 {
+			left: -36px;
+			border-bottom-color: #920000;
+		}
+		#box .pic li.l5 {
+			left: 182px;
+			border-bottom-color: #920000;
+		}
+		#box .pic li.l6,
+		#box .pic li.l7 {
+			top: 34px;
+			width: 0;
+			height: 0;
+			border: 6px solid transparent;			
+		}
+		#box .pic li.l6 {
+			left: -17px;
+			border-left-color: #5d0f0f;	
+			transform: rotate(-45deg);		
+		}
+		#box .pic li.l7 {
+			left: 175px;
+			border-right-color: #5d0f0f;
+			transform: rotate(45deg);			
+		}
+		#box .nav {
+			position: absolute;
+			top: 5px;
+			left: 0;
+			width: 100%;
+		}
+		#box .nav li {
+			width: 100%;
+			height: 30px;
+			margin: 5px 0;
+		}
+		#box .nav li a {
+			display: block;
+			font: bold 14px/30px "Helvetica, ​arial";
+			text-align: center;
+			text-shadow: rgb(224,224,224) 0px 1px 0px;
+		}
+		#box .nav li.on a {
+			color: #fff;
+			text-shadow: none;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<ul class="pic">
+			<li class="l1"></li>
+			<li class="l2"></li>
+			<li class="l3"></li>
+			<li class="l4"></li>
+			<li class="l5"></li>
+			<li class="l6"></li>
+			<li class="l7"></li>
+		</ul>
+		<ul class="nav">
+			<li class="on"><a href="#">January</a></li>
+			<li><a href="#">February</a></a></li>
+			<li><a href="#">March</a></li>
+			<li><a href="#">April</a></li>
+			<li><a href="#">May</a></li>
+			<li><a href="#">June</a></li>
+			<li><a href="#">July</a></li>
+			<li><a href="#">August</a></li>
+			<li><a href="#">September</a></li>
+			<li><a href="#">October</a></li>
+			<li><a href="#">November</a></li>
+			<li><a href="#">December</a></li>
+		</ul>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var pic = document.querySelector(".pic"),
+				nav = document.querySelector(".nav"),
+				navLi = nav.getElementsByTagName("li"),
+				length = navLi.length,
+				index = 0;
+
+			for(var i=0; i<length; i++){
+				navLi[i].i = i;
+				navLi[i].onmouseenter = function(){
+					navLi[index].className = "";
+					index = this.i;
+					navLi[index].className = "on";
+					pic.style.top = (30+5)*index + "px";
+				};
+			}
+		};
+	</script>
+</body>
+</html>

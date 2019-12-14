@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JS图片滚动时钟特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+		}
+		#box {
+			width: 390px;
+			height: 61px;
+			margin: 100px auto;
+			padding: 20px 0;
+			background: #fff;
+			border-radius: 20px;
+			box-shadow: 0 0 7px #ccc;
+		}
+		#box ul {
+			width: 328px;
+			height: 61px;
+			margin: auto;
+		}
+		#box ul li {
+			overflow: hidden;
+			float: left;
+			position: relative;
+			width: 41px;
+			height: 61px;
+		}
+		#box ul li.dot {
+			background: url(img/d.png) no-repeat center top/17px 61px;
+		}	
+		#box ul li div {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+		}
+		#box ul li div span {
+			display: block;
+			width: 41px;
+			height: 61px;
+		}
+		#box ul li div span.n0 {
+			background: url(img/0.png);
+		}
+		#box ul li div span.n1 {
+			background: url(img/1.png);
+		}		
+		#box ul li div span.n2 {
+			background: url(img/2.png);
+		}		
+		#box ul li div span.n3 {
+			background: url(img/3.png);
+		}		
+		#box ul li div span.n4 {
+			background: url(img/4.png);
+		}		
+		#box ul li div span.n5 {
+			background: url(img/5.png);
+		}		
+		#box ul li div span.n6 {
+			background: url(img/6.png);
+		}	
+		#box ul li div span.n7 {
+			background: url(img/7.png);
+		}		
+		#box ul li div span.n8 {
+			background: url(img/8.png);
+		}		
+		#box ul li div span.n9 {
+			background: url(img/9.png);
+		}	
+
+	</style>
+</head>
+<body>
+	<div id="box">
+		<ul>
+			<li class="num"><div><span class="last"></span><span class="now"></span></div></li>
+			<li class="num"><div><span class="last"></span><span class="now"></span></div></li>
+			<li class="dot"></li>
+			<li class="num"><div><span class="last"></span><span class="now"></span></div></li>
+			<li class="num"><div><span class="last"></span><span class="now"></span></div></li>
+			<li class="dot"></li>
+			<li class="num"><div><span class="last"></span><span class="now"></span></div></li>
+			<li class="num"><div><span class="last"></span><span class="now"></span></div></li>
+		</ul>
+	</div>
+	
+	<script type="text/javascript">
+		window.onload = function(){
+			var oBox = document.getElementById("box"),
+				aDiv = oBox.querySelectorAll("ul li div"),
+				aLast = oBox.querySelectorAll("ul li div .last"),
+				aNow = oBox.querySelectorAll("ul li div .now"),
+				length = aNow.length,
+				lastStr = "",
+				flag = true;
+
+			setInterval(fn(),1000);
+			function fn() {
+				var date = new Date(),
+					hh = date.getHours(),
+					mm = date.getMinutes(),
+					ss = date.getSeconds(),
+					str = toTwo(hh) + toTwo(mm) + toTwo(ss);
+
+				if(flag) {
+					for(var i = 0; i < length; i++) {
+						aDiv[i].i = i;
+						aLast[i].className = "last n" + str.charAt(i);
+					}
+					flag = false;
+				}else {
+					for(i = 0; i < length; i++) {
+						aNow[i].className = "now n" + str.charAt(i);
+					}
+					for(i = 0; i < length; i++) {
+						if(lastStr.charAt(i) !== str.charAt(i)) {
+							tMove(aDiv[i], "top", -61, 500, function(){
+								this.style.top = "0px";
+								aLast[this.i].className = "last n" + str.charAt(this.i);
+							});
+						}
+					}
+				}
+				lastStr = str;
+				return fn;
+			}
+
+			function toTwo(n) {
+				return n<10 ? "0"+n : n+"";
+			}
+			
+			function tMove( obj, attr, end, time, callback ) {
+				window.requestAnimationFrame = window.requestAnimationFrame || function(a){return setTimeout(a,1000/60)};
+				window.cancelAnimationFrame = window.cancelAnimationFrame || clearTimeout;
+				var cssJson = obj.currentStyle || getComputedStyle(obj);
+				var start = parseFloat(cssJson[attr]);
+				var sTime = new Date();
+				var S = end - start;
+				(function fn() {
+					var nTime = new Date();
+					var t_ = nTime - sTime;
+					var prop = t_ / time;
+					prop>=1 ? prop=1 : requestAnimationFrame(fn);
+					var s = S * prop + start;
+					obj.style[attr] = s + "px";
+
+					if(prop===1) {
+						callback && callback.call(obj);
+					}
+				})();
+			}
+		};
+	</script>
+</body>
+</html>

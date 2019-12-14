@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery导航图片组合特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.png) no-repeat center/cover,url(img/bg.jpg) no-repeat center/cover;
+		}
+		#pic {
+			overflow: hidden;
+			position: absolute;
+			top: calc(50% - 50px);
+			left: 50%;
+			width: 600px;
+			height: 400px;
+			transform: translate(-50%,-50%);
+		}
+		#pic ul {
+			position: absolute;
+			top: 0;
+			left: 0;
+			transition: .6s;
+		}
+		#pic ul li {
+			position: absolute;
+			width: 600px;
+			height: 400px;
+			background: url(img/1.jpg) no-repeat center top;
+		}
+		#btn {
+			position: absolute;
+			top: calc(50% + 210px);
+			left: 50%;
+			width: 55px;
+			height: 70px;
+			transform: translate(-50%,-50%);
+		}
+		#btn li {
+			position: absolute;
+			width: 10px;
+			height: 10px;
+			background: rgba(255,255,255,.2);
+			cursor: pointer;
+		}
+		#btn li.on {
+			background: rgba(255,255,255,.9);
+		}
+	</style>
+</head>
+<body>
+	<div id="pic">
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+	<ul id="btn">
+		<li class="on"></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>	
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var pic = document.getElementById("pic"),
+				btn = document.getElementById("btn"),
+				picUl = pic.getElementsByTagName("ul")[0],
+				picLi = picUl.getElementsByTagName("li"),
+				btnLi = btn.getElementsByTagName("li"),
+				length = btnLi.length,
+				index = 0,
+				arr = [];
+
+			for(var i=0; i<length; i++){
+				picLi[i].style.background = "url(img/"+(i+1)+".jpg) no-repeat center/cover";
+
+				if(i<=3){
+					btnLi[i].style.top = 0;
+					btnLi[i].style.left = (10+5)*i + "px";
+
+					picLi[i].style.top = 0;
+					picLi[i].style.left = (600+20)*i + "px";
+
+					arr.push([0,(600+20)*i]);
+				}else if(i<=7){
+					btnLi[i].style.top = (10+5) + "px";
+					btnLi[i].style.left = (10+5)*(i-4) + "px";
+
+					picLi[i].style.top = (400+20) + "px";
+					picLi[i].style.left = (600+20)*(i-4) + "px";
+
+					arr.push([(400+20),(600+20)*(i-4)]);					
+				}else if(i<=10){
+					btnLi[i].style.top = (10+5)*2 + "px";
+					btnLi[i].style.left = (10+5)*(i-8) + "px";
+
+					picLi[i].style.top = (400+20)*2 + "px";
+					picLi[i].style.left = (600+20)*(i-8) + "px";
+
+					arr.push([(400+20)*2,(600+20)*(i-8)]);
+				}else if(i<=12){
+					btnLi[i].style.top = (10+5)*3 + "px";
+					btnLi[i].style.left = (10+5)*(i-10) + "px";
+
+					picLi[i].style.top = (400+20)*3 + "px";
+					picLi[i].style.left = (600+20)*(i-10) + "px";
+
+					arr.push([(400+20)*3,(600+20)*(i-10)]);
+				}else {
+					btnLi[i].style.top = (10+5)*4 + "px";
+					btnLi[i].style.left = (10+5)*(i-12) + "px";
+
+					picLi[i].style.top = (400+20)*4 + "px";
+					picLi[i].style.left = (600+20)*(i-12) + "px";
+
+					arr.push([(400+20)*4,(600+20)*(i-12)]);				
+				}
+			}
+
+			for(i=0; i<length; i++){
+				btnLi[i].i = i;
+				btnLi[i].onclick = function(){
+					btnLi[index].className = "";
+					picUl.style.top = -arr[this.i][0] + "px";
+					picUl.style.left = -arr[this.i][1] + "px";
+
+					index = this.i;
+					btnLi[index].className = "on";
+				};
+			}					
+		};
+	</script>
+</body>
+</html>

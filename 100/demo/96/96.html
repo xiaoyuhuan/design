@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<title>HTML5移动端音乐播放器app开发</title>
+	<script type="text/javascript">
+		document.getElementsByTagName("html")[0].style.fontSize = window.innerWidth/3 + "px";
+		window.onresize = function(){
+			document.getElementsByTagName("html")[0].style.fontSize = window.innerWidth/3 + "px";
+		};		
+	</script>
+	<style type="text/css">	
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		img {
+			display: block;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) fixed;
+			font-family: "microsoft yahei";			
+		}
+		#header {
+			color: #fff;
+			text-align: center;
+		}
+		#header .song {
+			margin-top: 0.2rem;
+			font-size: 0.15rem;
+			font-weight: bold;
+		}
+		#header .sing {
+			margin-top: 0.05rem;
+			font-size: 0.05rem;
+		}
+		#section {
+			width: 2rem;
+			height: 2rem;
+			margin: 0.6rem auto;
+			padding: 0.08rem;
+			border: 0.03rem solid #fff;
+			border-radius: 50%;
+		}
+		#section p {
+			width: 100%;
+			height: 100%;
+			background-image: url(img/img1.jpg);
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: 1.9rem 1.9rem;
+			border: 0.07rem solid #cc9;
+			border-radius: 50%;
+			box-sizing: border-box;
+		}
+		#section audio {
+			opacity: 0;
+		}
+		#section.on {
+			animation: 6s move linear infinite;
+		}
+		#footer .item {
+			position: relative;
+			width: 2.5rem;
+			height: 0.03rem;
+			margin: auto;
+			background: #000;
+		}
+		#footer .item p {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 0;
+			height: 100%;
+			background: #9c6;
+		}
+		#footer .item span {
+			position: absolute;
+			top: -0.01rem;
+			left: 0;
+			width: 0.05rem;
+			height: 0.05rem;
+			background: #fff;
+			border-radius: 50%;
+		}
+		#footer .icon {
+			position: relative;
+			width: 2rem;
+			margin: 0.2rem auto 0;
+		}
+		#footer .icon img {
+			position: absolute;
+		}
+		#footer .icon .front,
+		#footer .icon .after {
+			top: 0.025rem;
+			width: 0.4rem;
+		}
+		#footer .icon .front {
+			left: 0;
+		}
+		#footer .icon .after {
+			right: 0;
+		}
+		#footer .icon .start {
+			width: 0.45rem;
+			top: 0;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+		@keyframes move {
+			to {
+				transform: rotate(360deg);
+			}
+		}
+	</style>
+</head>
+<body>
+	<header id="header">
+		<p class="song">爱不可及</p>
+		<p class="sing">王菲</p>
+	</header>
+	<section id="section">
+		<p></p>
+		<audio src="mp3/爱不可及-王菲.mp3"></audio>
+	</section>
+	<footer id="footer">
+		<div class="item">
+			<p class="ipro"></p>
+			<span class="ibar"></span>
+		</div>
+		<div class="icon">
+			<img src="img/front.png" class="front">
+			<img src="img/start.png" class="start">
+			<img src="img/after.png" class="after">
+		</div>
+	</footer>
+	
+	<script type="text/javascript">
+		window.onload = function(){
+			var header = document.getElementById("header"),
+				song = header.querySelector(".song"),
+				sing = header.querySelector(".sing"),
+
+				section = document.getElementById("section"),
+				cover = section.getElementsByTagName("p")[0],
+				audio = section.getElementsByTagName("audio")[0],
+
+				footer = document.getElementById("footer"),
+				item = footer.querySelector(".item"),
+				ipro = item.querySelector(".ipro"),
+				ibar = item.querySelector(".ibar"),
+
+				icon = footer.querySelector(".icon"),
+				start = icon.querySelector(".start"),
+				btn = icon.getElementsByTagName("img"),
+				
+				data = [
+					{
+						"song": "爱不可及",
+						"sing": "王菲",
+						"img": "img/img1.jpg"
+					},
+					{
+						"song": "半壶纱",
+						"sing": "刘珂矣",
+						"img": "img/img2.jpg"						
+					},
+					{
+						"song": "迟来的爱",
+						"sing": "李茂山",
+						"img": "img/img3.jpg"							
+					},
+					{
+						"song": "童年",
+						"sing": "儿童歌曲",
+						"img": "img/img4.jpg"						
+					},
+					{
+						"song": "知心爱人",
+						"sing": "付笛声、任静",
+						"img": "img/img5.jpg"				
+					},
+					{
+						"song": "捉泥鳅",
+						"sing": "儿童歌曲",
+						"img": "img/img6.jpg"			
+					}		
+				],
+				dataLen = data.length,
+				index = 0;
+
+			// 监听播放
+			audio.ontimeupdate = function(){
+				if(this.currentTime){
+					var t = this.currentTime/this.duration * 2.45;
+					ipro.style.width = (t+0.05) + "rem";
+					ibar.style.left = t + "rem";
+				}
+			};
+
+			// 播放结束
+			audio.onended = function(){
+				section.className = "";
+				start.src = "img/start.png";
+				start.flag = true;				
+			};
+
+			// 拖动进度条
+			ibar.ontouchstart = function(e){
+				var startX = e.changedTouches[0].pageX,
+					barLeft = this.offsetLeft;
+				
+				document.ontouchmove = function(e){
+					var x_ = e.changedTouches[0].pageX - startX,
+						left = x_ + barLeft,
+						font = document.getElementsByTagName("html")[0].style.fontSize,
+						size = parseFloat(font);
+					
+					left = left/size;
+					left = Math.max(left,0);
+					left = Math.min(left,2.45);
+					ibar.style.left = left + "rem";
+					ipro.style.width = (left+0.05) + "rem";
+					audio.currentTime = left/2.45 * audio.duration;					
+				};
+				return false;
+			};
+
+			// 音乐播放
+			start.flag = true;
+			for(var i=0; i<btn.length; i++){
+				btn[i].i = i;
+				btn[i].ontouchend = function(){
+					switch(this.i) {
+						case 0: 
+							// 播放上一首
+							index--;
+							if(index < 0){
+								index = dataLen-1;
+							}
+							break;
+						case 1: 
+							// 播放当前
+							if(this.flag){
+								this.src = "img/stop.png";
+								section.className = "on";
+								audio.play();
+							}else{
+								this.src = "img/start.png";
+								section.className = "";
+								audio.pause();
+							}
+							this.flag = !this.flag;
+							return;
+							break;
+						case 2:
+							// 播放下一首
+							index++;
+							index %= dataLen;
+							break;
+					}
+					song.innerHTML = data[index].song;
+					sing.innerHTML = data[index].sing;
+
+					section.className = "on";
+					cover.style.backgroundImage = "url("+data[index].img+")";
+					
+					start.src = "img/stop.png";
+					start.flag = false;
+
+					audio.src = "mp3/"+data[index].song+"-"+data[index].sing+".mp3";
+					audio.play();
+				}
+			}
+		};
+	</script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CSS3实现酷炫3D照片墙拖动特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			display: flex;
+			width: 100%;
+			height: 100%;
+			background: url(img/bg.jpg) no-repeat center/cover;
+			perspective: 1000px;
+			transform-style: preserve-3d;
+		}
+		#box {
+			position: relative;
+			width: 133px;
+			height: 200px;
+			margin: auto;
+			/*background: rgba(0,255,255,.5);*/
+			transform-style: preserve-3d;
+			transform: rotateX(-10deg) rotateY(0deg);
+		}
+		#box div {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-repeat: no-repeat;
+			background-position: center top;
+			background-size: cover;
+
+			/*倒影*/
+			-webkit-box-reflect: below 5px -webkit-linear-gradient(top,rgba(0,0,0,0) 40%,rgba(0,0,0,0.5) 100%); 
+		}
+		#box p {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 800px;
+			height: 800px;
+			margin-top: -400px;
+			margin-left: -400px;
+			background: -webkit-radial-gradient(center center,600px 600px,rgba(50,50,50,.5),rgba(0,0,0,0));
+			border-radius: 50%;
+			transform: translateY(100px) rotateX(90deg);
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="img" style="background-image: url(img/1.jpg);"></div>
+		<div class="img" style="background-image: url(img/2.jpg);"></div>
+		<div class="img" style="background-image: url(img/3.jpg);"></div>
+		<div class="img" style="background-image: url(img/4.jpg);"></div>
+		<div class="img" style="background-image: url(img/5.jpg);"></div>
+		<div class="img" style="background-image: url(img/6.jpg);"></div>
+		<div class="img" style="background-image: url(img/7.jpg);"></div>
+		<div class="img" style="background-image: url(img/8.jpg);"></div>
+		<div class="img" style="background-image: url(img/9.jpg);"></div>
+		<div class="img" style="background-image: url(img/10.jpg);"></div>
+		<p></p>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var aImg = box.querySelectorAll(".img"),
+				nowX,nowY,lastX,lastY,desX=0,desY=0,rotX=-10,rotY=0,timer;
+
+			for(var i=0; i<aImg.length; i++){
+				aImg[i].style.transform = "rotateY("+36*i+"deg) translateZ(300px)";
+				aImg[i].style.transition = "transform 1s "+(aImg.length-i)*0.1+"s";
+			}
+			
+			document.onmousedown = function(e){
+				clearInterval(timer);
+				var e = e || event;
+				lastX = e.clientX;
+				lastY = e.clientY;
+				this.onmousemove = function(e){
+					var e = e || event;
+
+					// 当前点的坐标
+					nowX = e.clientX;
+					nowY = e.clientY;
+
+					// 当前点的坐标和前一点的坐标差值
+					desX = nowX - lastX;
+					desY = nowY - lastY;
+
+					rotX -= desY*0.1; // 乘以系数，是为了让度数不那么大
+					rotY += desX*0.2;
+
+					box.style.transform = "rotateX("+rotX+"deg) rotateY("+rotY+"deg)";
+
+					// 前一点的坐标
+					lastX = nowX;
+					lastY = nowY;
+				};
+				this.onmouseup = function(){
+					this.onmousemove = this.onmouseup = null;
+					timer = setInterval(function(){
+						desX *= 0.95; // 惯性 度数递减 接近于0
+						desY *= 0.95;
+						rotX -= desY*0.1;
+						rotY += desX*0.2;
+						box.style.transform = "rotateX("+rotX+"deg) rotateY("+rotY+"deg)";
+						if(Math.abs(desX)<0.5 && Math.abs(desY)<0.5){
+							clearInterval(timer);
+						}
+					},13);
+				};
+				return false;
+			};
+		};
+	</script>
+</body>
+</html>

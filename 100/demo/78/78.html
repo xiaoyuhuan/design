@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery响应式图片表特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style-type: none;
+		}
+		img {
+			display: block;
+		}
+		.clearfix:after {
+			content: "";
+			height: 0;
+			line-height: 0;
+			visibility: hidden;
+			display: block;
+			clear: both;
+		}		
+		#box {
+			padding: 5px;
+			margin: auto;
+			transition: .3s;
+		}
+		#box ul li {
+			float: left;
+			width: 250px;
+			margin: 5px;
+			border-radius: 3px;
+			box-shadow: 0 0 4px #fff;
+		}
+		#box ul li img {
+			width: 100%;
+			border-radius: 3px;
+		}
+		
+		/*页面宽度大于960px*/
+		@media screen and (min-width:960px) {
+
+		}	
+
+		/*页面宽度小于1200px*/
+		@media screen and (max-width:1200px) {
+			
+		}
+
+		/*当页面宽度大于960px小于1200px的时候执行下面的CSS*/
+		@media screen and (min-width:960px) and (max-width:1200px) {
+
+		}					
+	</style>
+</head>
+<body>
+	<div id="box">
+		<ul class="clearfix">
+			<li><img src="img/1.jpg" alt=""></li>
+			<li><img src="img/2.jpg" alt=""></li>
+			<li><img src="img/3.jpg" alt=""></li>
+			<li><img src="img/4.jpg" alt=""></li>
+			<li><img src="img/5.jpg" alt=""></li>
+			<li><img src="img/6.jpg" alt=""></li>
+			<li><img src="img/7.jpg" alt=""></li>
+			<li><img src="img/8.jpg" alt=""></li>
+			<li><img src="img/9.jpg" alt=""></li>
+			<li><img src="img/10.jpg" alt=""></li>
+			<li><img src="img/11.jpg" alt=""></li>
+			<li><img src="img/12.jpg" alt=""></li>
+			<li><img src="img/13.jpg" alt=""></li>
+			<li><img src="img/14.jpg" alt=""></li>
+			<li><img src="img/15.jpg" alt=""></li>
+			<li><img src="img/16.jpg" alt=""></li>
+			<li><img src="img/17.jpg" alt=""></li>
+			<li><img src="img/18.jpg" alt=""></li>
+			<li><img src="img/19.jpg" alt=""></li>
+			<li><img src="img/20.jpg" alt=""></li>
+			<li><img src="img/21.jpg" alt=""></li>
+			<li><img src="img/22.jpg" alt=""></li>
+		</ul>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var box = document.getElementById("box"),
+				n = Math.floor(window.innerWidth/250);
+
+			box.style.width = (250+10)*n + "px";
+			window.onresize = function(){
+				n = Math.floor(window.innerWidth/250);
+				box.style.width = (250+10)*n + "px";
+			};
+		};
+	</script>
+</body>
+</html>

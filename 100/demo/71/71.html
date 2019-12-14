@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>瑞丽网无缝滚动</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+		}
+		#banner {
+			position: relative;
+			width: 800px;
+			height: 500px;
+			margin: 100px auto;
+		}
+		#banner .cover li {
+			position: absolute;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background: url(img/bg.gif);
+			z-index: 2;
+		}
+		#banner .cover .left {
+			left: -100%;
+		}
+		#banner .cover .right {
+			left: 100%;
+		}
+		#banner .pic {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: calc(800px * 5);
+			height: 500px;
+		}
+		#banner .pic li {
+			float: left;
+			width: 800px;
+			height: 500px;
+		}
+		#banner .pic li img {
+			width: 100%;
+			height: 100%;
+		}
+		#banner .btn li {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			cursor: pointer;
+			z-index: 3;
+		}
+		#banner .btn .prev {
+			left: -40px;
+		}
+		#banner .btn .next {
+			right: -40px;
+		}
+		#banner .tab {
+			position: absolute;
+			left: 50%;
+			bottom: 20px;
+			padding: 8px 4px;
+			background: rgba(0,0,0,.5);
+			border-radius: 10px;
+			transform: translateX(-50%);
+			z-index: 4;
+		}
+		#banner .tab li {
+			float: left;
+			width: 10px;
+			height: 10px;
+			margin: 0 6px;
+			background: #fff;
+			border-radius: 50%;
+			cursor: pointer;
+		}
+		#banner .tab li.on {
+			background: #f60;
+		}
+	</style>
+</head>
+<body>
+	<div id="banner">
+		<ul class="cover">
+			<li class="left"></li>
+			<li class="right"></li>
+		</ul>
+		<ul class="pic">
+			<li><img src="img/1.jpg"></li>
+			<li><img src="img/2.jpg"></li>
+			<li><img src="img/3.jpg"></li>
+			<li><img src="img/4.jpg"></li>
+			<li><img src="img/5.jpg"></li>
+		</ul>
+		<ul class="btn">
+			<li class="prev">
+				<img src="img/prev.png">
+			</li>
+			<li class="next">
+				<img src="img/next.png">
+			</li>
+		</ul>
+		<ul class="tab">
+			<li class="on"></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+
+	<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+		(function() {
+			var $banner = $("#banner"),
+				$pic = $banner.find(".pic"),
+				$picLi = $pic.find("li"),
+				$btnLi = $banner.find(".btn li"),
+				$tabLi = $banner.find(".tab li"),
+				length = $picLi.length,
+				width = $picLi.width(),
+				lastDate = new Date(),
+				timer = null,
+				rowNum = 2,
+				index = 0;
+
+			// 初始化
+			for(var i = 0; i < rowNum; i++) {
+				$pic.append($picLi.eq(i).clone(true,true));
+				$pic.prepend($picLi.eq(length-i-1).clone(true,true));
+			}
+			$pic.css({
+				"width" : width*(length+rowNum*2),
+				"left" : -width*rowNum
+			});
+
+			// 点击事件
+			$btnLi.click(function() {
+				if(new Date() - lastDate > 600) {
+					var n = $(this).index();
+					n ? index++ : index--; 
+					play();
+					lastDate = new Date();
+				}
+			});	
+
+			// 自动轮播
+			$banner.hover(function() {
+				clearInterval(timer);
+			},function() {
+				timeAuto();			
+			});	
+			timeAuto();	
+			function timeAuto() {
+				timer = setInterval(function(){
+					index++;
+					play();
+				},5000);			
+			}	
+			
+			// 轮播函数
+			function play() { 
+				var aindex = index;
+				aindex %= length;
+				if(aindex < 0) {
+					aindex = length+aindex;
+				}
+
+				$tabLi.eq(aindex).addClass("on").siblings().removeClass("on"); 
+				
+				$pic.stop().animate({"left" : -width*(index+rowNum)},500,function() {
+					if(index === length) { 
+						$pic.css("left",-width*rowNum+"px");
+						index = 0;
+					}else if(index <= -rowNum) {
+						$pic.css("left",-width*length+"px");
+						index = length-rowNum;
+					}
+				});	
+			}
+		})();
+	</script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery实现的多图片无缝滚动特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+			font-family: "microsoft yahei";
+		}
+		#box {
+			position: relative;
+			width: 1080px;
+			height: 360px;
+			margin: 100px auto;
+		}
+		#box .pic {
+			overflow: hidden;
+			position: relative;
+			width: 930px;
+			height: 100%;
+			margin: auto;
+		}
+		#box .pic ul {
+			position: absolute;
+			top: 0;
+			left: -42px;
+			width: 500%;
+			height: 100%;
+			transition: .8s;
+		}
+		#box .pic ul li {
+			float: left;
+			width: 282px;
+			height: 100%;
+			margin-left: 42px;
+			background: #fff;
+			border-top: 5px solid #f89cb4;
+			border-bottom: 5px solid #f89cb4;
+			border-left: 1px solid #f89cb4;
+			border-right: 1px solid #f89cb4;
+		}
+		#box .pic ul li img {
+			margin: auto;
+			width: 100%;
+		}
+		#box .pic ul li p {
+			margin: 25px 20px 0 20px;
+			padding-top: 25px;
+			color: #666;
+			font-size: 12px;
+			line-height: 26px;
+			border-top: 1px dotted #aaa;
+		}
+		#box .pic ul li p span {  
+			margin-right: 5px;
+            color: red;
+            font-size: 20px;
+            font-style: italic;
+        }
+		#box .btn p {
+			position: absolute;
+			top: 50%;
+			width: 50px;
+			height: 100px;	
+			background-color: #fff;
+			text-align: center;
+			font: bold 30px/100px "SimSun";
+			transform: translateY(-50%);
+			-webkit-user-select: none;
+			user-select: none;
+			cursor: pointer;
+		}
+		#box .btn p:nth-child(1) {
+			left: 0;
+		}
+		#box .btn p:nth-child(2) {
+			right: 0;
+		}
+		#box .btn p.on {
+			opacity: 0.4;
+		}
+		#box p img {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="pic">
+			<ul>
+				<li>
+					<img src="img/1.jpg">
+					<p><span>1</span> 在佩玉上装饰一个如意结，引申为称心如意，万事如意。在扇子上装饰一个吉祥结，代表大吉大利，吉人天相，祥瑞、美好。</p>
+				</li>
+				<li>
+					<img src="img/2.jpg">
+					<p><span>2</span> 在佩玉上装饰一个如意结，引申为称心如意，万事如意。在扇子上装饰一个吉祥结，代表大吉大利，吉人天相，祥瑞、美好。</p>
+				</li>
+				<li>
+					<img src="img/3.jpg">
+					<p><span>3</span> 在佩玉上装饰一个如意结，引申为称心如意，万事如意。在扇子上装饰一个吉祥结，代表大吉大利，吉人天相，祥瑞、美好。</p>
+				</li>
+				<li>
+					<img src="img/4.jpg">
+					<p><span>4</span> 在佩玉上装饰一个如意结，引申为称心如意，万事如意。在扇子上装饰一个吉祥结，代表大吉大利，吉人天相，祥瑞、美好。</p>
+				</li>
+				<li>
+					<img src="img/5.jpg">
+					<p><span>5</span> 在佩玉上装饰一个如意结，引申为称心如意，万事如意。在扇子上装饰一个吉祥结，代表大吉大利，吉人天相，祥瑞、美好。</p>
+				</li>
+				<li>
+					<img src="img/6.jpg">
+					<p><span>6</span> 在佩玉上装饰一个如意结，引申为称心如意，万事如意。在扇子上装饰一个吉祥结，代表大吉大利，吉人天相，祥瑞、美好。</p>
+				</li>	
+				<li>
+					<img src="img/7.jpg">
+					<p><span>7</span> 在佩玉上装饰一个如意结，引申为称心如意，万事如意。在扇子上装饰一个吉祥结，代表大吉大利，吉人天相，祥瑞、美好。</p>
+				</li>
+				<li>
+					<img src="img/8.jpg">
+					<p><span>8</span> 在佩玉上装饰一个如意结，引申为称心如意，万事如意。在扇子上装饰一个吉祥结，代表大吉大利，吉人天相，祥瑞、美好。</p>
+				</li>
+				<li>
+					<img src="img/9.jpg">
+					<p><span>9</span> 在佩玉上装饰一个如意结，引申为称心如意，万事如意。在扇子上装饰一个吉祥结，代表大吉大利，吉人天相，祥瑞、美好。</p>
+				</li>
+				<li>
+					<img src="img/10.jpg">
+					<p><span>10</span> 在佩玉上装饰一个如意结，引申为称心如意，万事如意。在扇子上装饰一个吉祥结，代表大吉大利，吉人天相，祥瑞、美好。</p>
+				</li>
+				<li>
+					<img src="img/11.jpg">
+					<p><span>11</span> 在佩玉上装饰一个如意结，引申为称心如意，万事如意。在扇子上装饰一个吉祥结，代表大吉大利，吉人天相，祥瑞、美好。</p>
+				</li>
+				<li>
+					<img src="img/12.jpg">
+					<p><span>12</span> 在佩玉上装饰一个如意结，引申为称心如意，万事如意。在扇子上装饰一个吉祥结，代表大吉大利，吉人天相，祥瑞、美好。</p>
+				</li>											
+			</ul>
+		</div>
+		<div class="btn">
+			<p class="on"> &lt; </p>
+			<p> &gt; </p>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		window.onload = function() {
+			var oBox = document.getElementById("box"),
+				oUl = oBox.querySelector(".pic ul"),
+				aLi = oUl.getElementsByTagName("li"),
+				aP = oBox.querySelectorAll(".btn p"),
+				length = aLi.length/3,
+				index = 0;
+
+			aP[0].onclick = function() {
+				aP[1].className = "";
+				this.className = index<=1 ? "on" : "";
+				
+				if(index <= 0) {
+					index = 0;
+				}else {
+					index --;
+					oUl.style.left = -(930*index + 42*(index+1)) + "px"; 
+				}
+			};
+
+			aP[1].onclick = function() {
+				aP[0].className = "";
+				this.className = index>=length-2 ? "on" : "";
+
+				if(index >= length-1) {
+					index = length-1;
+				}else {
+					index ++;
+					oUl.style.left = -(930*index + 42*(index+1)) + "px"; // 930是pic的宽度，42是li的margin-left
+				}
+			};
+		};
+	</script>
+</body>
+</html>

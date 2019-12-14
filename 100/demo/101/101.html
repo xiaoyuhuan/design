@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JS高级星星评分效果</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		li {
+			list-style: none;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+			font-family: "microsoft yahei";
+		}
+		#box {
+			width: 450px;
+			height: 430px;
+			margin: 150px auto;
+			padding: 20px;
+			background: rgba(0,0,0,.5);
+			color: #fff;
+			box-shadow: 0 0 7px #ccc;
+			border-radius: 20px;
+		}
+		#box h1 {
+			height: 35px;
+			background: rgba(0,0,0,.1);
+			font-size: 16px;
+			font-weight: normal;
+			text-indent: 10px;
+			line-height: 35px;
+		}
+		#box .top {
+			margin-top: 10px;
+		}
+		#box .top p {
+			display: inline-block;
+		}
+		#box .top p.score {
+			margin-left: 20px;
+		}
+		#box .top p.score b {
+			font-size: 55px;
+		}
+		#box .top p.eva {
+			position: relative;
+			top: -12px;			
+			margin-left: 60px;
+		}
+		#box .top ul.star {
+			display: inline-block;
+			position: relative;
+			top: -5px;
+			margin-left: 15px;
+		}
+		#box .top ul.star li {
+			display: inline-block;
+		}
+		#box .top ul.star li span {
+			display: inline-block;
+			width: 16px;
+			height: 29px;
+			background-repeat: no-repeat;			
+		}
+		#box .top ul.star li span:nth-child(1) {
+			background-image: url(img/stargrayl.png);
+		}
+		#box .top ul.star li span:nth-child(2) {
+			background-image: url(img/stargrayr.png);
+		}
+		#box .top ul.star li span:nth-child(1).on {
+			background-image: url(img/starl.png);
+		}
+		#box .top ul.star li span:nth-child(2).on {
+			background-image: url(img/starr.png);
+		}		
+		#box p.text {
+			font-size: 12px;
+			text-align: center;
+			line-height: 50px;
+			border-bottom: 1px dotted #eee;
+		}
+		#box ul.cont {
+			margin-top: 20px;
+		}
+		#box ul.cont li {
+			margin-bottom: 10px;
+		}
+		#box ul.cont li p {
+			display: inline-block;
+			margin-left: 35px;
+		}
+		#box ul.cont li p.name {
+			font-size: 13px;
+		}
+		#box ul.cont li p.exp {
+			font-size: 12px;
+		}
+		#box ul.cont li p.exp span {
+			color: red;
+		}
+		#box ul.cont li ul.star {
+			display: inline-block;
+			position: relative;
+			top: 7px;
+		}
+		#box ul.cont li ul.star li {
+			display: inline-block;
+		}
+		#box ul.cont li ul.star li span {
+			display: inline-block;
+			width: 16px;
+			height: 29px;
+			background-repeat: no-repeat;
+		}
+		#box ul.cont li ul.star li span:nth-child(1) {
+			background-image: url(img/stargrayl.png);
+		}
+		#box ul.cont li ul.star li span:nth-child(1).on {
+			background-image: url(img/starl.png);
+		}
+		#box ul.cont li ul.star li span:nth-child(2) {
+			background-image: url(img/stargrayr.png);			
+		}
+		#box ul.cont li ul.star li span:nth-child(2).on {
+			background-image: url(img/starr.png);
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<h1>我的评分</h1>
+		<div class="top">
+			<p class="score"><b>0</b>.0</p>
+			<ul class="star">
+				<li><span></span><span></span></li>
+				<li><span></span><span></span></li>
+				<li><span></span><span></span></li>
+				<li><span></span><span></span></li>
+				<li><span></span><span></span></li>
+			</ul>
+			<p class="eva">很好</p>
+		</div>
+		<p class="text">请点击以下星级进行评分：我的评分 =（故事+更新+文笔）/ 3</p>
+		<ul class="cont">
+			<li>
+				<p class="name">故事：</p>
+				<ul class="star">
+					<li><span></span><span></span></li>
+					<li><span></span><span></span></li>
+					<li><span></span><span></span></li>
+					<li><span></span><span></span></li>
+					<li><span></span><span></span></li>
+				</ul>
+				<p class="exp">请给出合理的评价</p>
+			</li>
+			<li>
+				<p class="name">更新：</p>
+				<ul class="star">
+					<li><span></span><span></span></li>
+					<li><span></span><span></span></li>
+					<li><span></span><span></span></li>
+					<li><span></span><span></span></li>
+					<li><span></span><span></span></li>
+				</ul>
+				<p class="exp">请给出合理的评价</p>
+			</li>	
+			<li>
+				<p class="name">文笔：</p>
+				<ul class="star">
+					<li><span></span><span></span></li>
+					<li><span></span><span></span></li>
+					<li><span></span><span></span></li>
+					<li><span></span><span></span></li>
+					<li><span></span><span></span></li>
+				</ul>
+				<p class="exp">请给出合理的评价</p>
+			</li>					
+		</ul>
+	</div>
+	
+	<script type="text/javascript">
+		window.onload = function() {
+			var oBox = document.getElementById("box"),
+				oScore = oBox.querySelector(".top p.score"),
+				oEva = oBox.querySelector(".top p.eva"),
+				aSpan_t = oBox.querySelectorAll(".top ul.star span"),
+				aStar = oBox.querySelectorAll("ul.cont li ul.star"),
+				aExp = oBox.querySelectorAll("ul.cont li p.exp"),
+				aSpan = oBox.querySelectorAll("ul.cont span"),
+				length = aStar.length;
+
+			oEva.arr = ["垃圾","太烂了","太菜了","不够好","一般","还可以","还好","很不错","超赞","极品"];
+			aStar[0].arr = ["垃圾","瞎扯","俗","菜","一般","还行","生动","精彩","超赞","极品"];
+			aStar[1].arr = ["太监","百年不动","等不了了","太慢了","有点慢哦","正常","挺快","像刘翔那么快","灰机一样快","完本"];
+			aStar[2].arr = ["小学没毕业","文盲","太烂了","不敢恭维","跟我差不多水平","洋洋洒洒","文采飞扬","行云流水","妙笔生花","极品"];
+			
+			aStar[0].b = -1;
+			aStar[1].b = -1;
+			aStar[2].b = -1;
+
+			for(var i = 0; i < length; i++) {
+				var aPic = aStar[i].querySelectorAll("li span"); 
+				mouse(aPic,i);
+			}
+		
+			function mouse(aPic,i) {
+				for(var j = 0; j < aPic.length; j++) {
+					aPic[j].j = j;
+					aPic[j].onmouseenter = function() {
+						change(aPic,i,this.j);
+					};
+
+					aPic[j].onclick = function() {
+						aStar[i].b = this.j;
+						change(aPic,i,aStar[i].b);
+						count();
+					};				
+
+					aStar[i].onmouseleave = function() {
+						change(aPic,i,aStar[i].b);
+					};
+				}
+			}
+
+			function change(aPic,i,b) { 
+				if(b != -1) {
+					aExp[i].innerHTML = "<span>" + (b+1) + "</span> （" + aStar[i].arr[b] + "）";
+				}
+				
+				for(var j = 0; j < aPic.length; j++) {
+					aPic[j].className = "";
+				}
+				for(j = 0; j < b+1; j++) {
+					aPic[j].className = "on";
+				}
+			}
+
+			function count() {
+				var n = 0;
+				for(var i = 0; i < aSpan.length; i++) {
+					if(aSpan[i].className) {
+						n++;
+					}
+				}
+
+				// 显示分数
+				var str = parseFloat(n/3).toFixed(1);
+				var arr = str.split("."); // 把字符串分割成数组
+				oScore.innerHTML = "<b>" + arr[0] + "</b>." + arr[1];
+
+				// 分数对应星星
+				var num = parseInt(arr[0]);
+				for(var j = 0; j < num; j++) {
+					aSpan_t[j].className = "on";
+				}
+				for(j = num; j < aSpan_t.length; j++) {
+					aSpan_t[j].className = "";
+				}
+
+				// 我的评语
+				num = Math.min(num,9);
+				num = Math.max(num,0);
+				oEva.innerHTML = oEva.arr[num];
+			}
+		};
+	</script>
+</body>
+</html>

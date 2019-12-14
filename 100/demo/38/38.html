@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery碎片化旋转轮播特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		html,body {
+			height: 100%;
+		}	
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+		}
+		#box {
+			position: relative;
+			width: 800px;
+			height: 500px;
+			margin: 100px auto;
+			box-shadow: 0 0 4px #fff;
+		}
+		#box .pic {
+			width: 100%;
+			height: 100%;
+		}
+		#box .pic li {
+			overflow: hidden;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			perspective: 800px;
+			z-index: 1;
+		}
+		#box .pic li:nth-child(1) {
+			z-index: 5;
+		}
+		#box .pic li p {
+			position: absolute;
+			width: 80px;
+			height: 50px;
+			background-size: 800px 500px;
+			transform-style: preserve-3d;
+		}
+		#box .pic li p.on {
+			animation-name: move;
+			animation-duration: 1s;
+		}
+		#box .pic li:nth-child(1) p {
+			background-image: url(img/1.jpg);
+		}
+		#box .pic li:nth-child(2) p {
+			background-image: url(img/2.jpg);
+		}
+		#box .pic li:nth-child(3) p {
+			background-image: url(img/3.jpg);
+		}
+		#box .pic li:nth-child(4) p {
+			background-image: url(img/4.jpg);
+		}
+		#box .pic li:nth-child(5) p {
+			background-image: url(img/5.jpg);
+		}	
+		#box .btn li {
+			position: absolute;
+			top: 50%;
+			width: 40px;
+			height: 70px;
+			background: rgba(0,0,0,.5);
+			color: #fff;
+			text-align: center;
+			font: 30px/70px "SimSun";
+			transform: translateY(-50%);
+			-webkit-user-select: none;
+			cursor: pointer;
+		}
+		#box .btn .prev {
+			left: -60px;
+		}
+		#box .btn .next {
+			right: -60px;
+		}
+		#box .btn li:hover {
+			background: rgba(0,0,0,.6);
+		}
+		@keyframes move {
+			0% {
+				transform: rotateY(360deg);
+				opacity: 1;
+			}
+			100% {
+				transform: rotateY(0deg);
+				opacity: 0;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<ul class="pic">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+		<ul class="btn">
+			<li class="prev"> &lt; </li>
+			<li class="next"> &gt; </li>
+		</ul>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var pic = document.querySelector(".pic"),
+				btn = document.querySelector(".btn"),
+				picLi = pic.getElementsByTagName("li"),
+				btnLi = btn.getElementsByTagName("li"),
+				length = picLi.length,
+				w = 80,
+				h = 50,
+				x = 800/w,
+				y = 500/h,
+				index = 0,
+				last = 0,
+				time = new Date();
+
+			// 设置初始样式
+			for(var i=0; i<length; i++){
+				var str = "";
+				for(var j=0; j<x*y; j++){
+					var r = j%x;
+					var c = Math.floor(j/y);
+					str += "<p style='top:"+c*h+"px; left:"+r*w+"px; background-position:-"+r*w+"px -"+c*h+"px;'></p>";
+				}
+				picLi[i].innerHTML = str;
+			}
+
+			// 按钮点击事件
+			for(var i=0; i<btnLi.length; i++){
+				btnLi[i].i = i;
+				btnLi[i].onclick = function(){
+					if(new Date()-time > 1200){
+						for(var i=0; i<length; i++){
+							picLi[i].style.zIndex = 1;
+						}
+						picLi[index].style.zIndex = 5;
+
+						last = index;
+						if(this.i){
+							index++;
+							index %= length;
+						}else{
+							index--;
+							if(index < 0){
+								index = length-1;
+							}
+						}
+						picLi[index].style.zIndex = 4;
+
+						// 添加动画
+						var p = picLi[last].getElementsByTagName("p");
+						for(var i=0; i<p.length; i++){
+							p[i].className = "on";
+							p[i].style.animationDelay = i*0.01 + "s";
+						}
+
+						setTimeout(function(){
+							var p = picLi[last].getElementsByTagName("p");
+							for(var i=0; i<p.length; i++){
+								p[i].className = "";
+								p[i].style.animationDelay = "0s";
+							}
+							picLi[index].style.zIndex = 6;
+						},1000);	
+
+						time = new Date();
+					}
+				};
+			}
+		};
+	</script>
+</body>
+</html>

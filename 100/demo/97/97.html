@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery鼠标跟随导航特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		html,body {
+			overflow: hidden;
+			width: 100%;
+			height: 100%;			
+		}
+		body {
+			background: url(img/bg.jpg) no-repeat center bottom/cover;
+		}
+		#box {
+			position: relative;
+			width: 1150px;
+			margin: 100px auto;
+		}
+		#box ul li {
+			float: left;
+			width: 230px;
+			height: 150px;
+			background-image: url(img/img.png);
+			background-repeat: no-repeat;
+			border-top: 1px dotted #ccc;
+			border-left: 1px dotted #ccc;
+			box-sizing: border-box;
+			transition: .5s;
+		}
+		#box ul li:nth-child(5n) {
+			border-right: 1px dotted #ccc;
+		}
+		#box ul li:nth-child(n+11) {
+			border-bottom: 1px dotted #ccc;
+		}
+		#box .cover {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 230px;
+			height: 150px;
+			background: #eee;
+			transition: .5s;
+			z-index: -1;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+		<div class="cover"></div>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var li = document.getElementsByTagName("li"),
+				cover = document.querySelector(".cover");
+
+			for(var i=0,length=li.length; i<length; i++){
+				li[i].style.backgroundPosition = -230*i+"px 0px";
+			}
+
+			for(i=0; i<length; i++) {
+				li[i].i = i;
+				li[i].onmouseenter = function(){
+					this.style.backgroundPositionY = "-150px";
+					cover.style.left = 230*(this.i%5) + "px";
+					cover.style.top = 150*Math.floor(this.i/5) + "px";
+				};
+				li[i].onmouseleave = function(){
+					this.style.backgroundPositionY = "0";
+				};
+			}
+		};
+	</script>
+</body>
+</html>

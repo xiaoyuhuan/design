@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery+canvas超实用头像剪裁</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+		}
+		#box {
+			width: 900px;
+			height: 500px;
+			margin: 100px auto;
+		}
+		#box .left {
+			position: relative;
+			float: left;
+			width: 500px;
+			height: 500px;
+			background-color: #222;
+		}
+		#box .left img {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		#box .left img:nth-child(1) {
+			opacity: .3;
+		}
+		#box .left img:nth-child(2) {
+			clip: rect(0,200px,200px,0);
+		}
+		#box .left .move {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 200px;
+			height: 200px;
+			/*border: 1px solid #fff;*/
+			box-sizing: border-box;
+			cursor: move;
+		}
+		#box .left .move p {
+			position: absolute;
+			width: 8px;
+			height: 8px;
+			margin-top: -4px;
+			margin-left: -4px;			
+			background-color: #fff;
+			border-radius: 50%;
+		}
+		#box .left .move .p1 {
+			top: 0;
+			left: 0;
+			cursor: nw-resize;
+		}
+		#box .left .move .p2 {
+			top: 0;
+			left: 50%;
+			cursor: n-resize;
+		}
+		#box .left .move .p3 {
+			top: 0;
+			left: 100%;
+			cursor: ne-resize;
+		}
+		#box .left .move .p4 {
+			top: 50%;
+			left: 100%;
+			cursor: e-resize;
+		}
+		#box .left .move .p5 {
+			top: 100%;
+			left: 100%;
+			cursor: se-resize;
+		}
+		#box .left .move .p6 {
+			top: 100%;
+			left: 50%;
+			cursor: s-resize;
+		}
+		#box .left .move .p7 {
+			top: 100%;
+			left: 0;
+			cursor: sw-resize;
+		}
+		#box .left .move .p8 {
+			top: 50%;
+			left: 0;
+			cursor: w-resize;
+		}
+		#box .right {
+			position: relative;
+			float: right;
+			width: 200px;
+			height: 200px;
+		}
+		#box .right .img3 {
+			position: absolute;
+			top: 0;
+			left: 0;
+			clip: rect(0,200px,200px,0);
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="left">
+			<img src="img/img.jpg" class="img1">
+			<img src="img/img.jpg" class="img2">
+			<div class="move">
+				<!--
+				<p class="p1"></p>
+				<p class="p2"></p>
+				<p class="p3"></p>
+				<p class="p4"></p>
+				<p class="p5"></p>
+				<p class="p6"></p>
+				<p class="p7"></p>
+				<p class="p8"></p>
+				-->
+			</div>
+		</div>
+		<div class="right">
+			<img src="img/img.jpg" class="img3">
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var box = document.getElementById("box"),
+				img2 = box.querySelector(".img2"),
+				img3 = box.querySelector(".img3"),
+				move = box.querySelector(".move"),
+				moveW = moveH = 200,
+				imgW = imgH = 500;
+
+			move.onmousedown = function(e){
+				var e = e || window.event;
+				var x = e.clientX;
+				var y = e.clientY;
+
+				var moveL = move.offsetLeft;
+				var moveT = move.offsetTop;
+
+				document.onmousemove = function(e){
+					var e = e || window.event;
+					var left = e.clientX - x + moveL;
+					var top = e.clientY - y + moveT;
+
+					left = Math.max(0,left);
+					left = Math.min(imgW-moveW,left);
+					top = Math.max(0,top);
+					top = Math.min(imgH-moveH,top);
+
+					move.style.left = left + "px";
+					move.style.top = top + "px";
+					img2.style.clip = "rect("+top+"px,"+(left+moveW)+"px,"+(top+moveH)+"px,"+left+"px)";
+					
+					img3.style.left = -left + "px";
+					img3.style.top = -top + "px";
+					img3.style.clip = "rect("+top+"px,"+(left+moveW)+"px,"+(top+moveH)+"px,"+left+"px)";
+				};
+				document.onmouseup = function(){
+					this.onmousemove = null;
+					this.onmouseup = null;
+				};
+				return false;
+			};
+		};
+	</script>
+</body>
+</html>

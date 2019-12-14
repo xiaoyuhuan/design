@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CSS3实现3D场景网格库螺旋</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+			perspective: 800px;
+		}
+		#list ul {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 120px;
+			height: 160px;
+			margin-top: -80px;
+			margin-left: -60px;
+			/*border: 1px solid red;*/
+			transform-style: preserve-3d;
+			transform: translateZ(-2000px) rotateX(0deg) rotateY(0deg);
+		}
+		#list ul li {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(255,255,255,0.3);
+			transition: 2s;
+		}
+	</style>
+</head>
+<body>
+	<div id="list">
+		<ul></ul>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var oUl = document.getElementsByTagName("ul")[0],
+				aLi = oUl.children,
+				length = 5*5*5;
+			
+			~function(){
+				// 入场动画
+				for(var i=0; i<length; i++){
+					var oLi = document.createElement("li"),
+						tX = Math.random()*3000-1500,
+						tY = Math.random()*3000-1500,
+						tZ = Math.random()*4000-2000;
+					oLi.style.transform = "translate3D("+tX+"px,"+tY+"px,"+tZ+"px)";
+					oUl.appendChild(oLi);
+				}
+
+				// 200ms后 Helix布局
+				setTimeout(Helix,200);
+			}();
+
+			// 拖拽/滚轮事件
+			~function (){
+				var roX = 0,
+					roY = 0,
+					trZ = -2000;
+
+				document.onselectstart = function(){
+					return false;
+				};
+				document.ondrag = function(){
+					return false;
+				};					
+
+				document.onmousedown = function(e){
+					var sX = e.clientX,
+						sY = e.clientY,
+						rX = roX,
+						rY = roY;
+					this.onmousemove = function(e){
+						var chaX = e.clientX-sX, // 鼠标x位移量
+							chaY = e.clientY-sY; // 鼠标y位移量
+
+						rX = roX - chaY*0.2; // 设置x度数
+						rY = roY + chaX*0.2; // 设置y度数
+						oUl.style.transform = "translateZ("+trZ+"px) rotateX("+rX+"deg) rotateY("+rY+"deg)";
+					};
+					this.onmouseup = function(){
+						roX = rX;
+						roY = rY;
+						this.onmousemove = null;
+					};
+				};
+
+				~function (fn){
+					if(document.onmousewheel === undefined){
+						document.addEventListener("DOMMouseScroll",function(e){ // 火狐
+							var d = -e.detail/3;
+							fn.call(this,d);
+						},false);
+					}else{
+						document.onmousewheel = function(e){
+							var d = e.wheelDelta/120;
+							fn.call(this,d);
+						};
+					}
+				}(function(d){
+					trZ += d*100;
+					oUl.style.transform = "translateZ("+trZ+"px) rotateX("+roX+"deg) rotateY("+roY+"deg)";
+				});						
+			}();
+
+			// Helix 螺旋式布局
+			function Helix(){
+				var line = 4, // 4行
+					num = Math.round(length/line), // 每行的个数
+					mid = Math.floor(length/2),
+					deg = 360/num,
+					tY = 8; // 变化幅度
+
+				for(var i=0; i<length; i++){
+					aLi[i].style.transform = "rotateY("+i*deg+"deg) translateZ(800px) translateY("+(i-mid)*tY+"px)";
+				}
+			}
+		};
+	</script>
+</body>
+</html>

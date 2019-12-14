@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery弹幕表白墙特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		input {
+			font-family: "microsoft yahei";
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+			font-family: "microsoft yahei";
+		}
+		.love {
+			z-index: 1;
+			position: absolute;
+			top: 0;
+			left: 50%;
+			width: 200px;
+			height: 200px;
+			margin-left: -100px;
+			transform-origin: top center;
+			animation: play 3s ease-in-out infinite alternate;
+			cursor: pointer;
+		}
+		.xin span {
+			display: block;
+			position: absolute;
+			width: 95px;
+		}
+		.xin span:before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 10px;
+			height: 16px;
+			background: #ff615f;
+			border-radius: 10px 10px 0 0;
+			transform: rotate(-45deg);
+		}
+		.xin span:after {
+			content: "";
+			position: absolute;
+			top: 0;
+			right: 80px;
+			width: 10px;
+			height: 16px;
+			background: #ff615f;
+			border-radius: 10px 10px 0 0;
+			transform: rotate(45deg);		
+		}
+		.cover {
+			z-index: 2;
+			display: none;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,.5);			
+		}
+		.cover .close {
+			position: absolute;
+			top: 15px;
+			right: 15px;
+			width: 80px;
+			height: 30px;
+			background: #f43548;
+			color: #fff;
+			font-size: 13px;
+			line-height: 30px;
+			text-align: center;
+			border-radius: 5px;
+			box-shadow: 0 0 5px #777;
+			cursor: pointer;			
+		}
+		.cover .text {
+			z-index: 3;
+			position: absolute;
+			top: 160px;
+			left: 50%;
+			transform: translateX(-50%);
+			height: 30px;
+			color: #ff7182;			
+		}
+		.cover .frame {
+			z-index: 2;
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			bottom: 200px;
+			width: 550px;
+			height: 35px;
+			background: #fff;
+			border-radius: 7px;	
+			font-size: 12px;		
+		}
+		.cover .frame .color {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 80px;
+			height: 35px;
+			background: #f3f3f3;
+			line-height: 35px;
+			text-indent: 15px;			
+			border-radius: 5px 0 0 5px;	
+			cursor: pointer;			
+		}
+		.cover .frame .color span {
+			display: inline-block;
+			position: relative;
+			top: 1px;
+			width: 10px;
+			height: 10px;
+			margin-left: 5px;
+			background: #ff7182;
+			border: 1px solid #222;				
+		}
+		.cover .frame ul {
+			overflow: hidden;
+			position: absolute;
+			left: 0;
+			bottom: 32px;
+			width: 80px;
+			height: 0;
+			transition: .5s;			
+		}
+		.cover .frame ul.on {
+			height: 210px;
+		}
+		.cover .frame ul li {
+			width: 80px;
+			height: 35px;
+			background: #f3f3f3;
+			font-size: 12px;
+			line-height: 35px;
+			text-indent: 15px;			
+		}
+		.cover .frame ul li span {
+			display: inline-block;
+			position: relative;
+			top: 1px;
+			width: 10px;
+			height: 10px;
+			margin-left: 5px;
+			border: 1px solid #222;
+			cursor: pointer;			
+		}
+		.cover .frame ul li span.c1 {
+			background: #ff8cde;
+		} 	
+		.cover .frame ul li span.c2 {
+			background: #c59fff;
+		}
+		.cover .frame ul li span.c3 {
+			background: #89acff;
+		}
+		.cover .frame ul li span.c4 {
+			background: #92ffc1;
+		}
+		.cover .frame ul li span.c5 {
+			background: #ffcc94;
+		}						 					
+		.cover .frame ul li span.c6 {
+			background: #fff;
+		}
+		.cover .frame input {
+			position: absolute;
+			top: 0;
+			left: 80px;
+			width: 390px;
+			height: 35px;
+			border: none;
+			text-indent: 5px;			
+		}
+		.cover .frame .clear {
+			position: absolute;
+			top: 0;
+			right: 0px;
+			width: 80px;
+			height: 35px;
+			background: #f4354b;
+			color: #fff;
+			font-size: 13px;
+			line-height: 35px;
+			text-align: center;
+			border-radius: 0 5px 5px 0;
+			cursor: pointer;			
+		}
+		@keyframes play {
+			0% {
+				transform: rotate(-30deg);
+			}
+			100% {
+				transform: rotate(30deg);
+			}
+		}	
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="love">
+			<img src="img/love.png" width="200" height="200">
+		</div>
+		<div class="xin"></div>
+
+		<div class="cover">
+			<div class="close">关闭弹幕</div>
+			<div class="text"></div>
+			<div class="frame">
+				<div class="left">
+					<div class="color">颜色<span class="c0"></span></div>
+					<ul>
+						<li>颜色<span class="c1"></span></li>
+						<li>颜色<span class="c2"></span></li>
+						<li>颜色<span class="c3"></span></li>
+						<li>颜色<span class="c4"></span></li>
+						<li>颜色<span class="c5"></span></li>
+						<li>颜色<span class="c6"></span></li>
+					</ul>
+				</div>
+				<input type="text" name="">
+				<div class="clear">清空再写</div>
+			</div>		
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		window.onload = function() {
+			var love = document.querySelector(".love"),
+				xin = document.querySelector(".xin"),
+				cover = document.querySelector(".cover"),
+				close = cover.querySelector(".close"),
+				text = cover.querySelector(".text"),
+				frame = cover.querySelector(".frame"),
+				left = frame.querySelector(".left"),
+				input = frame.getElementsByTagName("input")[0],
+				clear = frame.querySelector(".clear"),
+				color = left.querySelector(".color"),
+				ul = left.getElementsByTagName("ul")[0],
+				span = left.getElementsByTagName("span"),
+				arr = ["#ff7182","#ff8cde","#c59fff","#89acff","#92ffc1","#ffcc94","#fff"],
+				timer = null;
+
+			// 页面获得光标
+			window.onfocus = function(){
+				timer = setInterval(xinxin,200);			
+			};
+
+			// 光标离开页面
+			window.onblur = function(){
+				clearInterval(timer);
+			};	
+
+			timer = setInterval(xinxin,200);		
+
+			// 心心飘落
+			function xinxin(){
+				var span = document.createElement("span");
+				span.style.top = 0;
+				span.style.left = Math.random()*window.innerWidth + "px";
+				xin.appendChild(span);
+
+				span.top = Math.random()*2+2;
+				function m() {
+					span.style.top = span.offsetTop + span.top + "px";
+					if(span.offsetTop >= window.innerHeight) {
+						cancelAnimationFrame(m);
+						xin.removeChild(span);
+					}else {
+						requestAnimationFrame(m);
+					}
+				}
+				requestAnimationFrame(m);				
+			}
+
+			// 点击弹幕
+			love.onclick = function(){
+				cover.style.display = "block";
+			};
+
+			// 关闭弹幕
+			close.onclick = function(){
+				cover.style.display = "none";
+				ul.className = "";
+				input.value = "";
+				text.innerHTML = "";				
+			};
+
+			// 是否展开颜色
+			color.flag = false;
+			color.onclick = function() {
+				nextSibling(this).className = "on";
+				nextSibling(this).className = !this.flag ? "on" : "";
+				this.flag = !this.flag;
+			};
+
+			// 选择告白颜色
+			for(var i=0; i<span.length; i++) {
+				span[i].i = i;
+				span[i].onclick = function() {
+					text.style.color = arr[this.i];
+				};
+			}			
+
+			// 键抬起触发
+			input.onkeyup = function() {
+				text.innerHTML = this.value;
+			};
+
+			// 清空再写
+			clear.onclick = function() {
+				input.value = "";
+				text.innerHTML = "";
+			};
+
+			// 下一个兄弟(兼容)
+			function nextSibling(obj) {
+				return obj.nextElementSibling===undefined ? obj.nextSibling : obj.nextElementSibling;
+			}
+		};
+	</script>
+</body>
+</html>

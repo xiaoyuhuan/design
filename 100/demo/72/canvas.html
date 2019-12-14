@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		canvas {
+			display: block;
+			margin: auto;
+			border: 1px solid;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+
+	<script type="text/javascript">
+		/*
+			canvas是基于状态的绘图方式
+		 */
+		
+		window.onload = function(){
+			var canvas = document.getElementById("canvas");
+			canvas.width = 1024;
+			canvas.height = 768;
+			var context = canvas.getContext("2d");
+
+			context.beginPath();
+			context.moveTo(100,100);
+			context.lineTo(700,700);
+			context.lineTo(100,700);
+			context.lineTo(100,100);
+			context.closePath();
+
+			context.lineWidth = 5;
+			context.strokeStyle = "red";
+			context.stroke();
+
+			context.beginPath();
+			context.moveTo(200,100);
+			context.lineTo(700,600);
+			context.closePath();
+
+			context.strokeStyle = "black";
+			context.stroke();
+		};
+	</script>
+</body>
+</html>

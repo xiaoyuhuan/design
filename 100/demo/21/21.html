@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuey模仿百度换肤技术</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/1.jpg) no-repeat center top/cover;
+			font-family: "microsoft yahei";
+			transition: .3s;
+		}
+		.clearfix:after {
+			content: "";
+			overflow: hidden;
+			display: block;
+			height: 0;
+			line-height: 0;
+			clear: both;
+		}
+		#open {
+			position: absolute;
+			top: 20px;
+			left: 20px;
+			width: 66px;
+			height: 40px;
+			background: rgba(255,255,255,.4);
+			color: #fff;
+			font-size: 14px;
+			line-height: 40px;
+			text-align: center;
+			border-radius: 10px;
+			cursor: pointer;
+		}
+		#open:hover {
+			background: rgba(255,255,255,.5);
+		}
+		#header {
+			overflow: hidden;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 0px; /* 286px */
+			background: #fff;
+			transition: .5s;
+		}
+		#header .top {
+			width: 100%;
+			height: 45px;
+			border-bottom: 1px solid #ddd;
+		}
+		#header .top ul {
+			width: 960px;
+			height: 100%;
+			margin: auto;
+		}
+		#header .top ul li {
+			height: 100%;
+			line-height: 50px;
+			font-size: 13px;	
+		}
+		#header .top ul li:nth-child(1) {
+			float: left;
+			width: 40px;
+			background: #389cff;
+			color: #fff;
+			text-align: center;
+		}
+		#header .top ul li:nth-child(2) {
+			float: right;
+			color: #389cff;
+			cursor: pointer;
+		}
+		#header .main {
+			width: 960px;
+			margin: 20px auto 0;
+		}
+		#header .main .left {
+			float: left;
+		}
+		#header .main .left ul {
+			float: left;
+		}
+		#header .main .left ul li {
+			float: left;
+			position: relative;
+			cursor: pointer;
+		}
+		#header .main .left .one1 {
+			width: 197px;
+		}	
+		#header .main .left .one1 li:nth-child(1) {
+			width: 197px;
+			height: 123px;
+		}
+		#header .main .left .one1 li:nth-child(2) {
+			width: 98px;
+			height: 61px;
+			margin-top: 1px;
+		}
+		#header .main .left .one1 li:nth-child(3) {
+			width: 98px;
+			height: 61px;
+			margin-top: 1px;			
+			margin-left: 1px;
+		}
+		#header .main .left .one2 {
+			width: 98px;
+			margin-left: 1px;
+		}
+		#header .main .left .one2 li {
+			width: 98px;
+			height: 61px;
+		}
+		#header .main .left .one2 li+li {
+			margin-top: 1px;
+		}
+		#header .main .left .one3 {
+			width: 197px;
+			margin-left: 1px;
+		}
+		#header .main .left .one3 li:nth-child(1) {
+			width: 98px;
+			height: 61px;			
+		}
+		#header .main .left .one3 li:nth-child(2) {
+			width: 98px;
+			height: 61px;
+			margin-left: 1px;			
+		}	
+		#header .main .left .one3 li:nth-child(3) {
+			width: 197px;
+			height: 123px;	
+			margin-top: 1px;		
+		}
+		#header .main .left .one4 {
+			width: 98px;
+			margin-left: 1px;			
+		}
+		#header .main .left .one4 li {
+			width: 98px;
+			height: 61px;
+		}	
+		#header .main .left .one4 li+li {
+			margin-top: 1px;
+		}
+		#header .main .left ul li img {
+			width: 100%;
+			height: 100%;
+		}
+		#header .main .left ul li p {
+			opacity: 0;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,.4);
+			color: #fff;
+			font-size: 12px;
+			text-align: center;
+			line-height: 61px;
+			transition: .3s;
+		}
+		#header .main .left ul li:hover p {
+			opacity: 1;
+		}
+		#header .main .left .one1 li:nth-child(1) p,
+		#header .main .left .one3 li:nth-child(3) p {
+			line-height: 123px;
+		}					
+		#header .main .right {
+			float: right;
+			width: 264px;
+			color: #888;
+			font-size: 12px;
+			line-height: 28px;
+			text-align: center;
+		}
+		#header .main .right .skin {
+			width: 264px;
+			height: 180px;
+			background: url(img/skin.png),url(img/1.jpg) no-repeat center top/cover;
+			transition: .3s;
+		}
+	</style>
+</head>
+<body id="body">
+	<div id="open">换肤</div>
+	<div id="header">
+		<div class="top">
+			<ul class="clearfix">
+				<li>推荐</li>
+				<li id="close">收起</li>
+			</ul>
+		</div>
+		<div class="main clearfix">
+			<div class="left clearfix">
+				<ul class="one1">
+					<li><img src="img/1.jpg"><p>摄影-嫩芽</p></li>
+					<li><img src="img/2.jpg"><p>摄影-嫩芽</p></li>
+					<li><img src="img/3.jpg"><p>摄影-嫩芽</p></li>
+				</ul>
+				<ul class="one2">
+					<li><img src="img/4.jpg"><p>摄影-嫩芽</p></li>
+					<li><img src="img/5.jpg"><p>摄影-嫩芽</p></li>
+					<li><img src="img/6.jpg"><p>摄影-嫩芽</p></li>
+				</ul>
+				<ul class="one3">
+					<li><img src="img/7.jpg"><p>摄影-嫩芽</p></li>
+					<li><img src="img/8.jpg"><p>摄影-嫩芽</p></li>
+					<li><img src="img/9.jpg"><p>摄影-嫩芽</p></li>
+				</ul>
+				<ul class="one4">
+					<li><img src="img/10.jpg"><p>摄影-嫩芽</p></li>
+					<li><img src="img/11.jpg"><p>摄影-嫩芽</p></li>
+					<li><img src="img/12.jpg"><p>摄影-嫩芽</p></li>
+				</ul>				
+			</div>
+			<div class="right">
+				<div class="skin"></div>
+				背景皮肤效果预览
+			</div>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		window.onload = function() {
+			var body = document.getElementById("body"),
+				oPen = document.getElementById("open"),
+				oClose = document.getElementById("close"),
+				oHeader = document.getElementById("header"),
+				oLeft = oHeader.querySelector(".main .left"),
+				aLi = oLeft.getElementsByTagName("li"),
+				oSkin = oHeader.querySelector(".main .right .skin"),
+				length = aLi.length,
+				index = 1;
+			
+			for(var i = 0; i < length; i++) {
+				aLi[i].i = i;
+				
+				// 鼠标移入，背景皮肤预览
+				aLi[i].onmouseenter = function() {
+					oSkin.style.background = "url(img/skin.png),url(img/"+(this.i+1)+".jpg) no-repeat center top/cover";
+				};
+				// 鼠标点击，换肤
+				aLi[i].onclick = function() {
+					index = this.i+1;
+					body.style.background = "url(img/"+index+".jpg) no-repeat center top/cover";
+				}
+			}	
+
+			oLeft.onmouseleave = function() {
+				oSkin.style.background = "url(img/skin.png),url(img/"+index+".jpg) no-repeat center top/cover";
+			};
+			
+			// 点击"换肤"展开
+			oPen.onclick = function() {
+				oHeader.style.height = "286px";
+			};
+
+			// 点击"收起"合上
+			oClose.onclick = function() {
+				oHeader.style.height = "0px";
+			}
+		};
+	</script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery360全方位立体展示特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;	
+			background: url(img/bg.jpg) no-repeat center top/cover;
+		}
+		#box {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			width: 960px;
+			height: 410px;
+			margin: auto;
+			background: rgba(255,255,255,0.8);
+		}
+		#box .car {
+			width: 940px;
+			height: 390px;
+			margin: 10px auto;
+		}
+		#box .car img {
+			display: none;
+		}
+		#box .car img.on {
+			display: block;
+		}
+		#box .left,
+		#box .right {
+			position: absolute;
+			top: 310px;
+			width: 80px;
+			height: 40px;
+			cursor: pointer;
+		}
+		#box .left {
+			left: 70px;
+		}
+		#box .right {
+			right: 70px;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="car">
+			<img src="img/1.jpg" alt="" class="on">
+			<img src="img/2.jpg" alt="">
+			<img src="img/3.jpg" alt="">
+			<img src="img/4.jpg" alt="">
+			<img src="img/5.jpg" alt="">
+			<img src="img/6.jpg" alt="">
+			<img src="img/7.jpg" alt="">
+			<img src="img/8.jpg" alt="">
+			<img src="img/9.jpg" alt="">
+			<img src="img/10.jpg" alt="">
+			<img src="img/11.jpg" alt="">
+			<img src="img/12.jpg" alt="">
+			<img src="img/13.jpg" alt="">
+			<img src="img/14.jpg" alt="">
+			<img src="img/15.jpg" alt="">
+			<img src="img/16.jpg" alt="">
+			<img src="img/17.jpg" alt="">
+			<img src="img/18.jpg" alt="">
+			<img src="img/19.jpg" alt="">
+			<img src="img/20.jpg" alt="">
+			<img src="img/21.jpg" alt="">
+			<img src="img/22.jpg" alt="">
+			<img src="img/23.jpg" alt="">
+			<img src="img/24.jpg" alt="">
+			<img src="img/25.jpg" alt="">
+			<img src="img/26.jpg" alt="">
+			<img src="img/27.jpg" alt="">
+			<img src="img/28.jpg" alt="">
+			<img src="img/29.jpg" alt="">
+			<img src="img/30.jpg" alt="">
+			<img src="img/31.jpg" alt="">
+			<img src="img/32.jpg" alt="">
+			<img src="img/33.jpg" alt="">
+			<img src="img/34.jpg" alt="">
+			<img src="img/35.jpg" alt="">
+		</div>
+		<div class="left"></div>
+		<div class="right"></div>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var img = document.getElementsByTagName("img"),
+				left = document.querySelector(".left"),
+				right = document.querySelector(".right"),
+				timer = null,
+				n = 0;
+
+			left.onmouseenter = function(){
+				timer = setInterval(function(){
+					n %= 35;
+					n===0 ? img[img.length-1].classList.remove("on") : img[n].previousElementSibling.classList.remove("on");
+					img[n].classList.add("on");
+					n += 1;
+				},100);
+			};
+
+			left.onmouseleave = function(){
+				clearInterval(timer);
+			};
+
+			right.onmouseenter = function(){
+				var myEvent = new Event("mouseenter");
+				left.dispatchEvent(myEvent);
+			};
+
+			right.onmouseleave = function(){
+				var myEvent = new Event("mouseleave");
+				left.dispatchEvent(myEvent);				
+			};
+		};
+	</script>
+</body>
+</html>

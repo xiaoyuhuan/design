@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CSS3经典水平手风琴特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;			
+			font-family: "microsoft yahei";
+		}
+		#box {
+			overflow: hidden;
+			position: relative;
+			width: 1182px;
+			height: 280px;
+			margin: 100px auto;
+			border: 6px solid #fff;
+		} 
+		#box .con {
+			overflow: hidden;
+			float: left;
+			position: absolute;
+			top: 0;
+			width: 981px;
+			height: 100%;
+			border-left: 1px solid #fff; 
+			transition: 1s;
+		}
+		#box .con1 {
+			left: 0px;
+			background: #00a0ea;
+		}
+		#box .con2 {
+			left: 197px;
+			background: #65b2af;
+		}		
+		#box .con3 {
+			left: 394px;
+			background: #957171;
+		}	
+		#box .con4 {
+			left: 591px;
+			background: #ef92c7;
+		}
+		#box .con5 {
+			left: 788px;
+			background: #378048;
+		}		
+		#box .con6 {
+			left: 985px;
+			background: #ef4300;
+		}
+		#box .con > p { 
+			z-index: 9;
+			position: absolute;
+			left: 0;
+			width: 197px;
+			height: 100%;
+			background: rgba(0,0,0,.5);	
+			color: #fff;
+			line-height: 280px;	
+			text-align: center;	
+			transition: 1s;
+		}
+		#box .con > p:nth-child(1) {
+			top: 0;
+		}
+		#box .con > p:nth-child(2) {
+			bottom: 0;
+		}
+		#box .con > p.open {
+			width: 980px;
+			height: 40px;
+			line-height: 40px;
+			color: #fff;
+		}
+		#box .con > p.close {
+			width: 41px;
+			color: transparent;
+		}
+		#box .con ul { 
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 920px;
+			height: 190px;
+			transform: translate(-50%,-50%);
+
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;	
+		}
+		#box .con ul li {
+			position: relative;
+			width: 208px;
+			height: 190px;
+			box-shadow: 0 0 3px #ccc;
+		}
+		#box .con ul li img {
+			width: 200px;
+			height: 150px;
+			margin: 4px;
+		}
+		#box .con ul li p {
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			width: 208px;
+			height: 30px;
+			background: rgba(0,0,0,.5);
+			color: #fff;
+			font-size: 13px;
+			line-height: 30px;
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="con1 con">
+			<p>IT培训</p>
+			<p>IT培训</p>
+			<ul>
+				<li><img src="img/c1.jpg"><p>网页制作</p></li>
+				<li><img src="img/c2.jpg"><p>JAVA开发</p></li>
+				<li><img src="img/c3.jpg"><p>IOS安卓</p></li>
+				<li><img src="img/c4.jpg"><p>C++开发</p></li>
+			</ul>
+		</div>
+		<div class="con2 con">
+			<p>IT培训</p>
+			<p>IT培训</p>
+			<ul>
+				<li><img src="img/z1.jpg"><p>网页制作</p></li>
+				<li><img src="img/z2.jpg"><p>JAVA开发</p></li>
+				<li><img src="img/z3.jpg"><p>IOS安卓</p></li>
+				<li><img src="img/z4.jpg"><p>C++开发</p></li>
+			</ul>						
+		</div>
+		<div class="con3 con">
+			<p>IT培训</p>
+			<p>IT培训</p>	
+			<ul>
+				<li><img src="img/x1.jpg"><p>网页制作</p></li>
+				<li><img src="img/x2.jpg"><p>JAVA开发</p></li>
+				<li><img src="img/x3.jpg"><p>IOS安卓</p></li>
+				<li><img src="img/x4.jpg"><p>C++开发</p></li>
+			</ul>					
+		</div>
+		<div class="con4 con">
+			<p>IT培训</p>
+			<p>IT培训</p>
+			<ul>
+				<li><img src="img/y1.jpg"><p>网页制作</p></li>
+				<li><img src="img/y2.jpg"><p>JAVA开发</p></li>
+				<li><img src="img/y3.jpg"><p>IOS安卓</p></li>
+				<li><img src="img/y4.jpg"><p>C++开发</p></li>
+			</ul>						
+		</div>
+		<div class="con5 con">
+			<p>IT培训</p>
+			<p>IT培训</p>
+			<ul>
+				<li><img src="img/q1.jpg"><p>网页制作</p></li>
+				<li><img src="img/q2.jpg"><p>JAVA开发</p></li>
+				<li><img src="img/q3.jpg"><p>IOS安卓</p></li>
+				<li><img src="img/q4.jpg"><p>C++开发</p></li>
+			</ul>						
+		</div>
+		<div class="con6 con">
+			<p>IT培训</p>
+			<p>IT培训</p>
+			<ul>
+				<li><img src="img/b1.jpg"><p>网页制作</p></li>
+				<li><img src="img/b2.jpg"><p>JAVA开发</p></li>
+				<li><img src="img/b3.jpg"><p>IOS安卓</p></li>
+				<li><img src="img/b4.jpg"><p>C++开发</p></li>
+			</ul>						
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function() {
+			var oBox = document.getElementById("box"),
+				aCon = oBox.querySelectorAll(".con"),
+				aP = document.querySelectorAll(".con > p"),
+				length = aCon.length,
+				pLen = aP.length;
+			
+			for(var i = 0; i < length; i++) {
+				aCon[i].i = i;
+				aCon[i].onmouseenter = function() {
+					for(var j = 0; j <= this.i; j++) {
+						aCon[j].style.left = 41*j + "px"; 
+					}
+					for(j = this.i+1; j < length; j++) {
+						aCon[j].style.left = 980 + (j-1)*41 + "px";
+					}
+
+					for(j = 0; j < pLen; j++) {
+						aP[j].className = "close";
+					}	
+					this.children[0].className = "open";
+					this.children[1].className = "open";				
+				};
+				
+				aCon[i].onmouseleave = function() {
+					for(var j = 0; j < length; j++) {
+						aCon[j].style.left = 197*j + "px";
+					}
+
+					for(j = 0; j < pLen; j++) {
+						aP[j].className = "";
+					}
+				};
+			}
+		};
+	</script>
+</body>
+</html>

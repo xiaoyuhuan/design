@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" ondragstart="return false;">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery拖放排序动画</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+			-webkit-user-select: none;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}		
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;			
+			background: url(img/bg.jpg) no-repeat center top/cover;
+		}
+		.clearfix:after {
+			content: "";
+			height: 0;
+			line-height: 0;
+			visibility: hidden;
+			display: block;
+			clear: both;
+		}		
+		#box {
+			width: 620px;
+			margin: 100px auto;
+		}
+		#box ul li {
+			float: left;
+			margin-bottom: 10px;
+		}
+		#box ul li:nth-child(3n),
+		#box ul li:nth-child(2),
+		#box ul li:nth-child(5),
+		#box ul li:nth-child(8) {
+			margin-left: 10px;
+		}
+		#box ul li img {
+			width: 200px;
+			border-radius: 5px;
+			cursor: pointer;
+		}			
+	</style>
+</head>
+<body>
+	<div id="box">
+		<ul class="clearfix">
+			<li><img src="img/1.png" alt=""></li>
+			<li><img src="img/2.png" alt=""></li>
+			<li><img src="img/3.png" alt=""></li>
+			<li><img src="img/4.png" alt=""></li>
+			<li><img src="img/5.png" alt=""></li>
+			<li><img src="img/6.png" alt=""></li>
+			<li><img src="img/7.png" alt=""></li>
+			<li><img src="img/8.png" alt=""></li>
+			<li><img src="img/9.png" alt=""></li>
+		</ul>
+	</div>
+	
+	<script type="text/javascript" src="js/move.js"></script>
+	<script type="text/javascript">
+		window.onload = function() {
+			var ul = document.getElementsByTagName("ul")[0],
+				aLi = ul.getElementsByTagName("li"),
+				length = aLi.length,
+				arr = [],
+				z = 2;
+
+			// 把li到定位父级的left和top存储起来
+			for(var i = 0; i < length; i++) {
+				arr.push([aLi[i].offsetLeft,aLi[i].offsetTop]);
+			}
+
+			// 把li改为定位布局
+			for(i = 0; i < length; i++) {
+				aLi[i].style.position = "absolute";
+				aLi[i].style.left = arr[i][0] + "px";
+				aLi[i].style.top = arr[i][1] + "px";
+				aLi[i].style.margin = 0;
+			}
+
+			// 给每个li绑定拖拽的功能
+			for(i = 0; i < length; i++) {
+				aLi[i].index = i;
+				drag(aLi[i]);
+			}
+
+			// 拖拽功能
+			function drag(obj) {
+				obj.onmousedown = function(e) {
+					var time = new Date;
+
+					var e = e || window.event;
+					var x = e.clientX;
+					var y = e.clientY;
+
+					// 获取li原来的位置
+					var l = obj.offsetLeft;
+					var t = obj.offsetTop;
+
+					obj.style.zIndex = z++;
+					obj.style.opacity = 0.8;
+
+					document.onmousemove = function(e) {
+						var e = e || window.event;
+						var _left = e.clientX - x + l;
+						var _top = e.clientY - y + t;
+						obj.style.left = _left + "px";
+						obj.style.top = _top + "px";
+					};
+					document.onmouseup = function() {
+						document.onmousemove = null;
+						document.onmouseup = null;
+
+						var nearLi = near(obj);
+						if(new Date-time>400 && nearLi){
+							if(obj.index < nearLi.index) {
+									
+								// 移动位置
+								for(var i = obj.index+1; i <= nearLi.index; i++) {
+									move(aLi[i],{
+										left: arr[i-1][0],
+										top: arr[i-1][1]
+									});
+								}
+
+								move(obj,{
+									left: arr[nearLi.index][0],
+									top: arr[nearLi.index][1]
+								},function(){
+									
+									// 移动索引
+									ul.insertBefore(obj,aLi[nearLi.index+1]);
+									for(i = obj.index; i <= nearLi.index; i++) {
+										aLi[i].index -= 1;
+									}	
+									obj.index = nearLi.index+1;
+								});						
+							}else {
+								// 移动位置
+								for(i = nearLi.index; i < obj.index; i++) {
+									move(aLi[i],{
+										left: arr[i+1][0],
+										top: arr[i+1][1]
+									});
+								}
+
+								move(obj,{
+									left: arr[nearLi.index][0],
+									top: arr[nearLi.index][1]
+								},function(){
+
+									// 移动索引
+									ul.insertBefore(obj,aLi[nearLi.index]);
+									for(i = nearLi.index+1; i <= obj.index; i++) {
+										aLi[i].index += 1;
+									}	
+									obj.index = nearLi.index-1;
+								});								
+							}		
+							time = new Date;					
+						}else{
+							move(obj,{
+								left: arr[obj.index][0],
+								top: arr[obj.index][1]
+							});							
+						}
+
+						obj.style.opacity = 1;
+					};
+					return false; // 阻止默认事件
+				};
+			}
+
+			// 获取碰撞成功的距离最近li
+			function near(obj) {
+				var n = 100000;
+				var oLi = "";
+				for(var i = 0; i < length; i++) {
+					if(impact(obj,aLi[i]) && obj!=aLi[i]) {
+						var c = distance(obj,aLi[i]); // 获取碰撞成功的li之间的距离
+						if(c<n) {
+							n = c;
+							oLi = aLi[i]; // 把距离最近的li保存起来
+						}
+					}				
+				}
+				return oLi;
+			}
+
+			// 碰撞检测功能
+			function impact(obj1,obj2) {
+				var L1 = obj1.offsetLeft;
+				var R1 = obj1.offsetLeft + obj1.offsetWidth;
+				var T1 = obj1.offsetTop;
+				var B1 = obj1.offsetTop + obj1.offsetHeight;
+
+				var L2 = obj2.offsetLeft;
+				var R2 = obj2.offsetLeft + obj2.offsetWidth;
+				var T2 = obj2.offsetTop;
+				var B2 = obj2.offsetTop + obj2.offsetHeight;	
+
+				if(R1<L2 || B1<T2 || L1>R2 || T1>B2) {
+					return false;
+				}else {
+					return true;
+				}
+			}			
+
+			// 勾股定理计算长度 a²+b²=c²
+			function distance(obj1,obj2) {
+				var a = obj1.offsetLeft - obj2.offsetLeft;
+				var b = obj1.offsetTop - obj2.offsetTop;
+				return Math.sqrt(a*a+b*b); // 开方
+			}
+		};
+	</script>
+</body>
+</html>

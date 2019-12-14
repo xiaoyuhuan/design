@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>商务式垂直滑动侧边栏</title>
+	<style type="text/css">	
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;			
+			background: url(img/bg.jpg);
+			font-family: "microsoft yahei";
+		}
+		#nav {
+			width: 230px;
+			margin: 100px;
+			background: rgba(0,0,0,.5);
+			color: #fff;
+		}
+		#nav dl dt {
+			height: 40px;
+			background: rgba(0,0,0,.1);
+			font-size: 15px;
+			text-indent: 20px;
+			line-height: 40px;
+		}
+		#nav dl dd {
+			font-size: 14px;
+			text-indent: 40px;
+			line-height: 40px;
+			transition: .3s;
+		}
+		#nav dl dd.on {
+			overflow: hidden;
+			height: 40px;
+		}
+		#nav .subtit {
+			position: relative;
+			height: 40px;
+			cursor: pointer;
+			user-select: none;
+		}
+		#nav .subtit i {
+			position: absolute; 
+			top: 13px;
+			left: 20px;
+			width: 0;
+			height: 0;
+			border: 7px solid transparent;
+			border-left-color: #fff;
+			transform-origin: 20% 50%; 
+			transition: .3s;
+		}
+		#nav .subtit i.on {
+			transform: rotate(90deg);
+		}
+		#nav dl dd ul {
+			background: rgba(0,0,0,.1);
+		}
+		#nav dl dd ul li {
+			height: 30px;
+			color: #fff;
+			font-size: 13px;
+			line-height: 30px;
+		}
+	</style>
+</head>
+<body>
+	<div id="nav">
+		<dl>
+			<dt>
+				MAIN NAVIGATION
+			</dt>
+			<dd>
+				<div class="subtit"><i></i>Dashboard</div>
+				<ul>
+					<li>item1</li>
+					<li>item2</li>
+					<li>item3</li>
+				</ul>
+			</dd>
+			<dd>
+				<div class="subtit"><i></i>Charts & graphs</div>
+				<ul>
+					<li>item1</li>
+					<li>item2</li>
+					<li>item3</li>
+					<li>item4</li>
+				</ul>				
+			</dd>
+			<dd>
+				<div class="subtit"><i></i>Widgets</div>
+				<ul>
+					<li>item1</li>
+					<li>item2</li>
+					<li>item3</li>
+					<li>item4</li>
+				</ul>				
+			</dd>
+			<dd>
+				<div class="subtit"><i></i>Tables</div>
+				<ul>
+					<li>item1</li>
+					<li>item2</li>
+					<li>item3</li>
+					<li>item4</li>
+					<li>item5</li>
+				</ul>				
+			</dd>
+			<dd>
+				<div class="subtit"><i></i>Full width</div>
+				<ul>
+					<li>item1</li>
+					<li>item2</li>
+					<li>item3</li>
+				</ul>				
+			</dd>
+			<dd>
+				<div class="subtit"><i></i>Forms</div>
+				<ul>
+					<li>item1</li>
+					<li>item2</li>
+					<li>item3</li>
+					<li>item4</li>
+					<li>item5</li>
+				</ul>				
+			</dd>
+			<dd>
+				<div class="subtit"><i></i>Buttons & icons</div>
+				<ul>
+					<li>item1</li>
+					<li>item2</li>
+					<li>item3</li>
+					<li>item4</li>
+				</ul>				
+			</dd>
+			<dd>
+				<div class="subtit"><i></i>Typography</div>
+				<ul>
+					<li>item1</li>
+					<li>item2</li>
+					<li>item3</li>
+					<li>item4</li>
+				</ul>				
+			</dd>
+			<dd>
+				<div class="subtit"><i></i>Bootstrap Grid</div>
+				<ul>
+					<li>item1</li>
+					<li>item2</li>
+					<li>item3</li>
+					<li>item4</li>
+					<li>item5</li>
+					<li>item6</li>
+				</ul>				
+			</dd>
+			<dd>
+				<div class="subtit"><i></i>Elements</div>
+				<ul>
+					<li>item1</li>
+					<li>item2</li>
+					<li>item3</li>
+					<li>item4</li>
+				</ul>				
+			</dd>
+			<dd>
+				<div class="subtit"><i></i>Addons</div>
+				<ul>
+					<li>item1</li>
+					<li>item2</li>
+					<li>item3</li>
+				</ul>				
+			</dd>
+			<dd>
+				<div class="subtit"><i></i>Error</div>
+				<ul>
+					<li>item1</li>
+					<li>item2</li>
+					<li>item3</li>
+					<li>item4</li>
+				</ul>				
+			</dd>
+		</dl>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var dd = document.getElementsByTagName("dd"),
+				tit = document.querySelectorAll(".subtit"),
+				length = dd.length,
+				arr = [],
+				index = 0;
+
+			// 获取每个二级菜单的高度
+			for(var i=0; i<length; i++){
+				arr.push(dd[i].clientHeight);
+			}
+
+			for(i=0; i<length; i++){
+				dd[i].classList.add("on");
+			}
+
+			for(i=0; i<length; i++){
+				tit[i].i = i;
+				tit[i].f = false;
+				tit[i].onclick = function(){
+					for(var i=0; i<length; i++){
+						if(this != tit[i]){
+							dd[i].style.height = "40px";
+							tit[i].children[0].classList.remove("on");
+							tit[i].f = false;
+						}
+					}
+					if(this.f){
+						dd[this.i].style.height = "40px";
+						this.children[0].classList.remove("on");
+					}else{
+						dd[this.i].style.height = arr[this.i] + "px";
+						this.children[0].classList.add("on");
+					}
+					this.f = !this.f;
+				};
+			}
+		};
+	</script>
+</body>
+</html>

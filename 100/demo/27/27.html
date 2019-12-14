@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery水平切换特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		body {
+			overflow: hidden;
+		}
+		.clearfix:after {
+			content: "";
+			height: 0;
+			line-height: 0;
+			visibility: hidden;
+			display: block;
+			clear: both;
+		}		
+		.slide ul li {
+			float: left;
+			position: absolute;
+			top: 0;
+			width: 100%;
+			height: 100%;
+		}
+		.slide ul li:nth-child(1) {
+			left: 0;
+			background: url(img/bg1.jpg) no-repeat center/cover;
+		}
+		.slide ul li:nth-child(2) {
+			left: 100%;
+			background: url(img/bg2.jpg) no-repeat center/cover;
+		}
+		.slide ul li:nth-child(3) {
+			left: 100%;
+			background: url(img/bg3.jpg) no-repeat center/cover;
+		}
+		.slide ul li:nth-child(4) {
+			left: 100%;
+			background: url(img/bg4.jpg) no-repeat center/cover;
+		}
+		.tab {
+			position: absolute;
+			bottom: 120px;
+			left: 50%;
+			width: 800px;
+			height: 50px;
+			transform: translateX(-50%);
+		}
+		.tab ul li {
+			float: left;
+			width: 50px;
+			height: 50px;
+			margin-left: 120px;
+			transition: .3s;
+			cursor: pointer; 
+		}
+		.tab ul li:nth-child(1) {
+			background: url(img/nav1.png);
+		}
+		.tab ul li:nth-child(1).on {
+			background: url(img/1.png);
+		}
+		.tab ul li:nth-child(2) {
+			background: url(img/nav2.png);
+		}
+		.tab ul li:nth-child(2).on {
+			background: url(img/2.png);
+		}		
+		.tab ul li:nth-child(3) {
+			background: url(img/nav3.png);
+		}
+		.tab ul li:nth-child(3).on {
+			background: url(img/3.png);
+		}		
+		.tab ul li:nth-child(4) {
+			background: url(img/nav4.png);
+		}
+		.tab ul li:nth-child(4).on {
+			background: url(img/4.png);
+		}	
+		.tab .line {
+			position: absolute;
+			top: 50%;
+			left: 0;
+			width: 100%;
+			height: 2px;
+			background: #fff;
+			transform: translateY(-50%);
+			z-index: -1;
+		}	
+	</style>
+</head>
+<body>
+	<div class="slide">
+		<ul class="clearfix">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+	<div class="tab">
+		<ul class="clearfix">
+			<li class="on"></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+		<div class="line"></div>
+	</div>
+
+	<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var $list = $(".slide").find("ul li"),
+				$li = $(".tab").find("ul li"),
+				last = 0,
+				flag = true;
+			
+			$li.click(function(){
+				var index = $(this).index();
+				if(last === index) return;
+
+				if(flag) {
+					flag = false;
+					$(this).addClass("on").siblings().removeClass("on");
+					if(last > index) {
+						$list.eq(last).animate({
+							"left": "100%"
+						},800,function(){
+							for(var i=index; i<last; i++){
+								$list.eq(i).css("left","100%");
+							}				
+						});
+					}else {
+						$list.eq(last).animate({
+							"left": "-100%"
+						},800,function(){
+							for(var i=last; i<index; i++){
+								$list.eq(i).css("left","-100%");
+							}
+						});
+					}
+					$list.eq(index).animate({
+						"left": 0
+					},800,function(){
+						last = index;
+						flag = true;
+					});	
+				}
+			});
+		});
+	</script>
+</body>
+</html>

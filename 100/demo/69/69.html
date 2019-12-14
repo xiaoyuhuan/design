@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery结合CSS3实现的商品全选反选</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+			font-family: "microsoft yahei";
+		}
+		.clearfix:after {
+			content: "";
+			height: 0;
+			line-height: 0;
+			visibility: hidden;
+			display: block;
+			clear: both;
+		}
+		#box {
+			width: 750px;
+			margin: 100px auto;
+		}
+		#box .top {
+			width: 100%;
+			height: 90px;
+			background: rgba(0,0,0,.5);
+			border-radius: 20px;
+			box-shadow: 0 0 7px #ccc;
+			color: #fff;
+			text-align: center;
+			font-weight: bold;
+		}
+		#box .top ul li {
+			float: left;
+			width: calc(100% / 3);
+		}
+		#box .top .btn {
+			overflow: hidden;
+			width: 150px;
+			height: 50px;
+			margin-top: 20px;
+			margin-left: 30px;
+			background: #0cc;
+			font-size: 15px;
+			line-height: 50px;
+			letter-spacing: 2px;
+			border-radius: 2px;
+			cursor: pointer;			
+		}
+		#box .top .btn .select {
+			margin-top: 0;
+			transition: .2s;
+		}
+		#box .top .btn .select.on {
+			margin-top: -50px;
+		}
+		#box .top .title {
+			font-size: 20px;
+			line-height: 90px;
+		}
+		#box .top .check {
+			position: relative;
+			width: 50px;
+			height: 50px;
+			margin-top: 20px;
+			margin-left: 170px;
+			background: #aaa;
+			line-height: 50px;
+			border-radius: 2px;			
+		}
+		#box .top .check span {
+			display: none;
+			position: absolute;
+			top: -15px;
+			right: -15px;
+			width: 25px;
+			height: 25px;
+			background: #0c8;
+			color: #fff;
+			border: 2px solid #fff;
+			border-radius: 50%;
+			text-align: center;
+			font-size: 14px;
+			line-height: 25px;			
+		}
+		#box .top .check.on {
+			background: #0c8;
+		}
+		#box .top .check.on span {
+			display: block;
+		}
+		#box .main {
+			width: 100%;
+			margin-top: 20px;
+			padding: 19px;
+			background: rgba(0,0,0,.5);
+			border-radius: 20px;
+			box-shadow: 0 0 7px #ccc;	
+			box-sizing: border-box;		
+		}
+		#box .main ul li {
+			float: left;
+			position: relative;
+			width: 150px;
+			height: 150px;
+			margin: 10px;
+			background-repeat: no-repeat;
+			background-position: center top;
+			background-size: cover;
+			border: 4px solid #fff;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		#box .main ul li p {
+			display: none;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 40px;
+			height: 40px;
+			background: #0c8;
+			color: #fff;
+			text-align: center;
+			font-size: 18px;
+			line-height: 40px;
+			border-radius: 50%;
+			transform: translate(-50%,-50%);
+		}
+		#box .main ul li.on {
+			border-color: #0c8;
+			animation: move .3s;
+		}
+		#box .main ul li.on p {
+			display: block;
+		}
+		@keyframes move {
+			0% {
+				transform: scale(0.5);
+			}
+			100% {
+				transform: scale(1);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="top">
+			<ul class="clearfix">
+				<li><div class="btn"><p class="select">SELECT ALL</p><p>UNSELECT</p></div></li>
+				<li><div class="title">SELECT YOUR PHOTO</div></li>
+				<li><div class="check">✔<span></span></div></li>
+			</ul>
+		</div>
+		<div class="main">
+			<ul class="clearfix">
+				<li style="background-image: url(img/1.jpg);"><p>✔</p></li>
+				<li style="background-image: url(img/2.jpg);"><p>✔</p></li>
+				<li style="background-image: url(img/3.jpg);"><p>✔</p></li>
+				<li style="background-image: url(img/4.jpg);"><p>✔</p></li>
+				<li style="background-image: url(img/5.jpg);"><p>✔</p></li>
+				<li style="background-image: url(img/6.jpg);"><p>✔</p></li>
+				<li style="background-image: url(img/7.jpg);"><p>✔</p></li>
+				<li style="background-image: url(img/8.jpg);"><p>✔</p></li>
+			</ul>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var box = document.getElementById("box"),
+				top = box.querySelector(".top"),
+				btn = top.querySelector(".btn"),
+				select = btn.querySelector(".select"),
+				check = top.querySelector(".check"),
+				num = check.getElementsByTagName("span")[0],
+				main = box.querySelector(".main"),
+				li = main.getElementsByTagName("li"),
+				length = li.length,
+				n = 0;
+			
+			btn.flag = false;
+			btn.onclick = function(){
+				if(this.flag){
+					select.classList.remove("on");
+					check.classList.remove("on");
+					for(var i=0; i<length; i++){
+						li[i].className = "";
+						li[i].flag = false;
+					}					
+				}else{
+					select.classList.add("on");
+					check.classList.add("on");
+					num.innerHTML = length;
+					for(var i=0; i<length; i++){
+						li[i].className = "on";
+						li[i].flag = true;
+					}
+				}
+				btn.flag = !btn.flag;
+			};
+
+			for(var i=0; i<length; i++){
+				li[i].i = i;
+				li[i].flag = false;
+				li[i].onclick = function(){
+					if(this.flag){
+						this.className = "";
+					}else{
+						this.className = "on";
+					}
+					this.flag = !this.flag;
+
+					n=0;
+					for(var i=0; i<length; i++){
+						if(li[i].flag){
+							n++;
+						}
+						num.innerHTML = n;
+					}
+
+					if(n === 0){
+						btn.flag = false;
+						select.classList.remove("on");
+						check.classList.remove("on");						
+					}else{
+						btn.flag = true;
+						select.classList.add("on");
+						check.classList.add("on");						
+					}
+				};
+			}
+		};
+	</script>
+</body>
+</html>

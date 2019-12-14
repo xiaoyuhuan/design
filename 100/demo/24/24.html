@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery右侧qq悬浮特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+		}
+		#box {
+			overflow: hidden;
+			position: absolute;
+			top: 50%;
+			right: 20px;
+			width: 158px;
+			height: 220px;
+			transform: translateY(-50%);
+		}
+		#box .big {
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 158px;
+			height: 220px;	
+			background: url(img/big.png);
+			cursor: pointer;	
+		}
+		#box .small {
+			position: absolute;
+			top: 0;
+			right: -33px;
+			width: 33px;
+			height: 180px;
+			background: url(img/small.png);
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="big"></div>
+		<div class="small"></div>
+	</div>
+
+	<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var $big = $(".big"),
+				$small = $(".small");
+
+			$big.click(function(){
+				$(this).animate({
+					"right": -258
+				},700);
+				$small.delay(700).animate({
+					"right": 0
+				},300);
+			});
+
+			$small.click(function(){
+				$(this).animate({
+					"right": -33
+				},300);
+				$big.delay(300).animate({
+					"right": 0
+				},700);
+			});
+		});
+	</script>
+</body>
+</html>

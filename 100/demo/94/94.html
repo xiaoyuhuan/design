@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5视频播放器开发</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			display: block;
+		}	
+		video::-webkit-media-controls {
+			display: none !important;
+		}	
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+			font-family: "microsoft yahei";
+		}
+		#box {
+			overflow: hidden;
+			position: relative;
+			width: 880px;
+			height: 560px;
+			margin: 100px auto;
+			background: #111;
+		}
+		#box .list {
+			z-index: 2;
+			position: absolute;
+			top: 0;
+			right: -200px;
+			width: 200px;
+			height: 100%;
+			background: #222;
+			color: #ddd;
+			font-size: 13px;
+			transition: .6s;
+		}
+		#box .list img {
+			position: absolute;
+			top: 50%;
+			left: -16px;
+			transform: translateY(-50%);
+			cursor: pointer;
+		}
+		#box .list dl dt {
+			height: 40px;
+			line-height: 40px;
+			text-indent: 20px;
+		}
+		#box .list dl dd {
+			position: relative;
+			height: 35px;
+			line-height: 35px;
+			text-indent: 30px;
+			cursor: pointer;
+			transition: .3s;
+		}
+		#box .list dl dd:after {
+			content: "";
+			display: block;
+			position: absolute;
+			top: 15px;
+			left: 15px;
+			width: 4px;
+			height: 4px;
+			background: #ccc;
+			border-radius: 50%;
+		}
+		#box .list dl dd.on,
+		#box .list dl dd:hover {
+			background: #111;
+		}
+		#box .control {
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			height: 60px;
+			background: #000;
+		}
+		#box .control .top {
+			position: relative;
+			width: 100%;
+			height: 20px;
+			background: #333;
+		}
+		#box .control .top p {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 0;
+			height: 20px;
+			background: #658521;
+		}
+		#box .control .top span {
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 20px;
+			height: 20px;
+			background: #ccc;
+			border-radius: 50%;
+			cursor: pointer;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
+		}
+		#box .control .bot {
+			width: 100%;
+			height: 40px;
+		}
+		#box .control .bot ul li {
+			float: left;
+			height: 40px;
+		}
+		#box .control .bot ul li img {
+			width: 20px;
+			height: 20px;		
+			cursor: pointer;	
+		}
+		#box .control .bot .icon {
+			margin-top: 10px;
+		}
+		#box .control .bot .icon img {
+			opacity: .5;
+			float: left;
+			margin-right: 15px;
+		}
+		#box .control .bot .icon img:nth-child(1) {
+			margin-left: 20px;
+		}
+		#box .control .bot .icon img:hover {
+			opacity: 1;
+		}
+		#box .control .bot .speed {
+			margin-left: 60px;
+			color: #999;
+			font-size: 13px;
+			font-weight: bold;
+			line-height: 40px;
+		}
+		#box .control .bot .volume {
+			margin-top: 10px;
+			margin-left: 60px;
+		}
+		#box .control .bot .volume img {
+			float: left;
+		}
+		#box .control .bot .volume .item {
+			float: left;
+			position: relative;
+			width: 130px;
+		    height: 10px;
+		    margin-top: 5px;
+		    margin-left: 10px;
+		    background: #ddd;
+		}
+		#box .control .bot .volume .item p {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 130px;
+			height: 10px;
+			background: #658521;
+		}
+		#box .control .bot .volume .item span {
+			position: absolute;
+			top: -1px;
+			left: 120px;
+			display: block;
+			width: 12px;
+			height: 12px;
+			background: #4c4c4c;
+			border-radius: 10px;
+			cursor: pointer;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;			
+		}
+		#box .control .bot .screen {
+			margin-top: 10px;
+			margin-left: 320px;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<video width="100%" height="100%" src="video/sheep1.mp4">
+			您的浏览器不支持video标签，请升级或者更换浏览器。
+		</video>
+		<div class="list">
+			<img src="img/hide.png" class="hide">
+			<dl>
+				<dt>播放列表</dt>
+				<dd class="on">喜洋洋与灰太狼 - 第1集</dd>
+				<dd>喜洋洋与灰太狼 - 第2集</dd>
+				<dd>喜洋洋与灰太狼 - 第3集</dd>
+				<dd>喜洋洋与灰太狼 - 第4集</dd>
+				<dd>熊出没 - 第1集</dd>
+				<dd>熊出没 - 第2集</dd>				
+			</dl>
+		</div>
+		<div class="control">
+			<div class="top">
+				<p class="tpro"></p>
+				<span class="tbar"></span>
+			</div>
+			<div class="bot">
+				<ul>
+					<li>
+						<div class="icon">
+							<img src="img/front.png" class="btn">
+							<img src="img/show.png" class="show">
+							<img src="img/after.png" class="btn">
+						</div>						
+					</li>
+					<li>
+						<div class="speed">
+							<span class="current">00:00:00</span> /
+							<span class="alltime">00:05:00</span>
+						</div>						
+					</li>
+					<li>
+						<div class="volume">
+							<img src="img/voice.png" class="voice">
+							<div class="item">
+								<p class="ipro"></p>
+								<span class="ibar"></span>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="screen">
+							<img src="img/full.png" class="full">
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var video = document.getElementsByTagName("video")[0],
+				tpro = document.querySelector(".tpro"),
+				tbar = document.querySelector(".tbar"),
+				btn = document.querySelectorAll(".btn"),
+				show = document.querySelector(".show"),
+				full = document.querySelector(".full"),
+				current = document.querySelector(".current"),
+				alltime = document.querySelector(".alltime"),
+				voice = document.querySelector(".voice"),
+				ipro = document.querySelector(".ipro"),
+				ibar = document.querySelector(".ibar"),
+				list = document.querySelector(".list"),
+				hide = list.getElementsByTagName("img")[0],
+				dd = list.getElementsByTagName("dd"),
+				arr = ["sheep1","sheep2","sheep3","sheep4","bear1","bear2"],
+				length = dd.length,
+				index = 0;
+
+			// 播放列表
+			hide.onmouseenter = function(){
+				list.style.right = 0;
+			};
+			list.onmouseleave = function(){
+				this.style.right = "-200px";
+			};
+			for(var i=0; i<length; i++){
+				dd[i].i = i;
+				dd[i].onclick = function(){
+					if(index != this.i){
+						dd[index].className = "";
+
+						index = this.i;
+						show.src = "img/stop.png";
+						show.flag = false;
+						video.src = "video/"+arr[index]+".mp4";
+						video.play();	
+						dd[index].className = "on";			
+					}
+				};
+			};
+
+			// 播放视频
+			show.flag = true;
+			video.src = "video/"+arr[index]+".mp4";
+			show.onclick = function(){
+				if(this.flag){
+					video.play();
+					this.src = "img/stop.png";
+				}else{
+					video.pause();
+					this.src = "img/show.png";
+				}
+				this.flag = !this.flag;
+			};
+			for(var i=0; i<btn.length; i++){
+				btn[i].i = i;
+				btn[i].onclick = function(){
+					dd[index].className = "";
+
+					if(this.i){ // 播放下一个视频
+						index++;
+						index %= length;												
+					}else{ // 播放上一个视频
+						index--;
+						if(index < 0){
+							index = length-1;
+						}						
+					}
+
+					show.src = "img/stop.png";
+					show.flag = false;
+					video.src = "video/"+arr[index]+".mp4";
+					video.play();
+					dd[index].className = "on";
+				}
+			}			
+
+			// 监听播放
+			video.ontimeupdate = function(){
+				current.innerHTML = timeFormat(this.currentTime);
+				if(this.currentTime){
+					alltime.innerHTML = timeFormat(this.duration);
+
+					var t = this.currentTime/this.duration * 860;
+					tpro.style.width = (t+20) + "px";
+					tbar.style.left = t + "px";
+				}
+			};
+
+			// 播放结束
+			video.onended = function(){
+				show.src = "img/show.png";
+				show.flag = true;				
+			};
+
+			// 时间格式化
+			function timeFormat(time){
+				time = parseInt(time);
+				var h = addZero(Math.floor(time/3600));
+				var m = addZero(Math.floor((time%3600)/60));
+				var s = addZero(Math.floor(time%60));
+				return h+":"+m+":"+s;
+			}
+
+			// 补0
+			function addZero(num){
+				if(num<10){
+					return "0" + num;
+				}else{
+					return "" + num;
+				}
+			}
+
+			// 拖拽视频进度条
+			tbar.onmousedown = function(e){
+				e = e || window.event;
+				var downX = e.clientX,
+					downLeft = this.offsetLeft;
+				document.onmousemove = function(e){
+					e = e || window.event;
+					var x_ = e.clientX - downX,
+						left = x_ + downLeft;
+
+					left = Math.max(left,0);
+					left = Math.min(left,860);
+					tbar.style.left = left + "px";
+					tpro.style.width = (left+20) + "px";
+
+					video.currentTime = left/860 * video.duration;
+				};
+				document.onmouseup = function(){
+					this.onmousemove = null;
+				};
+			};
+			
+			// 调节音量大小
+			ibar.onmousedown = function(e){
+				e = e || window.event;
+				var downX = e.clientX,
+					downLeft = this.offsetLeft;				
+				document.onmousemove = function(e){
+					e = e || window.event;
+					var x_ = e.clientX - downX,
+						left = x_ + downLeft;
+
+					left = Math.max(left,0);
+					left = Math.min(left,120);
+					ibar.style.left = left + "px";
+					ipro.style.width = (left+10) + "px";
+
+					video.volume = left/120;
+					if(video.volume <= 0){
+						voice.src = "img/mute.png";
+					}else{
+						voice.src = "img/voice.png";
+					}
+				};
+				document.onmouseup = function(){
+					this.onmousemove = null;
+				};				
+			};
+
+			// 全屏
+			full.onclick = function(){
+				if(video.mozRequestFullScreen){
+					video.mozRequestFullScreen();
+				}else if(video.requestFullscreen){
+					video.requestFullscreen();
+				}else if(video.msRequestFullscreen){
+					video.msRequestFullscreen();
+				}else if(video.oRequestFullscreen){
+					video.oRequestFullscreen();
+				}else if(video.webkitRequestFullScreen){
+					video.webkitRequestFullScreen();
+				}
+			};			
+		};
+	</script>
+</body>
+</html>

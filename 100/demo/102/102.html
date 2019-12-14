@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery丝带突起炫彩导航特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+		li {
+			list-style: none;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+			font-family: "microsoft yahei";
+		}
+		#box {
+			overflow: hidden;
+			position: relative;
+			width: 500px;
+			height: 60px;
+			margin: 100px auto;
+		}
+		#box .nav {
+			position: absolute;
+			bottom: 0;
+			width: 500px;
+			height: 50px;
+		}
+		#box .nav .left,
+		#box .nav .right {
+			position: absolute;
+			top: 0;
+			width: 0;
+			height: 0;
+			border: 25px solid #fff;
+		}
+		#box .nav .left {
+			left: 0;
+			border-left-color: transparent;
+		}
+		#box .nav .right {
+			right: 0;
+			border-right-color: transparent;
+		}		
+		#box .nav ul {
+			width: 400px;
+			height: 50px;
+			margin: auto;
+		}
+		#box .nav ul li {
+			float: left;
+			position: relative;
+			width: 80px;
+			height: 50px;
+			text-align: center;
+			font-size: 16px;
+			line-height: 50px;			
+		}
+		#box .nav ul li a {
+			display: block;
+			position: absolute;
+			top: 0;
+			width: 80px;
+			height: 50px;
+			background: #fff;
+			transition: top .3s;
+		}		
+		#box .nav ul li span {
+			position: absolute;
+			width: 0;
+			height: 0;
+			border: 6px solid transparent;
+			transition: top .3s;
+		}
+		#box .nav ul li .p1 {
+			top: 44px;
+			left: 3px;
+			border-right-color: #f99;
+			transform: rotate(135deg);			
+		}
+		#box .nav ul li .p2 {
+			top: 52px;
+			left: -6px;
+			border-right-color: #fff;
+			transform: rotate(-45deg);			
+		}
+		#box .nav ul li .p3 {
+			top: 44px;
+			left: 65px;
+			border-right-color: #f99;
+			transform: rotate(45deg);			
+		}	
+		#box .nav ul li .p4 {
+			top: 52px;
+			left: 74px;
+			border-right-color: #fff;
+			transform: rotate(-135deg);			
+		}			
+		#box .nav ul li:hover a {
+			top: -8px;
+			background: #f66;
+			color: #fff;
+			border-radius: 3px 3px 0 0;
+		}
+		#box .nav ul li:hover .p1 {
+			top: 36px;
+		}
+		#box .nav ul li:hover .p2 {
+			top: 44px;
+		}
+		#box .nav ul li:hover .p3 {
+			top: 36px;			
+		}
+		#box .nav ul li:hover .p4 {
+			top: 44px;		
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="nav">
+			<div class="left"></div>
+			<div class="right"></div>
+			<ul>
+				<li>
+					<a href="#">Hello</a>
+					<span class="p1"></span>
+					<span class="p2"></span>
+					<span class="p3"></span>
+					<span class="p4"></span>
+				</li>
+				<li>
+					<a href="#">Kikty</a>
+					<span class="p1"></span>
+					<span class="p2"></span>
+					<span class="p3"></span>
+					<span class="p4"></span>				
+				</li>
+				<li>
+					<a href="#">We</a>
+					<span class="p1"></span>
+					<span class="p2"></span>
+					<span class="p3"></span>
+					<span class="p4"></span>				
+				</li>
+				<li>
+					<a href="#">Are</a>
+					<span class="p1"></span>
+					<span class="p2"></span>
+					<span class="p3"></span>
+					<span class="p4"></span>				
+				</li>
+				<li>
+					<a href="#">Joker</a>
+					<span class="p1"></span>
+					<span class="p2"></span>
+					<span class="p3"></span>
+					<span class="p4"></span>				
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

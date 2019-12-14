@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery模拟qq空间说说留言发表功能</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		li {
+			list-style: none;
+		}
+		img {
+			vertical-align: middle;
+		}		
+		body {
+			background: url(img/bg.jpg) no-repeat fixed;
+			font-family: "microsoft yahei";
+		}
+		.clearfix:after {
+			content: "";
+			display: block;
+			clear: both;
+		}
+		#box {
+			width: 600px;
+			height: 170px;
+			margin: 100px auto 0;
+			padding: 0 15px;
+			background: #fff;
+			border-radius: 5px;
+		}
+		#box h2 {
+			color: #555;
+			font-size: 12px;
+			font-weight: normal;
+			line-height: 40px;
+			text-indent: 5px;
+		}
+		#box .texta {
+			width: 100%;
+			height: 80px;
+			border: 1px solid #ccc;
+			text-indent: 5px;
+			line-height: 30px;
+			resize: none;
+		}
+		#box ul {
+			margin-top: 10px;
+		}
+		#box ul li.left { 
+			float: left;
+			position: relative;
+			width: 24px;
+			height: 24px;
+		}
+		#box ul li.left img {
+			cursor: pointer;
+		}
+		#box ul li.left .icon-w {
+			overflow: hidden;
+			position: absolute;
+			top: 22px;
+			left: 22px;
+			width: 410px;
+			height: 0px;
+			background: #fff;
+			border: 1px solid #fff;
+			transition: .5s;
+		}
+		#box ul li.left .icon-w.on {
+			height: 150px;
+			border-color: #eee;
+		}
+		#box ul li.left .icon-w .icon {
+			width: 390px;		
+			margin: 5px auto;
+		}
+		#box ul li.left .icon-w .icon img {
+			float: left;
+			width: 24px;
+			height: 24px;
+			margin: 3px;	
+		}
+		#box ul li.right {
+			float: right;
+		}
+		#box ul li.right input {
+			width: 80px;
+			height: 30px;
+			border: none;
+			background: #7db718;
+			color: #fff;
+			font-size: 12px;
+			font-family: "microsoft yahei";
+			border-radius: 3px;
+			cursor: pointer;
+		}
+		#box ul li.right input:hover {
+			background: rgba(125,183,24,.8);
+		}
+		#comm {
+			width: 600px;
+			margin: 20px auto 125px auto;
+		}
+		#comm .one {
+			width: 100%;
+			margin: 10px 0;
+			padding: 10px;
+			background: #fff;
+		}
+		#comm .one .head {
+			padding-bottom: 12px;
+			border-bottom: 1px solid #ddd;
+		}
+		#comm .one .head img {
+			float: left;
+		}
+		#comm .one .head span {
+			float: left;
+			margin-left: 20px;
+			font-size: 14px;
+			line-height: 46px;
+		}
+		#comm .one p {
+			padding: 10px 0;
+			color: #555;
+			font-size: 13px;
+			line-height: 23px;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<h2>有什么新鲜事想告诉大家?</h2>
+		<div contenteditable="true" class="texta"></div>
+		<ul>
+			<li class="left">
+				<img src="img/qq/3.gif" width="24" height="24" id="pic">
+				<div class="icon-w"><div class="icon"><!-- <img src="img/qq/1.gif"> --></div></div>
+			</li>
+			<li class="right">
+				<input type="button" name="" value="发表" id="btn">
+			</li>
+		</ul>
+	</div>
+	<div id="comm">
+		<!--
+		<div class="one">
+			<div class="head clearfix">
+				<img src="img/tz.jpg" width="46" height="46"><span>清心老师</span>
+			</div>
+			<p>00</p>
+		</div>
+		-->
+	</div>
+
+	<script type="text/javascript" src="js/data.js"></script>
+	<script type="text/javascript">
+		window.onload = function() {
+			var oBox = document.getElementById("box"),
+				oPic = document.getElementById("pic"),
+				oBtn = document.getElementById("btn"),
+				oCom = document.getElementById("comm"),
+				oTexta = oBox.querySelector(".texta"),
+				oIco_w = oBox.querySelector("ul li.left .icon-w"),
+				oIco = oIco_w.querySelector(".icon"),
+				length = data.length;
+
+			// 从json里读取84个qq表情
+			for(var k in data) {
+				var img = document.createElement("img");
+				img.title = data[k]["name"];
+				img.src = data[k]["src"];
+				oIco.appendChild(img);
+			}
+
+			// 点击"可爱"展开全部qq表情		
+			oPic.onclick = function(e) {
+				e = e || window.event;
+				e.cancelBubble = true; // 阻止事件冒泡			
+				oIco_w.className = "icon-w on";
+			};
+		
+			// 点击"可爱"后，点击文档其它地方qq表情收起来
+			document.onclick = function() {
+				oIco_w.className = "icon-w";
+			};
+
+			// 点击qq表情显示在文本框内
+			var aImg = oIco.children; 
+			for(var i = 0; i < length; i++) {
+				aImg[i].i = i;
+				aImg[i].onclick = function() {
+					oTexta.innerHTML += "<img src='"+ data[this.i]['src'] +"'></img>";
+				};
+			}
+
+			// 点击"发表"事件		
+			oBtn.onclick = function() {
+				if(oTexta.innerHTML){
+					var div = document.createElement("div");
+					div.className = "one";
+					div.innerHTML = "<div class='head clearfix'><img src='img/z.jpg' width='46' height='46'></img><span>清心老师</span></div><p>"+ oTexta.innerHTML +"</p>";
+					oCom.appendChild(div);
+					oTexta.innerHTML = "";
+				}else{
+					alert("请输入内容！");
+				}
+			};
+		};
+	</script>
+</body>
+</html>

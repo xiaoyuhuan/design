@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JS制作精美滚动条特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		img {
+			display: block;
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;			
+			background: url(img/bg.jpg) no-repeat center top/cover;
+			font-family: "microsoft yahei";
+		}	
+		#scrollbar {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 800px;
+			height: 540px;
+			background: rgba(0,0,0,.5);
+			border-radius: 10px;
+			transform: translate(-50%,-50%);
+		}
+		#scrollbar .scroll {
+			overflow: hidden;
+			position: absolute;
+			top: 30px;
+			left: 30px;
+			width: 720px;
+			height: 477px;
+		}
+		#scrollbar .scroll .content {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+		}
+		#scrollbar .scroll .content h2 {
+			color: #fff;
+    		text-indent: 25px;
+    		font-weight: normal;
+		}
+		#scrollbar .scroll .content p {
+			margin-top: 10px;
+			color: #fff;
+			font-size: 14px;
+			text-indent: 2em;
+			line-height: 26px;
+		}
+		#scrollbar .scroll .content img {
+			margin: 10px 0 0 30px;
+		}	
+		#scrollbar .bar {
+			position: absolute;
+			top: 30px;
+			right: 8px;	
+			width: 16px;
+			height: 477px;
+			background: url(img/bar.png);		
+		}
+		#scrollbar .bar .move {
+			position: absolute;
+			top: 10px;
+			left: 0;
+			width: 16px;
+			height: 10px;
+			background: url(img/move.png);
+			cursor: move;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
+		}
+	</style>
+</head>
+<body>
+	<div id="scrollbar">
+		<div class="scroll">
+			<div class="content">
+				<h2>一笺薄纸锁深情</h2>
+				<p>与君相识相爱，不知自己在佛前求了多少世。终于，佛怜我心，让我终于在此刻遇到君。或许这一切，都是佛的安排吧。不然，怎会让天南地北的两颗心相撞?为了这几世求来的不易之缘，我愿化作窗下的花儿，在痴痴的等待里，将思念根植成林。林中，轻抚一曲千年古琴音。携我满怀的情思，与日月相随，托风儿相送，与君一同走过一个又一个美丽的季节。</p>
+				<p>回眸睇眄，我们的爱浪漫依然。梦中的伊甸园，悄悄飞过心灵的围栏，驻于朦胧间。心，于爱海中倘佯，沉醉。古老的时钟静静地围着世界转动，流年的指间，珍藏岁月不舍的那些感动。多少次梦里，爱栖落水草间，滚落成露珠，粲然一笑。</p>
+				<p>漫漫人生旅，衣袂间若隐若现的点滴微澜牵起几许风尘。寻你，几多轮回?念你，几多日月?定格在紫陌红尘中的影像，永远不会消失褪色。沉醉，于上弦的月与下弦的阙;我，于不知不觉中丢失了自己。</p>
+				<p>一切的一切，依旧如同昨日般清晰。我是那株远古从林里的白桦树，存活于此只为那千百世来未了的情缘。一波闲愁，于一剪素衣的长亭，流泻着相思与相恋。斑驳的岁月流离，醉于君前世相熟的眼波;倾尽前世今生的爱，醉在君每一个轻柔的呼唤里。</p>
+				<p>轻伏案，愁入笔墨。沿着散落墨迹的尘世，循梦而至。千万次回眸的几世缠绵，唯付笔墨许相知。千里相隔，手捻红笺鱼雁亦难托。就这样呆呆地任罡风暴雨击打，想要赶走面对命运时那无能为力的感觉。</p>
+				<p>卵石被流水打磨得光溜圆滑，可它的心却依然做着浑身长满是棱角的梦。雨给夜烙下永久的印，使得那些曾经变成了永远。由此衍生的悲喜也就平添了几许苍凉，墨画了的感动是我不该有的凝望。没有一支笔，能淋漓尽致临摹出我的哀伤。纵是百花齐放，在我眼中也不及君之安康美好。</p>
+				<p>蓦然回首，恍如隔世。夜雨精灵，拾取着那隐约的永久之痛。如若没有命运的捉弄，佛前许下的愿望就不会如此的惨烈。亲爱的，我们谁都没有错，对嚒?千年的空疏，没能淡化灵魂深处的记忆。梦境中的琥珀使爱变得更美，时光的飞逝只能为之更添妩媚。</p>
+				<p>当候鸟飞过海面时，贝壳便只能在沙滩上静静地守候着它回来的身影。与君相知相惜，将前世的心蝶，化作今生的一缕清风，守候在每一个有君的日子里。就这样，让我读君于朝朝暮暮，将这段记忆镶嵌在我生命的年轮里。</p>
+				<p>夜无声，影孤独对青灯。风萧萧，凄雨霖铃，梧桐戚戚残叶萦。晨曦现，碧落天青。更投目，春燕云行。喁喁呢喃，桃李含笑，凝露点点更晶莹。蝶舞翩，追逐嬉戏，相携嗅红英。何曾愿?待风折尽，随水飘零。月湖畔，流觞曲水，素衣难禁风轻。芸红尘，痴心先许。红笺展，青鸟争凭。相思三分，一分浓情，二分樽酒作沧溟。正执笔，云台墨染，何处鸷鸟惊?忽莞尔，何须忧伤，妾心即君心。</p>							
+			</div>
+		</div>
+		<div class="bar">
+			<i class="move"></i>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="js/scrollbar.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$("#scrollbar").scrollbar({
+			    content : ".content",
+			    bar : ".bar",
+			    move : ".move"
+			});
+		});
+	</script>
+</body>
+</html>

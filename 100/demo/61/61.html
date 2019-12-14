@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas绘制正弦函数图</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		html,body {
+			height: 100%;
+		}		
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+		}
+		canvas {
+			display: block;
+			margin: 100px auto;
+			background-color: rgba(255,255,255,.5);
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="300"></canvas>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			let oC = document.querySelector("canvas");
+			let cxt = oC.getContext("2d");
+			let n = 0;
+
+			cxt.translate(0,150); // 更改原点坐标为(0,150)
+
+			fn();
+			function fn(){
+				n++;
+
+				if(n>500){
+					cancelAnimationFrame(fn);
+				}else{
+					cxt.lineTo(n,Math.sin(n*2*Math.PI/150)*50); // 一个周期是2兀，我规定一个周期是150px，振幅是50
+					cxt.strokeStyle = "#c93";
+					cxt.stroke();
+					requestAnimationFrame(fn);
+				}
+			}
+		};
+	</script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery点菜版照片墙</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			list-style: none;
+		}
+		html,body {
+			height: 100%;
+		}
+		body {
+			overflow: hidden;
+			width: 100%;
+			background: url(img/bg.jpg) no-repeat center top/cover;
+		}
+		#box li {
+			position: absolute;
+			width: 125px;
+			height: 125px;
+			border: 1px solid #333;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: 1s;
+		}
+		#box li p {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			width: 115px;
+			height: 115px;
+			margin: auto;
+			border-radius: 5px;
+			transition: width .5s,height .5s;
+		}
+		#box li.on {
+			border-radius: 0;
+		}
+		#box li.on p {
+			width: 125px;
+			height: 125px;
+			border-radius: 0;
+		}
+		#btn {
+			transition: .3s;
+		}
+		#btn li {
+			position: absolute;
+			top: 50%;
+			width: 40px;
+			height: 90px;
+			background: rgba(255,255,255,.5);
+			text-align: center;
+			font: bold 24px/90px "SimSun";
+			cursor: pointer;
+			transform: translateY(-50%);
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
+		}
+		#btn .prev {
+			left: 0;
+			border-radius: 0 5px 5px 0;
+		}
+		#btn .next {
+			right: 0;
+			border-radius: 5px 0 0 5px;
+		}
+	</style>
+</head>
+<body>
+	<ul id="box">
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>
+		<li><p></p></li>				
+	</ul>
+	<ul id="btn" style="opacity: 0;">
+		<li class="prev"> &lt; </li>
+		<li class="next"> &gt; </li>
+	</ul>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var box = document.getElementById("box"),
+				btn = document.getElementById("btn"),
+				li = box.getElementsByTagName("li"),
+				prev = btn.querySelector(".prev"),
+				next = btn.querySelector(".next"),				
+				width = window.innerWidth,
+				height = window.innerHeight,
+				liW = li[0].offsetWidth,
+				len = li.length,
+				index = 0,
+				arr = [];
+
+			window.onresize = function(){
+				width = window.innerWidth;
+				height = window.innerHeight;
+				(btn.style.opacity==="0") ? scene1() : scene2(index);
+			};
+
+			function start(){
+				for(var i=0; i<len; i++){
+					arr.push(Math.floor(Math.random()*40-20));
+					li[i].style.transform = "rotate("+arr[i]+"deg)";
+
+					// 图片点击
+					li[i].i = i;
+					li[i].onclick = function(){
+						index = this.i;
+						for(var i=0; i<len; i++){
+							if(li[i].classList.contains("on")){
+								li[i].classList.remove("on");
+
+								setTimeout(function(){
+									scene1();
+								},1000);
+							}else{
+								li[i].classList.add("on");
+
+								setTimeout(function(){
+									scene2(index);
+								},1000);							
+							}
+						}
+					};					
+				}	
+
+				// 左按钮点击
+				prev.onclick = function(){
+					index--;
+					if(index < 0){
+						index = len-1;
+					}
+					scene2(index);
+				};
+
+				// 右按钮点击
+				next.onclick = function(){
+					index++;
+					index %= len;
+					scene2(index);
+				};
+			}
+
+			// 场景1
+			function scene1(){
+				btn.style.opacity = "0";
+
+				var spaceT = (height-liW*4)/5,
+					spaceL = (width-liW*6)/7;
+
+				for(var i=0; i<len; i++){
+					var r = Math.floor(i/6);
+					var c = i%6;
+
+					li[i].style.top = liW*r + spaceT*(r+1) + "px";
+					li[i].style.left = liW*c + spaceL*(c+1) + "px";
+					li[i].children[0].style.background = "url(img/"+(i+1)+".jpg) no-repeat center center/cover";
+				}
+			}
+
+			// 场景2
+			function scene2(index){
+				btn.style.opacity = "1";
+
+				var spaceT = (height-liW*4)/2,
+					spaceL = (width-liW*6)/2;
+
+				for(var i=0; i<len; i++){
+					var r = Math.floor(i/6);
+					var c = i%6;
+
+					li[i].style.top = (liW-1)*r + spaceT + "px";
+					li[i].style.left = (liW-1)*c + spaceL + "px";
+					li[i].style.transform = "rotate(0deg)";		
+					li[i].children[0].style.background = "url(img/big/"+(index+1)+".jpg) no-repeat -"+(125*c)+"px -"+(125*r)+"px/750px 500px";			
+				}
+			}
+
+			start();
+			scene1();			
+		};
+	</script>
+</body>
+</html>
