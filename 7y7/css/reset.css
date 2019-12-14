@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+* {
+	margin: 0;
+	padding: 0;
+}
+li {
+	list-style-type: none;
+}
+img {
+	display: block;
+	border: none;
+}
+a {
+	color: inherit;
+	outline: none;
+	text-decoration: none;
+}
+i,em {
+	font-style: normal;
+}
+body {
+	font-family: Arial, "Microsoft Yahei", "SimSun", sans-serif;
+}

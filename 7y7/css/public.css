@@ -1,0 +1,89 @@
+@charset "UTF-8";
+
+.container {
+	width: 1200px;
+	min-width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.mw-1200 {
+	min-width: 1200px;
+}
+.mar-t40 {
+	margin-top: 40px;
+}
+.mar-t60 {
+	margin-top: 60px;
+}
+
+.ove-h {
+	overflow: hidden;
+}
+
+.fl-l {
+	float: left;
+}
+.fl-r {
+	float: right;
+}
+.clearfix:after {
+	content: "";
+	height: 0;
+	line-height: 0;
+	visibility: hidden;
+	display: block;
+	clear: both;	
+}
+
+.pos-r {
+	position: relative;
+}
+.pos-a {
+	position: absolute;
+}
+.pos-f {
+	position: fixed;
+}
+
+
+a {
+	transition: .3s;
+}
+a:hover {
+	color: #ee3985;
+}
+a img {
+	transition: .3s;
+}
+a img:hover {
+	opacity: 0.9;
+}
+h2 {
+	position: relative;
+	height: 50px;
+	margin: 0 auto 30px;
+	background-image: url(../img/sprite.jpg);
+	background-repeat: no-repeat;
+}
+h2:before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	right: calc(100% + 20px);
+	height: 1px;
+	background: #222;
+}
+h2:after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: calc(100% + 20px);
+	height: 1px;
+	background: #222;	
+}
+h3 {
+	height: 30px;
+	margin-bottom: 20px;
+	font-size: 24px;
+	line-height: 30px;
+}
