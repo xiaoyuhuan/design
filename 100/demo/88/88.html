@@ -3,8 +3,93 @@
 <head>
 	<meta charset="UTF-8">
 	<title>jQuery重力空间碰撞特效</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		body {
+			overflow: hidden;
+			background: url(img/bg.jpg) 0% 50%;
+			-webkit-user-select: none;
+		}
+		#ball {
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			background: black; 
+			border-radius: 50%;
+			width: 100px; 
+		    height: 100px;
+		    background: -webkit-radial-gradient(30px 30px, circle, rgba(218, 212, 225, 1), rgba(2, 2, 2, 1));
+		    background: -moz-radial-gradient(30px 30px, circle, rgba(218, 212, 225, 1), rgba(2, 2, 2, 1));
+		    background-image: radial-gradient(30px 30px, circle, rgba(218, 212, 225, 1), rgba(2, 2, 2, 1));
+		}
+		.shadow {
+			box-shadow: 4px 31px 31px -18px rgba(0, 0, 0, 0.8);
+		}
+	</style>
 </head>
 <body>
-	088
+	<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var $wW = $(window).width(),
+				$wH = $(window).height(),
+				timer = null,
+				xSpeed = 0,
+				ySpeed = 0;
+
+			$(document).click(function(e){
+				xSpeed = 0;
+				ySpeed = 0;
+				$("#ball").remove();
+				e = e || window.event;
+
+				var X = e.pageX,
+					Y = e.pageY,
+					t = Y - 50,
+					l = X - 50;
+
+				$("<div id='ball'></div>").appendTo($("body"));
+				$("#ball").css({
+					top: t+"px",
+					left: l+"px"
+				});
+				play();				
+			});
+				
+			function play(){
+				clearInterval(timer);
+				timer = setInterval(function(){
+					xSpeed += 0.5;
+					ySpeed += 5;
+					var L = $("#ball").offset().left + xSpeed,
+						T = $("#ball").offset().top + ySpeed;
+
+					if(T > $wH-$("#ball").height()-20){
+						T = $wH - $("#ball").height() - ySpeed;
+		                $("#ball").addClass("shadow");
+		                ySpeed *= -1;
+		                ySpeed *= 0.8;
+		                xSpeed *= 0.5;
+					}else{
+						$("#ball").removeClass("shadow");
+					}
+
+					if (L > $wW - $("#ball").width() - 20) {
+		                T = $wH - $("#ball").height() ;
+		                $("#ball").addClass("shadow");
+		                clearInterval(timer);
+		            }
+		            $("#ball").css({
+		                left: L + 'px',
+		                top: T + 'px'
+		            });
+				},30);
+			}
+		});
+	</script>
 </body>
 </html>

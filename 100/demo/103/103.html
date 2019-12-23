@@ -3,8 +3,73 @@
 <head>
 	<meta charset="UTF-8">
 	<title>JS制作鼠标滑动酷炫圈跟随效果</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		body {
+			overflow: hidden;
+			background-color: #000;
+		}
+		img {
+			position: absolute;
+			width: 70px;
+			height: 70px;
+			-webkit-user-select: none;
+		}
+	</style>
 </head>
 <body>
-	103
+	<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var docW = $(window).width(),  	// 获取页面的宽度
+				docH = $(window).height(),	// 获取页面的高度
+				rx = Math.random()*docW-70, // 获取初始运动的x y坐标
+				ry = Math.random()*docH-70, // Math.random获取随机数0-1
+				ulock = true,
+				nlock = true,
+				timer = null,
+				index = 0;
+
+			$(window).resize(function(){
+				docW = $(window).width();
+				docH = $(window).height();
+			});
+
+			auto();
+			function auto(){
+				
+				// 定时器 每隔多少毫秒执行一次函数事件
+				timer = setInterval(function(){
+					if(rx < 0){
+						ulock=false;
+					}else if(rx > docW-70){
+						ulock=true;
+					}
+					if (ry < 0){
+						nlock=false;
+					}else if (ry > docH-70){
+						nlock=true;
+					} 
+
+					var i = parseInt((index/5)%5); // 获取那一张图片的下标 %模 取余数
+					var $img = $("<img src='img/"+(i+1)+".png' ondragstart='return false'/>");
+					$img.css({top:ry,left:rx}); // 初始图片的位置
+					$("body").append($img); // 把图片节点放到body中
+					
+					// 动画方法，让上一张图片慢慢变小
+					$("img:last").animate({width:'0px',height:'0px',top:ry+35+'px',left:rx+35+'px'},1500,function(){
+						$(this).remove(); // 让图片彻底消失
+					});
+
+					index++;
+					if (ulock){rx -= Math.random() * 10+10}else{rx += Math.random()*10+10};
+					if (nlock){ry -= Math.random() * 10+10}else{ry += Math.random()*10+10};
+				},30);
+			}			
+		});
+	</script>
 </body>
 </html>
